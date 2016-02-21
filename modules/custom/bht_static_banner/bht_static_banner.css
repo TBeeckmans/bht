@@ -1,0 +1,15 @@
+
+.inline-element-wrapper {
+
+}
+
+
+.inline-element-wrapper .form-item {
+  width: 50%;
+  float: left;
+}
+
+
+.inline-element-wrapper .form-item input {
+  max-width: 10em;
+}

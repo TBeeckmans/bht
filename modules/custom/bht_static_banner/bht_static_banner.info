@@ -1,0 +1,8 @@
+name = BHT static banner
+description = Generates a static banner block.
+core = 7.x
+package = BHT
+
+dependencies[] = cs_adaptive_image
+
+version = 7.x-1.0

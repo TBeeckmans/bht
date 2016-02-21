@@ -1,0 +1,831 @@
+<?php
+
+/**
+ * @file custom_static_banner
+ *
+ * @description
+ * This module generates a static banner block.
+ * */
+define('bht_STATIC_BANNER_SETTINGS', 'bht_static_banner');
+
+define("bht_STATIC_BANNER_ADAPTIVE_IMAGE_SETTINGS", "bht_static_banner_adaptive_settings");
+
+define("bht_STATIC_BANNER_ENABLED_TYPES", 'bht_static_banner_adaptive_enabled_types');
+
+/**
+ * Implements hook_menu().
+ */
+function bht_static_banner_menu() {
+  if (!module_exists('bht_general')) {
+    $items['admin/config/bht'] = array(
+      'title' => 'The AIM',
+      'description' => 'Configure BHT modules',
+      'page callback' => 'system_admin_menu_block_page',
+      'access arguments' => array('access administration pages'),
+      'type' => MENU_NORMAL_ITEM,
+      'weight' => 50,
+      'file path' => drupal_get_path('module', 'system'),
+      'file' => 'system.admin.inc',
+    );
+  }
+
+  $items['admin/config/bht/static-banner'] = array(
+    'title' => t('Static banner'),
+    'description' => t('Provides a block with a static banner per content type.'),
+    'page arguments' => array('bht_static_banner_form'),
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer static banner'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'bht_static_banner.forms.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission()
+ */
+function bht_static_banner_permission() {
+  $permissions['administer static banner'] = array(
+    'title' => t('Administer static banner'),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter()
+ */
+function bht_static_banner_form_node_form_alter(&$form, &$form_state) {
+  $values = variable_get(bht_STATIC_BANNER_SETTINGS, array());
+
+  if (array_key_exists('bht_static_banner_ct_types', $values) && isset($form['#node']->nid)) {
+    if (array_key_exists($form['#node']->type, $values['bht_static_banner_ct_types']) && (boolean) $values['bht_static_banner_ct_types'][$form['#node']->type]) {
+      _active_banner_form($form, $form_state, 'node', $values);
+    }
+  }
+}
+
+/**
+ * Check if the banner form fields should be active
+ *
+ * @param Array $form
+ *   Nested array of form elements that comprise the form.
+ * @param Array $form_state
+ *   A keyed array containing the current state of the form
+ * @param string $entity_type
+ *   the entity type you want to add the form to
+ */
+function _active_banner_form(&$form, &$form_state, $entity_type, $values) {
+  $blocked = '';
+
+  // catch an inconsistency of form key names
+  switch ($entity_type) {
+    case 'taxonomy_term':
+      $form_key = 'term';
+      break;
+    default:
+      $form_key = $entity_type;
+  }
+
+  // catch an inconsistency of entity values
+  //   node object
+  //   taxonomy_term array
+  $entity = (object) $form["#{$form_key}"];
+
+  // determine the frontpage path
+  if (module_exists('i18n_variable')) {
+    $frontpath = i18n_variable_get('site_frontpage', $entity->language);
+  }
+  else {
+    $frontpath = variable_get('site_frontpage', 'node');
+  }
+
+  // determine the entity path
+  $entitypath = '';
+  switch ($form_key) {
+    case 'node':
+      if (!isset($entity->nid))
+        $blocked = 'unidentified';
+      else
+        $entitypath = 'node/' . $entity->nid;
+      break;
+
+    case 'term':
+      if (!isset($entity->tid))
+        $blocked = 'unidentified';
+      else
+        $entitypath = 'taxonomy/term/' . $entity->tid;
+      break;
+
+    default:
+      if (!isset($entity->id))
+        $blocked = 'unidentified';
+      else
+        $entitypath = $form_key . '/' . $entity->id;
+      break;
+  }
+
+  if (array_key_exists('bht_static_banner_frontpage', $values)) {
+    if (!(bool) $values['bht_static_banner_frontpage']) {
+      if ($entitypath === $frontpath)
+        $blocked = 'not_front';
+    }
+  }
+
+  if (array_key_exists('bht_static_banner_not_frontpage', $values)) {
+    if (!(bool) $values['bht_static_banner_not_frontpage']) {
+      if (!empty($entitypath) && $entitypath !== $frontpath)
+        $blocked = 'not_page';
+    }
+  }
+
+  if ((bool) $blocked) {
+    if (isset($form['static_banner_image']))
+      $form['static_banner_image']['#disabled'] = TRUE;
+    if (isset($form['static_banner_link']))
+      $form['static_banner_link']['#disabled'] = TRUE;
+    if (isset($form['static_banner_body']))
+      $form['static_banner_body']['#disabled'] = TRUE;
+  }
+}
+
+/**
+ * Implementation of hook_block_info().
+ */
+function bht_static_banner_block_info() {
+  $blocks = array();
+
+  $blocks['static_banner'] = array(
+    'info' => 'CB - Static banner',
+    'cache' => DRUPAL_CACHE_PER_PAGE
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implementation of hook_block_view().
+ */
+function bht_static_banner_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'static_banner':
+      $block['subject'] = NULL;
+      $block['content'] = _bht_static_banner_content();
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Generate content for the default banner.
+ *
+ * @return array (renderable array)
+ * */
+function _bht_static_banner_content() {
+  $values = variable_get(bht_STATIC_BANNER_SETTINGS, array());
+  $obj = NULL;
+  $output = array();
+  $link = '';
+  $text = '';
+  $item = '';
+
+  // Get the current object (node/taxonomy_term/entity)
+  if (arg(0) == 'node') {
+    $objType = 'node';
+    $obj = menu_get_object($objType, 1);
+    if ($obj === NULL) {
+      $obj = node_load(arg(1));
+    }
+  }
+  if (arg(0) == 'taxonomy' && arg(1) == 'term') {
+    $objType = 'taxonomy_term';
+    $obj = menu_get_object($objType, 2);
+  }
+  if ($obj === NULL) {
+    $entities = entity_get_info();
+    $entities = array_keys($entities);
+    foreach ($entities as $entity_type) {
+      $objType = $entity_type;
+      $obj = menu_get_object($objType, 1);
+      if ($obj !== NULL)
+        break;
+    }
+  }
+  // Create a default object on certain paths if non is found
+  if ($obj === NULL) {
+    switch (drupal_get_path_alias()) {
+      case 'cart':
+      case 'search':
+      case 'user':
+      case 'user/register':
+        $obj = new stdClass();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  // If there's no entity object, stop the process.
+  if ($obj === NULL) {
+    return $output;
+  }
+
+  // If there shouldn't be a static banner on the frontpage, stop the process.
+  if (drupal_is_front_page() && !(bool) $values['bht_static_banner_frontpage']) {
+    return $output;
+  }
+
+  // If there shouldn't be a static banner on other pages, stop the process.
+  if (!drupal_is_front_page() && !(bool) $values['bht_static_banner_not_frontpage']) {
+    return $output;
+  }
+
+
+  if (drupal_is_front_page()) {
+    $settings = _get_banner_adaptive_settings('frontpage_banner', 'process');
+  }
+  else {
+    $settings = _get_banner_adaptive_settings('banner', 'process');
+  }
+
+
+  // Check if the current page / term has a banner image provided.
+  if (isset($obj->static_banner_image) && !empty($obj->static_banner_image)) {
+    $image = field_get_items($objType, $obj, 'static_banner_image');
+    $item = $image[0];
+  }
+
+  // If no manual banner is being found, generate one with a default image.
+  if (empty($item)) {
+
+    // Check if there a default banner in the public directory
+    if (!isset($uri) && !isset($path)) {
+      $public_banner = 'public://static_banner.jpg';
+      $real_path = drupal_realpath($public_banner);
+      if (file_exists($real_path)) {
+        $uri = $public_banner;
+        $path = $real_path;
+      }
+    }
+
+    // Check if there's a default banner in the current theme's directory
+    if (!isset($uri) && !isset($path)) {
+      $default_theme_banner = path_to_theme() . '/img/static_banner.jpg';
+      $real_path = drupal_realpath($default_theme_banner);
+      if (file_exists($real_path)) {
+        $uri = $default_theme_banner;
+        // Copy the file to public directory to enable any image-style processing.
+        if ($public = file_unmanaged_copy($uri, 'public://')) {
+          $public_banner = $public;
+          $real_path = drupal_realpath($public_banner);
+          // Check if the file copied succesfully
+          if (file_exists($real_path)) {
+            $uri = $public_banner;
+            $path = $real_path;
+          }
+        }
+      }
+    }
+
+    // Check if the default banner is in the module directory if none is set.
+    if (!isset($uri) && !isset($path)) {
+      $default_module_banner = drupal_get_path('module', 'bht_static_banner') . '/static_banner.jpg';
+      $real_path = drupal_realpath($default_module_banner);
+      if (file_exists($real_path)) {
+        $uri = $default_module_banner;
+        // Copy the file to public directory to enable any image-style processing.
+        if ($public = file_unmanaged_copy($uri, 'public://')) {
+          $public_banner = $public;
+          $real_path = drupal_realpath($public_banner);
+          // Check if the file copied succesfully
+          if (file_exists($real_path)) {
+            $uri = $public_banner;
+            $path = $real_path;
+          }
+        }
+      }
+    }
+
+    // If no image is found, quit further processing.
+    if (!isset($uri) && !isset($path)) {
+      return $output;
+    }
+    // Get the default banner dimensions and type
+    else {
+      $imgInfo = getimagesize($path);
+    }
+    
+    $item = array(
+      'width' => $imgInfo[0],
+      'height' => $imgInfo[1],
+      'filename' => 'static_banner.jpg',
+      'uri' => $uri,
+      'filemime' => $imgInfo['mime'],
+      'alt' => variable_get('site_slogan', ''),
+      'title' => '',
+    );
+  }
+
+  // Generate the banner render array
+  $item = array(
+    '#theme' => 'cs_adaptive_image_formatter',
+    '#item' => $item,
+    '#breakpoint_styles' => $settings,
+    '#max_style' => isset($settings['max_style']) ? _cs_adaptive_image_check_image_style($settings['max_style']) : '',
+    '#fallback_style' => isset($settings['fallback_style']) ? _cs_adaptive_image_check_image_style($settings['fallback_style']) : '',
+    '#path' => $item['uri'],
+  );
+
+  // The required content is the body field
+  if ((bool) $values['bht_static_banner_body']) {
+    // Check if the current page / term has a banner image provided.
+    if (isset($obj->static_banner_body) && !empty($obj->static_banner_body)) {
+      $static_banner_body = field_get_items($objType, $obj, 'static_banner_body');
+
+      $text = field_view_value($objType, $obj, 'static_banner_body', $static_banner_body[0], array('label' => 'hidden'));
+    }
+  }
+
+  // Check if the current page / term has a banner link provided.
+  if (isset($obj->static_banner_link) && !empty($obj->static_banner_link)) {
+    $link = field_get_items($objType, $obj, 'static_banner_link');
+  }
+
+  $output = array(
+    '#theme' => 'static_banner',
+    '#item' => $item,
+    '#text' => $text,
+    '#link' => $link,
+  );
+
+  // return the renderable array
+  return $output;
+}
+
+/**
+ * Custom function to create the banner field.
+ */
+function _create_banner_field() {
+  // Define each field
+  $fields = array();
+  $fields[] = array(
+    'field_name' => 'static_banner_image',
+    'type' => 'image',
+    'locked' => FALSE,
+    'cardinality' => 1,
+    'translatable' => FALSE,
+    'indexes' => array(
+      'fid' => array('fid')
+    ),
+  );
+  $fields[] = array(
+    'field_name' => 'static_banner_body',
+    'type' => 'text_long',
+    'locked' => FALSE,
+    'cardinality' => 1,
+    'translatable' => TRUE,
+  );
+  $fields[] = array(
+    'field_name' => 'static_banner_link',
+    'type' => 'link_field',
+    'locked' => FALSE,
+    'cardinality' => 1,
+    'translatable' => TRUE,
+  );
+
+  // Create each field
+  foreach ($fields as $field) {
+    if (is_null(field_info_field($field['field_name']))) {
+      field_create_field($field);
+    }
+  }
+}
+
+/**
+ * Custom function to create instances to the banner field.
+ */
+function _create_banner_instance($settings) {
+  $requests = array();
+  $instances = array();
+  $t = get_t();
+
+  if (!empty($settings['bht_static_banner_ct_types'])) {
+    foreach ($settings['bht_static_banner_ct_types'] as $bundle => $val) {
+      if ((bool) $val) {
+        $request = array();
+        $request['entity_type'] = 'node';
+        $request['bundle'] = $bundle;
+        $requests[] = $request;
+      }
+    }
+  }
+  if (!empty($settings['bht_static_banner_vocabs'])) {
+    foreach ($settings['bht_static_banner_vocabs'] as $bundle => $val) {
+      if ((bool) $val) {
+        $request = array();
+        $request['entity_type'] = 'taxonomy_term';
+        $request['bundle'] = $bundle;
+        $requests[] = $request;
+      }
+    }
+  }
+  if (!empty($settings['bht_static_banner_entities'])) {
+    $entities = entity_get_info();
+    foreach ($settings['bht_static_banner_entities'] as $entity_type => $val) {
+      if ((bool) $val) {
+        foreach ($entities as $type => $info) {
+          if ($type == $entity_type) {
+            foreach ($info['bundles'] as $bundle => $bundle_info) {
+              $request = array();
+              $request['entity_type'] = $entity_type;
+              $request['bundle'] = $bundle;
+              $requests[] = $request;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  if (!empty($requests)) {
+    foreach ($requests as $request) {
+      if (isset($request['bundle']) && isset($request['entity_type'])) {
+        $entity_type = $request['entity_type'];
+        $bundle = $request['bundle'];
+
+        // Define each instance
+        $instances[] = array(
+          'field_name' => 'static_banner_image',
+          'label' => $t('Banner image'),
+          'required' => FALSE,
+          'widget' => array(
+            'type' => 'image_image',
+            'module' => 'image',
+            'active' => 1,
+            'settings' => array(
+              'progress_indicator' => 'throbber',
+              'preview_image_style' => 'banner_default',
+            ),
+          ),
+          'settings' => array(
+            'file_extensions' => 'jpg jpeg png gif',
+            'file_directory' => 'static-banner',
+            'max_resolution' => '',
+            'min_resolution' => '2000x250',
+            'max_filesize' => '',
+            'alt_field' => 1,
+            'title_field' => 0,
+            'image_style' => 'banner_default',
+          ),
+          'display' => array(
+            'default' => array(
+              'label' => 'hidden',
+              'type' => 'hidden',
+              'settings' => array(
+                'image_style' => 'thumbnail',
+                'image_link' => 'file'
+              ),
+              'weight' => 4,
+            ),
+            'teaser' => array(
+              'label' => 'hidden',
+              'type' => 'hidden',
+              'settings' => array(
+                'image_style' => 'thumbnail',
+                'image_link' => 'content'
+              ),
+              'weight' => 4,
+            ),
+          ),
+          'entity_type' => $entity_type,
+          'bundle' => $bundle,
+        );
+
+        $instances[] = array(
+          'field_name' => 'static_banner_link',
+          'label' => $t('Banner link'),
+          'description' => $t('The banner link.'),
+          'required' => FALSE,
+          'settings' => array(
+            'validate_url' => 1,
+            'url' => 'optional',
+            'title' => 'none',
+            'title_maxlength' => 128,
+            'enable_tokens' => 1,
+            'url_cutoff' => 80,
+            'attributes' => 'default',
+            'configurable_title' => 0,
+            'rel_remove' => 'default',
+          ),
+          'display' => array(
+            'default' => array(
+              'label' => 'hidden',
+              'type' => 'hidden',
+              'settings' => array(),
+            ),
+            'teaser' => array(
+              'label' => 'hidden',
+              'type' => 'hidden',
+              'settings' => array(),
+            ),
+          ),
+          'entity_type' => $entity_type,
+          'bundle' => $bundle,
+        );
+
+        if ($settings['bht_static_banner_body']) {
+          $instances[] = array(
+            'field_name' => 'static_banner_body',
+            'label' => $t('Banner body'),
+            'required' => FALSE,
+            'widget' => array(
+              'type' => 'text_textarea',
+              'module' => 'text',
+              'active' => 1,
+              'settings' => array(
+                'rows' => '5',
+              ),
+            ),
+            'settings' => array(
+              'text_processing' => '1',
+            ),
+            'entity_type' => $entity_type,
+            'bundle' => $bundle,
+          );
+        }
+      }
+    }
+  }
+
+  if (!empty($instances)) {
+    // Create each instance
+    foreach ($instances as $instance) {
+      if (is_null(field_info_instance($instance['entity_type'], $instance['field_name'], $instance['bundle']))) {
+        field_create_instance($instance);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_image_default_styles().
+ *
+ * @access public
+ * @return array
+ */
+function bht_static_banner_image_default_styles() {
+  $styles = array();
+
+  $styles['banner_default'] = array();
+  $styles['banner_default']['label'] = 'Page banner default';
+  $styles['banner_default']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 480,
+        'height' => 185,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['banner_break_1'] = array();
+  $styles['banner_break_1']['label'] = 'Page banner break-1';
+  $styles['banner_break_1']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 768,
+        'height' => 200,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['banner_break_2'] = array();
+  $styles['banner_break_2']['label'] = 'Page banner break-2';
+  $styles['banner_break_2']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 960,
+        'height' => 200,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['banner_break_3'] = array();
+  $styles['banner_break_3']['label'] = 'Page banner break-3';
+  $styles['banner_break_3']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 1200,
+        'height' => 225,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['banner_break_4'] = array();
+  $styles['banner_break_4']['label'] = 'Page banner break-4';
+  $styles['banner_break_4']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 2000,
+        'height' => 250,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['frontpage_banner_default'] = array();
+  $styles['frontpage_banner_default']['label'] = 'Frontpage banner default';
+  $styles['frontpage_banner_default']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 480,
+        'height' => 245,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['frontpage_banner_break_1'] = array();
+  $styles['frontpage_banner_break_1']['label'] = 'Frontpage banner break-1';
+  $styles['frontpage_banner_break_1']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 768,
+        'height' => 310,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['frontpage_banner_break_2'] = array();
+  $styles['frontpage_banner_break_2']['label'] = 'Frontpage banner break-2';
+  $styles['frontpage_banner_break_2']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 960,
+        'height' => 380,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['frontpage_banner_break_3'] = array();
+  $styles['frontpage_banner_break_3']['label'] = 'Frontpage banner break-3';
+  $styles['frontpage_banner_break_3']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 1200,
+        'height' => 425,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+  $styles['frontpage_banner_break_4'] = array();
+  $styles['frontpage_banner_break_4']['label'] = 'Frontpage banner break-4';
+  $styles['frontpage_banner_break_4']['effects'] = array(
+    array(
+      'name' => 'image_scale_and_crop',
+      'data' => array(
+        'width' => 2000,
+        'height' => 550,
+        'upscale' => 1,
+      ),
+      'weight' => 0
+    ),
+  );
+
+  return $styles;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function bht_static_banner_theme() {
+  $theme = array();
+
+  $theme['static_banner'] = array(
+    'template' => 'templates/static-banner',
+    'variables' => array(
+      'item' => NULL,
+      'text' => NULL,
+      'link' => NULL,
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ * Create a list of enabled banner image types
+ *   - homepage
+ *   - default
+ * by default
+ *
+ * @return Array
+ *   the array with enabled banner image types
+ */
+function _get_enabled_banner_image_types() {
+  $types = & drupal_static(__FUNCTION__);
+
+  if (!isset($types)) {
+    $types = variable_get(bht_STATIC_BANNER_ENABLED_TYPES, array(
+      'frontpage_banner',
+      'banner'
+    ));
+  }
+
+  return $types;
+}
+
+/**
+ * Retrieve a list of enabled image styles from the database and make it so the
+ * data can be used in an option select list
+ *
+ * @return Array
+ *   The list of enabled image styles keyed by image style name
+ */
+function _image_style_option_list() {
+  $rtn = & drupal_static(__FUNCTION__);
+
+  if (!isset($rtn)) {
+    $styles = image_styles();
+
+    $rtn = array(NULL => t("None"));
+
+    foreach ($styles as $style) {
+      $rtn[$style['name']] = $style['label'];
+    }
+  }
+
+  return $rtn;
+}
+
+/**
+ * Create a list of settings for a requested part
+ *
+ * @param string $part
+ *   what part of the settings you would like
+ *   defaults to 'all' so all parts information is returned
+ * @param string $type
+ *   indicate if you would like the function to check if adaptive image style is
+ *   available
+ * @return Array
+ *   the list of requested image settings
+ */
+function _get_banner_adaptive_settings($part = 'all', $type = 'raw') {
+  $settings = variable_get(bht_STATIC_BANNER_ADAPTIVE_IMAGE_SETTINGS, array());
+
+  if ($part == 'all') {
+    return $settings;
+  }
+
+  if (array_key_exists($part, $settings)) {
+    return $type == 'raw' ? $settings[$part] : _process_adaptive_image_settings($settings[$part]);
+  }
+
+  return $settings;
+}
+
+/**
+ * Process raw settings from the database and check if there is an adaptive
+ * image setting associated with that style
+ *
+ * @param Array $settings
+ *   the raw settings
+ * @return array
+ *   the processed settings
+ */
+function _process_adaptive_image_settings($settings) {
+  $rtn = array();
+
+  foreach ($settings as $key => $value) {
+    if (is_array($value)) {
+      if (isset($value['breakpoint']) && isset($value['style']) && !empty($value['breakpoint']) && !empty($value['style'])) {
+        $rtn[$value['breakpoint']] = _cs_adaptive_image_check_image_style($value['style']);
+      }
+    }
+    else {
+      $rtn[$key] = _cs_adaptive_image_check_image_style($value);
+    }
+  }
+
+  return $rtn;
+}

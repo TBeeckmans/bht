@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * Implements hook_install
+ */
+function bht_static_banner_install() {
+  // Set defaults for the static banner module.
+  $values = array(
+    'bht_static_banner_frontpage' => 0,
+    'bht_static_banner_not_frontpage' => 1,
+    'bht_static_banner_body' => 0,
+    'bht_static_banner_ct_types' => array('page' => 'page'),
+    'bht_static_banner_vocabs' => array(),
+    'bht_static_banner_entities' => array(),
+  );
+
+  // Set the module variable.
+  variable_set(bht_STATIC_BANNER_SETTINGS, $values);
+  
+  $types = array(
+    'frontpage_banner',
+    'banner'
+  );
+  
+  // create default settings
+  _bht_static_banner_create_default_settings($types);
+
+  // Create the required field.
+  _create_banner_field();
+
+  // Create default instances.
+  _create_banner_instance($values);
+}
+
+/**
+ * Implements hook_uninstall
+ */
+function bht_static_banner_uninstall() {
+  // Remove the module settings.
+  variable_del('bht_static_banner');
+
+  // Delete fields and remaining instances of the fields.
+  field_delete_field('static_banner_image');
+  field_delete_field('static_banner_body');
+  field_delete_field('static_banner_link');
+}
+
+/**
+ * Helper function
+ * Create default configuration for the banner image module
+ *
+ * @param $types
+ */
+function _bht_static_banner_create_default_settings($types) {
+  // save the types in the database
+  variable_set(bht_STATIC_BANNER_ENABLED_TYPES, $types);
+
+  // save the default settings
+  variable_set(bht_STATIC_BANNER_ADAPTIVE_IMAGE_SETTINGS, array(
+    'frontpage_banner' => array(
+      1 => array(
+        'breakpoint' => '320px',
+        'style' => 'frontpage_banner_default',
+      ),
+      2 => array(
+        'breakpoint' => '480px',
+        'style' => 'frontpage_banner_break_1',
+      ),
+      3 => array(
+        'breakpoint' => '768px',
+        'style' => 'frontpage_banner_break_2',
+      ),
+      4 => array(
+        'breakpoint' => '960px',
+        'style' => 'frontpage_banner_break_3',
+      ),
+      5 => array(
+        'breakpoint' => '1200px',
+        'style' => 'frontpage_banner_break_4',
+      ),
+      'max_style' => 'frontpage_banner_break_4',
+      'fallback_style' => 'frontpage_banner_break_4',
+    ),
+    'banner' => array(
+      1 => array(
+        'breakpoint' => '320px',
+        'style' => 'banner_default',
+      ),
+      2 => array(
+        'breakpoint' => '480px',
+        'style' => 'banner_break_1',
+      ),
+      3 => array(
+        'breakpoint' => '768px',
+        'style' => 'banner_break_2',
+      ),
+      4 => array(
+        'breakpoint' => '960px',
+        'style' => 'banner_break_3',
+      ),
+      5 => array(
+        'breakpoint' => '1200px',
+        'style' => 'banner_break_4',
+      ),
+      'max_style' => 'banner_break_4',
+      'fallback_style' => 'banner_break_4',
+    ),
+  ));
+}
