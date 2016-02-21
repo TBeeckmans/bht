@@ -1,0 +1,6 @@
+name = BHT custom
+description = Custom settings for the BHT website
+core = 7.x
+package = BHT
+
+version = 7.x-1.0

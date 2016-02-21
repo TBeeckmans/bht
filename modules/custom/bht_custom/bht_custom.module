@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * Implements hook_permission
+ */
+function bht_permission() {
+  return array(
+    // Add an extra access check to manage display page
+    'use manage display' => array(
+      'title' => t('Use manage display'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu
+ */
+function bht_menu() {
+  // Create a main admin menu item
+  $items['admin/config/bht'] = array(
+    'title' => 'BHT',
+    'description' => 'Configure BHT modules',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 50,
+    'file path' => drupal_get_path('module', 'system'),
+    'file' => 'system.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter
+ */
+function bht_custom_menu_alter(&$items) {
+  // This adds an access check for the manage display pages
+  $items['user/%user/display']['access arguments'] = array('use manage display');
+  $items['node/%node/display']['access arguments'] = array('use manage display');
+  $items['taxonomy/term/%taxonomy_term/display']['access arguments'] = array('use manage display');
+
+  // Redirect default /node to frontpage
+  $items['node']['page callback'] = 'drupal_goto';
+  $items['node']['page arguments'] = array('<front>');
+}

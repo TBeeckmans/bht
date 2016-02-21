@@ -18,7 +18,7 @@ define("bht_STATIC_BANNER_ENABLED_TYPES", 'bht_static_banner_adaptive_enabled_ty
 function bht_static_banner_menu() {
   if (!module_exists('bht_general')) {
     $items['admin/config/bht'] = array(
-      'title' => 'The AIM',
+      'title' => 'BHT',
       'description' => 'Configure BHT modules',
       'page callback' => 'system_admin_menu_block_page',
       'access arguments' => array('access administration pages'),
