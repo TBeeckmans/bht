@@ -16,7 +16,7 @@ define("bht_STATIC_BANNER_ENABLED_TYPES", 'bht_static_banner_adaptive_enabled_ty
  * Implements hook_menu().
  */
 function bht_static_banner_menu() {
-  if (!module_exists('bht_general')) {
+  if (!module_exists('bht_custom')) {
     $items['admin/config/bht'] = array(
       'title' => 'BHT',
       'description' => 'Configure BHT modules',
