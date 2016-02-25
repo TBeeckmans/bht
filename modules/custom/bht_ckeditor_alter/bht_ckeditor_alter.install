@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Implements hook_enable().
+ */
+function bht_ckeditor_alter_enable() {
+  // Load the filtered html formatter
+  $filtered_html_format = filter_format_load('filtered_html');
+
+  // Disable the filtered html formatter by default
+  filter_format_disable($filtered_html_format);
+
+}

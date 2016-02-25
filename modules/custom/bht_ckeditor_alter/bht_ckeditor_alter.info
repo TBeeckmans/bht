@@ -1,0 +1,10 @@
+name = BHT Ckeditor alter
+description = Alter the default ckeditor settings and queries.
+core = 7.x
+package = BHT
+
+dependencies[] = ckeditor
+dependencies[] = ckeditor_link
+
+; Version information
+version = 7.x-1.0

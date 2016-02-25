@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Implements hook_ckeditor_link_types_alter()
+ *
+ * Point the default CKEditor types to this module's includes directory to add
+ * multilingual labels
+ *
+ * @param $types
+ */
+function bht_ckeditor_alter_ckeditor_link_types_alter(&$types) {
+  foreach ($types as $key => $type) {
+    if (isset($type['type'])) {
+      switch ($type['type']) {
+        case 'node':
+        case 'taxonomy':
+          $types[$key]['module'] = 'bht_ckeditor_alter';
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+}
