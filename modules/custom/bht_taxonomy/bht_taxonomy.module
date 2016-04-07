@@ -7,9 +7,9 @@
  * Override the Drupal default taxonomy term menu path.
  */
 function bht_taxonomy_menu_alter(&$items) {
-  // Add a new page callback for taxonomy term paths
+  // Add a new page callback for taxonomy term paths.
   $items['taxonomy/term/%taxonomy_term']['page callback'] = 'bht_taxonomy_term_page';
-  // Unset the file and module attributes
+  // Unset the file and module attributes.
   unset($items['taxonomy/term/%taxonomy_term']['file']);
   unset($items['taxonomy/term/%taxonomy_term']['module']);
 }
@@ -22,18 +22,18 @@ function bht_taxonomy_form_alter(&$form, &$form_state, $form_id) {
   if (module_exists('i18n_taxonomy') && !isset($form['delete'])) {
     switch ($form_id) {
       case 'taxonomy_form_term':
-        // Hide the description field in favour of the body field
+        // Hide the description field in favour of the body field.
         $form['description']['#access'] = FALSE;
 
-        // Force the term language if the mode is set to "Translate"
+        // Force the term language if the mode is set to "Translate".
         if ($form['#vocabulary']->i18n_mode == I18N_MODE_TRANSLATE) {
-          // Get the required language taxonomy setting
+          // Get the required language taxonomy setting.
           $req_lang = variable_get(
             'bht_taxonomy_require_language', array()
           );
-          // Check if the current vocabulary requires a language
+          // Check if the current vocabulary requires a language.
           if (!empty($req_lang[$form['#vocabulary']->machine_name])) {
-            // Unset the neutral language from the options list
+            // Unset the neutral language from the options list.
             if (isset($form['language']['#options'][LANGUAGE_NONE])) {
               unset($form['language']['#options'][LANGUAGE_NONE]);
             }
@@ -42,7 +42,7 @@ function bht_taxonomy_form_alter(&$form, &$form_state, $form_id) {
         break;
 
       case 'taxonomy_form_vocabulary':
-        // Similar to nodes, add a require language checkbox if the vocabulary is set to "Translate"
+        // Similar to nodes, add a require language checkbox if the vocabulary is set to "Translate".
         $form['i18n_translation']['require_language'] = array(
           '#type' => 'checkbox',
           '#title' => t(
@@ -50,7 +50,7 @@ function bht_taxonomy_form_alter(&$form, &$form_state, $form_id) {
           ),
           '#states' => array('visible' => array('input[name="i18n_mode"]' => array('value' => I18N_MODE_TRANSLATE)))
         );
-        // Add a custom submit handler to handle the require language checkbox
+        // Add a custom submit handler to handle the require language checkbox.
         $form['#submit'][] = '_bht_taxonomy_submithandler';
         break;
 
@@ -64,31 +64,31 @@ function bht_taxonomy_form_alter(&$form, &$form_state, $form_id) {
  * Callback function for taxonomy page.
  */
 function bht_taxonomy_term_page($term) {
-  // Support for i18n
+  // Support for i18n.
   if (module_exists('i18n_taxonomy')) {
     $term = i18n_taxonomy_localize_terms($term);
   }
 
-  // Set page title
+  // Set page title.
   drupal_set_title($term->name);
 
-  // Build breadcrumb based on the hierarchy of the term
+  // Build breadcrumb based on the hierarchy of the term.
   $breadcrumb = array();
   $current = (object) array('tid' => $term->tid);
-  // The tree goes from end to start
+  // The tree goes from end to start.
   while ($parents = taxonomy_get_parents($current->tid)) {
     $current = array_shift($parents);
     $breadcrumb[] = l($current->name, 'taxonomy/term/' . $current->tid);
   }
   $breadcrumb[] = l(t('Home'), NULL);
-  // Change breadcrumb to chronological order
+  // Change breadcrumb to chronological order.
   $breadcrumb = array_reverse($breadcrumb);
-  // Set the breadcrumb
+  // Set the breadcrumb.
   drupal_set_breadcrumb($breadcrumb);
 
-  // Build the uri for the head section
+  // Build the uri for the head section.
   $uri = entity_uri('taxonomy_term', $term);
-  // Ensure the correct language
+  // Ensure the correct language.
   if (isset($term->language) && $term->language != LANGUAGE_NONE) {
     $languages = language_list();
     $uri['options']['language'] = $languages[$term->language];
@@ -103,7 +103,7 @@ function bht_taxonomy_term_page($term) {
     ), TRUE
   );
 
-  // Build the renderable array with the full view mode
+  // Build the renderable array with the full view mode.
   $build['term'] = taxonomy_term_view($term, 'full');
 
   return $build;
@@ -120,13 +120,13 @@ function bht_taxonomy_field_extra_fields() {
 
   foreach (array_keys($info['bundles']) as $bundle) {
     $extra['taxonomy_term'][$bundle]['display'] = array(
-      // Taxonomy children
+      // Taxonomy children.
       'taxonomy_children' => array(
         'label' => t('Taxonomy children'),
         'description' => t('Taxonomy children'),
         'weight' => -99,
       ),
-      // Taxonomy content
+      // Taxonomy content.
       'taxonomy_content' => array(
         'label' => t('Taxonomy content'),
         'description' => t('Taxonomy content'),
@@ -165,37 +165,44 @@ function bht_taxonomy_field_extra_fields_alter(&$info) {
  * @param $langcode
  */
 function bht_taxonomy_taxonomy_term_view($term, $view_mode, $langcode) {
-  // Check the display settings of our extra fields
-  $display = field_extra_fields_get_display('taxonomy_term', $term->vocabulary_machine_name, $view_mode);
+  // Check the display settings of our extra fields.
+  $display = field_extra_fields_get_display(
+    'taxonomy_term', $term->vocabulary_machine_name, $view_mode
+  );
   $display_children = (!empty($display['taxonomy_children'])) ? TRUE : FALSE;
   $display_content = (!empty($display['taxonomy_content'])) ? TRUE : FALSE;
 
-  // Attach the term children
+  // Attach the term children.
   if ($display_children) {
     $output_children = array();
 
-    // Allow other modules to take over the building of the term_children
+    // Allow other modules to take over the building of the term_children.
     if ($modules = _get_module_implementations('taxonomy_get_children')) {
-      // Loop over each module that implements term_get_children
+      // Loop over each module that implements term_get_children.
       foreach ($modules as $module) {
-      // Give each module the chance to take over
-        if ($children = module_invoke($module, 'taxonomy_get_children', $term)) {
-        // Quit processing when children are returned
+        // Give each module the chance to take over.
+        if ($children = module_invoke(
+          $module, 'taxonomy_get_children', $term
+        )
+        ) {
+          // Quit processing when children are returned.
           break;
         }
       }
     }
 
 
-    // Build the term_children renderable array based on the invoked array
+    // Build the term_children renderable array based on the invoked array.
     if (isset($children) && $children && is_array($children)) {
       $output_children = $children;
     }
-    // Provide module own implementation of term_children
+    // Provide module own implementation of term_children.
     elseif ($tids = taxonomy_get_children($term->tid)) {
-      $children = taxonomy_term_view_multiple($tids, 'taxonomy_children', $langcode);
+      $children = taxonomy_term_view_multiple(
+        $tids, 'taxonomy_children', $langcode
+      );
 
-      // Build the renderable array
+      // Build the renderable array.
       $output_children = array(
         '#theme' => 'taxonomy_children',
         '#items' => $children['taxonomy_terms'],
@@ -203,36 +210,41 @@ function bht_taxonomy_taxonomy_term_view($term, $view_mode, $langcode) {
       );
     }
 
-    // Set renderable array of term_children
+    // Set renderable array of term_children.
     $term->content['taxonomy_children'] = $output_children;
   }
 
-  // Attach the term content
+  // Attach the term content.
   if ($display_content) {
     $output_content = array();
 
-    // Allow other modules to take over the building of the term_content
+    // Allow other modules to take over the building of the term_content.
     if ($modules = _get_module_implementations('taxonomy_get_content')) {
-      // Loop over each module that implements term_get_content
+      // Loop over each module that implements term_get_content.
       foreach ($modules as $module) {
-        // Give each module the chance to take over
+        // Give each module the chance to take over.
         if ($content = module_invoke($module, 'taxonomy_get_content', $term)) {
-          // Quit processing when content are returned
+          // Quit processing when content are returned.
           break;
         }
       }
     }
 
-    // Build the term_content renderable array based on the invoked array
+    // Build the term_content renderable array based on the invoked array.
     if (isset($content) && $content && is_array($content)) {
       $output_content = $content;
     }
-    // Provide module own implementation of term_content
-    elseif ($nids = taxonomy_select_nodes($term->tid, TRUE, variable_get('taxonomy_content_items', 12))) {
+    // Provide module own implementation of term_content.
+    elseif ($nids = taxonomy_select_nodes(
+      $term->tid, TRUE, variable_get(
+      'taxonomy_content_items', 12
+    )
+    )
+    ) {
       $nodes = node_load_multiple($nids);
       $content = node_view_multiple($nodes, 'taxonomy_content');
 
-      // Build the renderable array
+      // Build the renderable array.
       $output_content = array(
         '#theme' => 'taxonomy_content',
         '#items' => $content['nodes'],
@@ -241,7 +253,7 @@ function bht_taxonomy_taxonomy_term_view($term, $view_mode, $langcode) {
       );
     }
 
-    // Set renderable array of term_content
+    // Set renderable array of term_content.
     $term->content['taxonomy_content'] = $output_content;
   }
 }
@@ -252,27 +264,27 @@ function bht_taxonomy_taxonomy_term_view($term, $view_mode, $langcode) {
  * Adds a body field to the vocabulary.
  */
 function bht_taxonomy_taxonomy_vocabulary_insert($vocabulary) {
-  // Check if the taxonomy body exists
+  // Check if the taxonomy body exists.
   $field = field_info_field('taxonomy_body');
 
   if (empty($field)) {
-    // Define the taxonomy body field
+    // Define the taxonomy body field.
     $field = array(
       'field_name' => 'taxonomy_body',
       'type' => 'text_with_summary'
     );
 
-    // Create the taxonomy body field
+    // Create the taxonomy body field.
     $field = field_create_field($field);
   }
 
-  // Check if the taxonomy body instance exists
+  // Check if the taxonomy body instance exists.
   $instance = field_info_instance(
     'taxonomy_term', 'taxonomy_body', $vocabulary->machine_name
   );
 
   if (empty($instance)) {
-    // Define the taxonomy body instance
+    // Define the taxonomy body instance.
     $instance = array(
       'field_name' => 'taxonomy_body',
       'entity_type' => 'taxonomy_term',
@@ -297,7 +309,7 @@ function bht_taxonomy_taxonomy_vocabulary_insert($vocabulary) {
       ),
     );
 
-    // Create the taxonomy body instance
+    // Create the taxonomy body instance.
     $instance = field_create_instance($instance);
   }
 
@@ -306,13 +318,14 @@ function bht_taxonomy_taxonomy_vocabulary_insert($vocabulary) {
 
 
 /**
- * Check the implementations of a hook, if any
+ * Check the implementations of a hook, if any.
  *
- * @param String $hook
+ * @param string $hook
+ *   Possible hook name.
  *
- * @return
- *   the name of the last implementation of the hook
- *   FALSE on error
+ * @return array
+ *   The name of the last implementation of the hook,
+ *   FALSE on error.
  */
 function _get_module_implementations($hook) {
   $modules = module_implements($hook, FALSE);
@@ -326,16 +339,15 @@ function _get_module_implementations($hook) {
 
 
 /**
- * Retrieve a list of children taxonomy term ids from a given vocabulary and
- * taxonomy term id
+ * Retrieve a list of children term ids from a given vocabulary and term id.
  *
  * @param int $vid
- *   the requested vocabulary id
+ *   The requested vocabulary id.
  * @param int $tid
- *   the requested taxonomy term id
+ *   The requested taxonomy term id.
  *
- * @return Array
- *   a list of unique taxonomy term ids
+ * @return array
+ *   A list of unique taxonomy term ids.
  */
 function _bht_taxonomy_get_child_tids($vid, $tid) {
   $children = taxonomy_get_tree($vid, $tid);
@@ -396,7 +408,7 @@ function bht_taxonomy_theme() {
 
 
 /**
- * Implements template_preprocess_HOOK()
+ * Implements template_preprocess_HOOK().
  */
 function bht_taxonomy_preprocess_taxonomy_content(&$variables) {
   if (isset($variables['vid']) && !is_null($variables['vid'])) {
@@ -406,7 +418,7 @@ function bht_taxonomy_preprocess_taxonomy_content(&$variables) {
 
 
 /**
- * Implements template_preprocess_HOOK()
+ * Implements template_preprocess_HOOK().
  */
 function bht_taxonomy_preprocess_taxonomy_children(&$variables) {
   if (isset($variables['vid']) && !is_null($variables['vid'])) {
