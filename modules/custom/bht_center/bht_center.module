@@ -1,0 +1,407 @@
+<?php
+// TODO: Complete the phpdocs.
+// TODO: Change the certification machine name according to phpcs.
+define('BHT_CERTIFICATION_MACHINE_NAME', 'certification');
+define('BHT_CENTER_MACHINE_NAME', 'bht_center');
+define('BHT_CENTER_JS_MAP_OPTIONS', 'a:0:{}');
+define('BHT_CENTER_MAP_GEOLOCATION', 'bht_center_map_geolocation');
+define('BHT_CENTER_MAP_SEARCH', 'bht_center_map_search');
+define('BHT_CENTER_MAP_ZOOM', 'bht_center_map_zoom');
+define('BHT_CENTER_GENERATE_LAT_LNG', 'bht_center_generate_lat_lng');
+define('BHT_CENTER_MARKER_VIEW_MODE', 'marker');
+define('BHT_CENTER_LIST_VIEW_MODE', 'teaser');
+define('BHT_CENTER_MAP_CENTER_LAT', '50.8503396');
+define('BHT_CENTER_MAP_CENTER_LNG', '4.3517103');
+
+
+/**
+ * Implements hook_menu().
+ */
+function bht_center_menu() {
+  $items = array();
+
+  $items['admin/config/bht'] = array(
+    'title' => 'BHT',
+    'description' => 'Configure BHT modules',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 50,
+    'file path' => drupal_get_path('module', 'system'),
+    'file' => 'system.admin.inc',
+  );
+
+  $items['admin/config/bht/bht-center'] = array(
+    'title' => st('BHT Centers'),
+    'description' => st('Settings for the BHT centers'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bht_center_settings_form'),
+    'access arguments' => 'administer bht centers',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'inc/bht_center.admin.inc',
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function bht_center_permission() {
+  return array(
+    'administer bht centers' => array(
+      'title' => t('Administer BHT centers'),
+      'description' => t(
+        'Perform administration tasks for the BHT center module.'
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Use custom settings = FALSE to disable view modes by default.
+ */
+function bht_center_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['marker'] = array(
+    'label' => t('Marker'),
+    'custom settings' => FALSE,
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function bht_center_form_bht_center_node_form_alter(
+  &$form, &$form_state, $form_id
+) {
+
+  // Disable lat and lng fields on node edit form.
+  if (variable_get(BHT_CENTER_GENERATE_LAT_LNG, 1) == 1) {
+    $form['lat']['#disabled'] = TRUE;
+    $form['lng']['#disabled'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function bht_center_node_presave($node) {
+
+  switch ($node->type) {
+    case BHT_CENTER_MACHINE_NAME:
+      // Only act on new nodes or nodes with changed address fields.
+      if (variable_get(BHT_CENTER_GENERATE_LAT_LNG, 1) == 1
+        &&
+        (
+          !isset($node->original)
+          ||
+          (
+            $node->street[LANGUAGE_NONE][0]['value'] != $node->original->street[LANGUAGE_NONE][0]['value'] ||
+            $node->number[LANGUAGE_NONE][0]['value'] != $node->original->number[LANGUAGE_NONE][0]['value'] ||
+            $node->postal_code[LANGUAGE_NONE][0]['value'] != $node->original->postal_code[LANGUAGE_NONE][0]['value'] ||
+            $node->city[LANGUAGE_NONE][0]['value'] != $node->original->city[LANGUAGE_NONE][0]['value'] ||
+            $node->country[LANGUAGE_NONE][0]['value'] != $node->original->country[LANGUAGE_NONE][0]['value']
+          )
+        )
+      ) {
+        $source = array(
+          'address' => $node->street[LANGUAGE_NONE][0]['value'] . ' ' . $node->number[LANGUAGE_NONE][0]['value'],
+          'postal_code' => $node->postal_code[LANGUAGE_NONE][0]['value'],
+          'city' => $node->city[LANGUAGE_NONE][0]['value'],
+          'country' => $node->country[LANGUAGE_NONE][0]['value'],
+        );
+        // TODO: Get the coordinates from a place id, if provided.
+        if ($coors = _bht_center_get_coordinates_from_address($source)) {
+          $node->lat[LANGUAGE_NONE][0]['value'] = $coors->lat;
+          $node->lng[LANGUAGE_NONE][0]['value'] = $coors->lng;
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function bht_center_block_info() {
+  $block = array();
+
+  $block['bht_center_map'] = array(
+    'info' => t('BHT center map'),
+  );
+
+  $block['bht_center_list'] = array(
+    'info' => t('BHT center list'),
+  );
+
+  return $block;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function bht_center_block_configure($delta = '') {
+  $form = array();
+
+  if ($delta == 'bht_center_map') {
+    $form['geolocation'] = array(
+      '#type' => 'radios',
+      '#title' => t('Use geolocation'),
+      '#default_value' => variable_get(BHT_CENTER_MAP_GEOLOCATION, 1),
+      '#options' => array(0 => t('No'), 1 => t('Yes')),
+      '#weight' => 8,
+    );
+    $form['search'] = array(
+      '#type' => 'radios',
+      '#title' => t('Show a search field'),
+      '#default_value' => variable_get(BHT_CENTER_MAP_SEARCH, 1),
+      '#options' => array(0 => t('Hide'), 1 => t('Show')),
+      '#weight' => 10,
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function bht_center_block_save($delta = '', $edit = array()) {
+  if ($delta == 'bht_center_map') {
+    variable_set(BHT_CENTER_MAP_GEOLOCATION, $edit['geolocation']);
+    variable_set(BHT_CENTER_MAP_SEARCH, $edit['search']);
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function bht_center_block_view($delta = '') {
+  $output = array();
+
+  switch ($delta) {
+    case 'bht_center_map':
+      _bht_center_map();
+      break;
+
+    case 'bht_center_list':
+      _bht_center_list();
+      break;
+
+    default:
+      break;
+  }
+
+  return $output;
+}
+
+function _bht_center_map() {
+  $output = array();
+
+  // Get the module path.
+  $module_path = drupal_get_path('module', 'bht_center');
+
+  // Get the module default map options.
+  $map_options = unserialize(variable_get(BHT_CENTER_JS_MAP_OPTIONS, 'a:0:{}'));
+
+  // Get all BHT centers.
+  $markers = node_load_multiple(_bht_center_nids());
+  if (empty($markers)) {
+    return $output;
+  }
+
+  // Prepare the BHT centers as a marker.
+  $markers = node_view_multiple($markers, BHT_CENTER_MARKER_VIEW_MODE);
+
+  // Loop over each BHT center and render them, the result will be used by js.
+  $rendered_markers = array();
+  $nodes_markers = element_children($markers['nodes']);
+  foreach ($nodes_markers as $nid) {
+    $marker = $markers['nodes'][$nid];
+    $rendered_markers[$nid]['html'] = drupal_render($marker);
+    $rendered_markers[$nid]['lat'] = $marker['#node']->lat['und'][0]['value'];
+    $rendered_markers[$nid]['lng'] = $marker['#node']->lng['und'][0]['value'];
+    // TODO: Get the marker, related to the referenced user certification grade.
+    $rendered_markers[$nid]['icon'] = $module_path . '/img/marker.png';
+  }
+
+  // Define the search field.
+  if (variable_get(BHT_CENTER_MAP_SEARCH, 1)) {
+    // TODO: Define the theme functions and templates.
+    // TODO: Add the search logic.
+    $output[] = array(
+      '#theme' => 'bht_center_map_search',
+    );
+  }
+
+  // Define google map wrapper.
+  // TODO: Define the theme functions and templates.
+  $output[] = array(
+    '#theme' => 'bht_center_map',
+  );
+
+  // Add the google map scripting.
+  $output['#attached']['js'][] = array(
+    'data' => 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places',
+    'type' => 'external',
+  );
+  $output['#attached']['js'][] = array(
+    'data' => 'https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js',
+    'type' => 'external',
+  );
+  $output['#attached']['js'][] = array(
+    'data' => 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js',
+    'type' => 'external',
+  );
+
+  // Add the BHT center javascript data.
+  $output['#attached']['js'][] = array(
+    'data' => array(
+      'bht_center_map_options' => $map_options,
+      'bht_center_map_geolocation' => (boolean) variable_get(
+        BHT_CENTER_MAP_GEOLOCATION, 1
+      ),
+      'bht_center_map_search' => (boolean) variable_get(
+        BHT_CENTER_MAP_SEARCH, 1
+      ),
+      'bht_center_map_zoom' => (int) variable_get(BHT_CENTER_MAP_ZOOM, 0),
+      'bht_center_map_markers' => $rendered_markers,
+      'bht_center_map_center' => array(
+        'lat' => (float) BHT_CENTER_MAP_CENTER_LAT,
+        'lng' => (float) BHT_CENTER_MAP_CENTER_LNG,
+      ),
+    ),
+    'type' => 'setting',
+  );
+
+  // Add the BHT center javascript logic.
+  // TODO: Add javascript logic.
+  $output['#attached']['js'][] = $module_path . '/js/bht-center.js';
+  $output['#attached']['js'][] = $module_path . '/js/bht-center-map.js';
+
+  return $output;
+}
+
+function _bht_center_list() {
+  $output = array();
+
+  // Get the module path.
+  $module_path = drupal_get_path('module', 'bht_center');
+
+  $output[] = array(
+    '#theme' => 'bht_center_list',
+  );
+
+  // Get rendered BHT centers.
+  $bht_centers = node_load_multiple(_bht_center_nids());
+  if (empty($bht_centers)) {
+    return array();
+  }
+  $bht_centers = node_view_multiple($bht_centers, BHT_CENTER_LIST_VIEW_MODE);
+
+  // Loop over each BHT center and render them, the result will be used by js.
+  $rendered_bht_centers = array();
+  $nodes_bht_centers = element_children($bht_centers['nodes']);
+  foreach ($nodes_bht_centers as $nid) {
+    $bht_center = $bht_centers['nodes'][$nid];
+    $rendered_bht_centers[$nid] = drupal_render($bht_center);
+  }
+
+  // Add the BHT centers javascript data.
+  $output['#attached']['js'][] = array(
+    'data' => array(
+      'bht_center_items' => $rendered_bht_centers,
+    ),
+    'type' => 'setting',
+  );
+
+  // Add the BHT center javascript logic.
+  // TODO: Add javascript logic.
+  $output['#attached']['js'][] = $module_path . '/js/bht-center-list.js';
+
+  return $output;
+}
+
+function bht_center_theme() {
+  $theme = array();
+
+  $theme['bht_center_map'] = array(
+    'template' => 'templates/bht-center-map',
+    'variables' => array(),
+  );
+
+  $theme['bht_center_map_search'] = array(
+    'template' => 'templates/bht-center-map-search',
+    'variables' => array(),
+  );
+
+  return $theme;
+}
+
+function _bht_center_nids() {
+  $nids = array();
+  // TODO: Order by certification grade on the referenced user(s)
+  $resultset = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', BHT_CENTER_MACHINE_NAME)
+    ->condition('status', 1)
+    ->execute()->fetchCol();
+
+  if (!empty($resultset)) {
+    $nids = $resultset;
+  }
+
+  return $nids;
+}
+
+/**
+ * Retrieve coordinates from google maps API from a given address.
+ *
+ * @param array $source
+ *   The address array with keys
+ *    - address: full address; street number and bus
+ *    - postal_code: the postal code
+ *    - city: the city name
+ *    - country: the country.
+ *
+ * @return bool stdClass with lat and lng key
+ *    FALSE on failure
+ */
+function _bht_center_get_coordinates_from_address($source = array()) {
+  $status = FALSE;
+
+  $str = _bht_center_create_url($source);
+  $json = file_get_contents(
+    "http://maps.googleapis.com/maps/api/geocode/json?address={$str}&sensor=false"
+  );
+  $content = json_decode($json);
+
+  switch ($content->status) {
+    case 'OK':
+      if (isset($content->results[0]->geometry->location)) {
+        $status = $content->results[0]->geometry->location;
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  return $status;
+}
+
+/**
+ * Create an address string readable by the google maps API.
+ *
+ * @param array $source
+ *   The address split up in the array.
+ *
+ * @return mixed the concat string ready to be sent to google maps api
+ *   the concat string ready to be sent to google maps api
+ */
+function _bht_center_create_url($source) {
+  return @str_replace(' ', '+', implode(',', $source));
+}

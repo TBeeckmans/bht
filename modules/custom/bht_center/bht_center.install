@@ -1,0 +1,463 @@
+<?php
+
+require_once __DIR__ . '/bht_center.module';
+
+
+/**
+ * Implements hook_install().
+ */
+function bht_center_install() {
+
+  _bht_center_create_certification_vocabulary();
+  _bht_center_user_cercification();
+  _bht_center_create_content_type();
+  _bht_center_set_configuration();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function bht_center_uninstall() {
+
+  _bht_center_delete_configuration(BHT_CENTER_MACHINE_NAME);
+  _bht_center_delete_fields();
+  _bht_center_delete_content_type(BHT_CENTER_MACHINE_NAME);
+  _bht_center_delete_certification_vocabulary();
+
+}
+
+
+function _bht_center_create_certification_vocabulary() {
+  // Define certification vocabulary.
+  $certification_vocab = new stdClass();
+  $certification_vocab->name = 'BHT Certification';
+  $certification_vocab->description = 'BHT Certification level';
+  $certification_vocab->machine_name = BHT_CERTIFICATION_MACHINE_NAME;
+
+  // Create certification vocabulary.
+  taxonomy_vocabulary_save($certification_vocab);
+
+  // Define certification icon field.
+  $certification_field = array(
+    'field_name' => 'certification_icon',
+    'type' => 'image',
+    'locked' => TRUE,
+    'cardinality' => 1,
+    'translatable' => FALSE,
+  );
+
+  // Create certification icon field.
+  field_create_field($certification_field);
+
+  $certification_instance = array(
+    'field_name' => 'certification_icon',
+    'entity_type' => 'taxonomy_term',
+    'bundle' => BHT_CERTIFICATION_MACHINE_NAME,
+    'label' => st('Certification icon'),
+    'required' => TRUE,
+    'widget' => array('type' => 'image_image'),
+  );
+
+  // Create certification icon instance.
+  field_create_instance($certification_instance);
+}
+
+
+function _bht_center_user_cercification() {
+  $field = array(
+    'field_name' => 'certification',
+    'type' => 'taxonomy_term_reference',
+    'locked' => TRUE,
+    'cardinality' => 1,
+    'translatable' => FALSE,
+    'settings' => array(
+      'allowed_values' => array(
+        array(
+          'vocabulary' => BHT_CERTIFICATION_MACHINE_NAME,
+          'parent' => 0,
+        ),
+      ),
+    ),
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'certification',
+    'entity_type' => 'user',
+    'bundle' => 'user',
+    'label' => st('Certification'),
+    'required' => TRUE,
+    'widget' => array(
+      'type' => 'options_select',
+    ),
+  );
+  field_create_instance($instance);
+}
+
+
+function _bht_center_create_content_type() {
+  // Define Google Places ID description link.
+  $google_places_link = l(
+    t('this site'), 'https://developers.google.com/places/place-id'
+  );
+
+  // Define center content type.
+  $center_content_type = array(
+    'type' => BHT_CENTER_MACHINE_NAME,
+    'name' => st('BHT Center'),
+    'base' => 'node_content',
+    'description' => st('A BHT center is rendered on a map and overview'),
+    'custom' => FALSE,
+    'modified' => TRUE,
+    'locked' => FALSE,
+  );
+
+  // Set all defaults for a content type.
+  $center_content_type = node_type_set_defaults($center_content_type);
+
+  // Create center content type.
+  node_type_save($center_content_type);
+
+  // Set input fields.
+  $text_fields = array(
+    'street' => array(
+      'name' => 'Street',
+      'required' => TRUE
+    ),
+    'number' => array(
+      'name' => 'Number',
+      'required' => TRUE
+    ),
+    'bus' => array(
+      'name' => 'Bus',
+      'required' => FALSE
+    ),
+    'postal_code' => array(
+      'name' => 'Postal code',
+      'required' => TRUE
+    ),
+    'city' => array(
+      'name' => 'City',
+      'required' => TRUE
+    ),
+    'phone' => array(
+      'name' => 'Phone',
+      'required' => FALSE,
+      'description' => 'Start phone number with language prefix.'
+    ),
+    'fax' => array(
+      'name' => 'Fax',
+      'required' => FALSE,
+      'description' => 'Start fax number with language prefix.'
+    ),
+    'mobile_phone' => array(
+      'name' => 'Mobile phone',
+      'required' => FALSE,
+      'description' => 'Start phone number with language prefix.'
+    ),
+    'email' => array(
+      'name' => 'Email',
+      'required' => FALSE
+    ),
+    'google_places_id' => array(
+      'name' => 'Google Places ID',
+      'required' => FALSE,
+      'description' => st(
+        'Find your Google Place ID using !link.',
+        array('!link' => $google_places_link)
+      )
+    ),
+  );
+
+  // Define input fields.
+  $fields = array();
+  foreach ($text_fields as $machine_name => $value) {
+    $fields[] = array(
+      'field_name' => $machine_name,
+      'type' => 'text',
+      'locked' => TRUE,
+      'cardinality' => 1,
+      'translatable' => FALSE,
+    );
+  }
+
+  // Set decimal fields.
+  $decimal_fields = array(
+    'lat' => 'Latitude',
+    'lng' => 'Longitude',
+  );
+
+  // Define decimal fields.
+  foreach ($decimal_fields as $machine_name => $name) {
+    $fields[] = array(
+      'field_name' => $machine_name,
+      'type' => 'number_decimal',
+      'locked' => TRUE,
+      'cardinality' => 1,
+      'translatable' => FALSE,
+      'settings' => array(
+        'precision' => 10,
+        'scale' => 7,
+        'decimal_separator' => '.',
+      ),
+    );
+  }
+
+  // Define options field.
+  include_once DRUPAL_ROOT . '/includes/iso.inc';
+  $fields[] = array(
+    'field_name' => 'country',
+    'type' => 'list_text',
+    'settings' => array(
+      'allowed_values' => _country_get_predefined_list(),
+    ),
+  );
+
+  // TODO: Add the user reference field
+
+  // Create all fields.
+  foreach ($fields as $field) {
+    if (is_null(field_info_field($field['field_name']))) {
+      field_create_field($field);
+    }
+  }
+
+  // Define text instances.
+  $instances = array();
+  foreach ($text_fields as $machine_name => $value) {
+    $instances[] = array(
+      'field_name' => $machine_name,
+      'entity_type' => 'node',
+      'bundle' => BHT_CENTER_MACHINE_NAME,
+      'label' => st($value['name']),
+      'required' => isset($value['required']) ? $value['required'] : FALSE,
+      'description' => isset($value['description']) ? $value['description'] : '',
+      'widget' => array(
+        'type' => 'text_textfield',
+      ),
+    );
+  }
+
+  // Define decimal instances.
+  foreach ($decimal_fields as $machine_name => $name) {
+    $instances[] = array(
+      'field_name' => $machine_name,
+      'entity_type' => 'node',
+      'bundle' => BHT_CENTER_MACHINE_NAME,
+      'label' => st($name),
+      'widget' => array(
+        'type' => 'number',
+      ),
+    );
+  }
+
+  // Define option instance.
+  $instances[] = array(
+    'field_name' => 'country',
+    'entity_type' => 'node',
+    'bundle' => BHT_CENTER_MACHINE_NAME,
+    'label' => st('Country'),
+    'required' => TRUE,
+    'widget' => array(
+      'type' => 'options_select',
+      'weight' => 0,
+    ),
+  );
+
+  // Create all instances.
+  foreach ($instances as $instance) {
+    if (is_null(
+      field_info_instance(
+        'node', $instance['field_name'], BHT_CENTER_MACHINE_NAME
+      )
+    )) {
+      $instance['entity_type'] = 'node';
+      $instance['bundle'] = BHT_CENTER_MACHINE_NAME;
+      field_create_instance($instance);
+    }
+  }
+
+}
+
+function _bht_center_set_configuration() {
+
+  // Variables.
+  variable_set('comment_' . BHT_CENTER_MACHINE_NAME, 1);
+  variable_set('language_content_type_' . BHT_CENTER_MACHINE_NAME, 0);
+  variable_set('menu_options_' . BHT_CENTER_MACHINE_NAME, array());
+  variable_set('menu_parent_' . BHT_CENTER_MACHINE_NAME, "main-menu:0");
+  variable_set('node_options_' . BHT_CENTER_MACHINE_NAME, array('status'));
+  variable_set('node_preview_' . BHT_CENTER_MACHINE_NAME, 0);
+  variable_set('node_submitted_' . BHT_CENTER_MACHINE_NAME, 0);
+
+  // Specific bundle settings, manage display and enabled view modes settings.
+  variable_set(
+    'field_bundle_settings_node__' . BHT_CENTER_MACHINE_NAME,
+    array(
+      'view_modes' => array(
+        'default' => array(
+          'custom_settings' => FALSE,
+        ),
+        'full' => array(
+          'custom_settings' => FALSE,
+        ),
+        'teaser' => array(
+          'custom_settings' => FALSE,
+        ),
+        'rss' => array(
+          'custom_settings' => FALSE,
+        ),
+        'search_index' => array(
+          'custom_settings' => FALSE,
+        ),
+        'search_result' => array(
+          'custom_settings' => FALSE,
+        ),
+        'bht_center_marker' => array(
+          'custom_settings' => TRUE,
+        ),
+      ),
+      'extra_fields' => array(
+        'form' => array(),
+        'display' => array(
+          'render_map' => array(
+            'default' => array(
+              'weight' => '-99',
+              'visible' => TRUE,
+            ),
+            'full' => array(
+              'weight' => '-99',
+              'visible' => TRUE,
+            ),
+            'teaser' => array(
+              'weight' => '1',
+              'visible' => FALSE,
+            ),
+            'rss' => array(
+              'weight' => '1',
+              'visible' => FALSE,
+            ),
+            'search_index' => array(
+              'weight' => '1',
+              'visible' => FALSE,
+            ),
+            'search_result' => array(
+              'weight' => '1',
+              'visible' => FALSE,
+            ),
+            'bht_center_marker' => array(
+              'weight' => '1',
+              'visible' => FALSE,
+            ),
+          ),
+        ),
+      ),
+    )
+  );
+
+  // We don't have the $base_url available in install file,
+  // leave marker_url empty as long as we don't have a solution.
+  variable_set(
+    BHT_CENTER_JS_MAP_OPTIONS,
+    array(
+      'map_type_control' => '0',
+      'street_view_control' => '0',
+      'disable_default_ui' => '0',
+      'marker' => 0,
+      'default_zoom' => 8,
+      'custom_style' => '',
+      'marker_url' => 'https://placeholdit.imgix.net/~text?txtsize=15&txt=GoToSettings&w=120&h=100',
+    )
+  );
+
+  // Pathauto.
+  if (module_exists('pathauto')) {
+    variable_set(
+      'pathauto_node_' . BHT_CENTER_MACHINE_NAME . '_pattern',
+      'find-a-therapist/[node:title]'
+    );
+  }
+}
+
+
+/**
+ * Delete custom "contact" content type
+ * and all content of this type.
+ *
+ * @param string $ct
+ *  The content types machine name.
+ */
+function _bht_center_delete_content_type($ct) {
+
+  $nids = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', $ct)
+    ->execute()->fetchCol();
+
+  node_delete_multiple($nids);
+
+  node_type_delete($ct);
+}
+
+/**
+ * Delete fields and instances
+ */
+function _bht_center_delete_fields() {
+  $fields = array(
+    'street',
+    'number',
+    'bus',
+    'postal_code',
+    'city',
+    'phone',
+    'fax',
+    'mobile_phone',
+    'email',
+    'google_places_id',
+    'lat',
+    'lng',
+    'country',
+    'certification_icon',
+    'certification',
+  );
+
+  foreach ($fields as $field) {
+    // Remove each field (and instance).
+    field_delete_field($field);
+  }
+}
+
+/**
+ * Delete configuration.
+ *
+ * @param string $ct
+ *  The content types machine name.
+ */
+function _bht_center_delete_configuration($ct) {
+
+  // Node related variables.
+  variable_del('comment_' . $ct);
+  variable_del('language_content_type_' . $ct);
+  variable_del('menu_options_' . $ct);
+  variable_del('menu_parent_' . $ct);
+  variable_del('node_options_' . $ct);
+  variable_del('node_preview_' . $ct);
+  variable_del('node_submitted_' . $ct);
+  variable_del('field_bundle_settings_node__' . $ct);
+
+  // Delete custom variables, hook_uninstall doesn't init the defined constants.
+  variable_del('bht_center_js_map_options');
+
+  // Pathauto.
+  if (module_exists('pathauto')) {
+    variable_del('pathauto_node_' . $ct . '_pattern');
+  }
+}
+
+/**
+ * Deletes the certification vocabulary
+ */
+function _bht_center_delete_certification_vocabulary() {
+  $voc = taxonomy_vocabulary_machine_name_load(BHT_CERTIFICATION_MACHINE_NAME);
+  taxonomy_vocabulary_delete($voc->vid);
+}
