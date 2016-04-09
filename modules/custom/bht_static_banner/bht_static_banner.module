@@ -30,10 +30,8 @@ function bht_static_banner_menu() {
   );
 
   $items['admin/config/bht/static-banner'] = array(
-    'title' => st('Static banner'),
-    'description' => st(
-      'Provides a block with a static banner per content type.'
-    ),
+    'title' => 'Static banner',
+    'description' => 'Provides a block with a static banner per content type.',
     'page arguments' => array('bht_static_banner_form'),
     'page callback' => 'drupal_get_form',
     'access arguments' => array('administer static banner'),
