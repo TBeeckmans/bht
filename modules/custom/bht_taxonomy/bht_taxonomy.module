@@ -374,12 +374,12 @@ function _bht_taxonomy_get_child_tids($vid, $tid) {
 function bht_taxonomy_entity_info_alter(&$entity_info) {
   $entity_info['node']['view modes']['taxonomy_content'] = array(
     'label' => t('Taxonomy content'),
-    'custom settings' => TRUE,
+    'custom settings' => FALSE,
   );
 
   $entity_info['taxonomy_term']['view modes']['taxonomy_children'] = array(
     'label' => t('Taxonomy children'),
-    'custom settings' => TRUE,
+    'custom settings' => FALSE,
   );
 }
 
