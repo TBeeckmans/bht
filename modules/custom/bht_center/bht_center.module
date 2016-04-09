@@ -32,8 +32,8 @@ function bht_center_menu() {
   );
 
   $items['admin/config/bht/bht-center'] = array(
-    'title' => st('BHT Centers'),
-    'description' => st('Settings for the BHT centers'),
+    'title' => 'BHT Centers',
+    'description' => 'Settings for the BHT centers',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('bht_center_settings_form'),
     'access arguments' => 'administer bht centers',
@@ -69,6 +69,10 @@ function bht_center_entity_info_alter(&$entity_info) {
     'label' => t('Marker'),
     'custom settings' => FALSE,
   );
+  $entity_info['user']['view modes']['teaser'] = array(
+    'label' => t('Teaser'),
+    'custom settings' => TRUE,
+  );
 }
 
 /**
@@ -77,7 +81,6 @@ function bht_center_entity_info_alter(&$entity_info) {
 function bht_center_form_bht_center_node_form_alter(
   &$form, &$form_state, $form_id
 ) {
-
   // Disable lat and lng fields on node edit form.
   if (variable_get(BHT_CENTER_GENERATE_LAT_LNG, 1) == 1) {
     $form['lat']['#disabled'] = TRUE;
