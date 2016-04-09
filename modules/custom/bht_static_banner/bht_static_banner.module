@@ -1,16 +1,7 @@
 <?php
-
-/**
- * @file custom_static_banner
- *
- * @description
- * This module generates a static banner block.
- * */
-define('bht_STATIC_BANNER_SETTINGS', 'bht_static_banner');
-
-define("bht_STATIC_BANNER_ADAPTIVE_IMAGE_SETTINGS", "bht_static_banner_adaptive_settings");
-
-define("bht_STATIC_BANNER_ENABLED_TYPES", 'bht_static_banner_adaptive_enabled_types');
+define('BHT_STATIC_BANNER_SETTINGS', 'bht_static_banner');
+define('BHT_STATIC_BANNER_ADAPTIVE_IMAGE_SETTINGS', 'bht_static_banner_adaptive_settings');
+define('BHT_STATIC_BANNER_ENABLED_TYPES', 'bht_static_banner_adaptive_enabled_types');
 
 /**
  * Implements hook_menu().
@@ -32,8 +23,8 @@ function bht_static_banner_menu() {
   $items['admin/config/bht/static-banner'] = array(
     'title' => 'Static banner',
     'description' => 'Provides a block with a static banner per content type.',
-    'page arguments' => array('bht_static_banner_form'),
     'page callback' => 'drupal_get_form',
+    'page arguments' => array('bht_static_banner_form'),
     'access arguments' => array('administer static banner'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'bht_static_banner.forms.inc',
@@ -57,7 +48,7 @@ function bht_static_banner_permission() {
  * Implements hook_form_FORM_ID_alter()
  */
 function bht_static_banner_form_node_form_alter(&$form, &$form_state) {
-  $values = variable_get(bht_STATIC_BANNER_SETTINGS, array());
+  $values = variable_get(BHT_STATIC_BANNER_SETTINGS, array());
 
   if (array_key_exists(
       'bht_static_banner_ct_types', $values
@@ -203,7 +194,7 @@ function bht_static_banner_block_view($delta = '') {
  * @return array (renderable array)
  * */
 function _bht_static_banner_content() {
-  $values = variable_get(bht_STATIC_BANNER_SETTINGS, array());
+  $values = variable_get(BHT_STATIC_BANNER_SETTINGS, array());
   $obj = NULL;
   $output = array();
   $link = '';
@@ -784,7 +775,7 @@ function _get_enabled_banner_image_types() {
 
   if (!isset($types)) {
     $types = variable_get(
-      bht_STATIC_BANNER_ENABLED_TYPES, array(
+      BHT_STATIC_BANNER_ENABLED_TYPES, array(
       'frontpage_banner',
       'banner'
     )
@@ -830,7 +821,7 @@ function _image_style_option_list() {
  *   the list of requested image settings
  */
 function _get_banner_adaptive_settings($part = 'all', $type = 'raw') {
-  $settings = variable_get(bht_STATIC_BANNER_ADAPTIVE_IMAGE_SETTINGS, array());
+  $settings = variable_get(BHT_STATIC_BANNER_ADAPTIVE_IMAGE_SETTINGS, array());
 
   if ($part == 'all') {
     return $settings;
