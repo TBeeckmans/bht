@@ -3,5 +3,7 @@ description = Define the hand therapist center
 core = 7.x
 package = BHT
 
+dependencies[] = entityreference
+
 ; Version information
 version = 7.x-1.0
