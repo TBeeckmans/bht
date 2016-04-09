@@ -19,6 +19,7 @@ define('BHT_CENTER_MAP_CENTER_LNG', '4.3517103');
  */
 function bht_center_menu() {
   $items = array();
+  $module_path = drupal_get_path('module', 'bht_center');
 
   $items['admin/config/bht'] = array(
     'title' => 'BHT',
@@ -35,9 +36,10 @@ function bht_center_menu() {
     'title' => 'BHT Centers',
     'description' => 'Settings for the BHT centers',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('bht_center_settings_form'),
-    'access arguments' => 'administer bht centers',
+    'page arguments' => array('_bht_center_settings_form'),
+    'access arguments' => array('administer bht centers'),
     'type' => MENU_NORMAL_ITEM,
+    'file path' => drupal_get_path('module', 'bht_center'),
     'file' => 'inc/bht_center.admin.inc',
   );
 

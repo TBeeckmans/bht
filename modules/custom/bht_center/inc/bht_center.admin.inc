@@ -5,7 +5,10 @@
  */
 function _bht_center_settings_form($node, &$form_state) {
   $form = array();
-  $map_options = unserialize(variable_get(BHT_CENTER_JS_MAP_OPTIONS, 'a:0:{}'));
+  $map_options = variable_get(BHT_CENTER_JS_MAP_OPTIONS, 'a:0:{}');
+  if (!is_array($map_options)) {
+    $map_options = unserialize($map_options);
+  }
 
   $form['node_options'] = array(
     '#type' => 'fieldset',
@@ -17,7 +20,7 @@ function _bht_center_settings_form($node, &$form_state) {
   $form['node_options']['generate_lat_long'] = array(
     '#type' => 'checkbox',
     '#title' => t('Auto generate lat long cors'),
-    '#default_value' => variable_get(BHT_CENTER_GENERATE_LAT_LONG, 1),
+    '#default_value' => variable_get(BHT_CENTER_GENERATE_LAT_LNG, 1),
   );
 
   $form['map_options'] = array(
@@ -131,7 +134,7 @@ function _bht_center_settings_form_validate($node, &$form_state) {
 function _bht_center_settings_form_submit($node, &$form_state) {
   $values = (object)$form_state['values'];
 
-  variable_set(BHT_CENTER_GENERATE_LAT_LONG, $values->generate_lat_long);
+  variable_set(BHT_CENTER_GENERATE_LAT_LNG, $values->generate_lat_long);
 
   // Create a variable containing all custom javascript map options.
   variable_set(BHT_CENTER_JS_MAP_OPTIONS, serialize($values->map_options));
