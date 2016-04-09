@@ -213,7 +213,20 @@ function _bht_center_create_content_type() {
     ),
   );
 
-  // TODO: Add the user reference field
+  $fields[] = array(
+    'field_name' => 'therapist',
+    'type' => 'entityreference',
+    'locked' => FALSE,
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'translatable' => FALSE,
+    'settings' => array(
+      'handler' => 'base',
+      'target_type' => 'user',
+      'handler_settings' => array(
+        'target_bundles' => array(),
+      ),
+    ),
+  );
 
   // Create all fields.
   foreach ($fields as $field) {
@@ -261,6 +274,33 @@ function _bht_center_create_content_type() {
     'widget' => array(
       'type' => 'options_select',
       'weight' => 0,
+    ),
+  );
+
+  $instances[] = array(
+    'field_name' => 'therapist',
+    'entity_type' => 'user',
+    'bundle' => BHT_CENTER_MACHINE_NAME,
+    'label' => st('Therapist'),
+    'required' => FALSE,
+    'widget' => array(
+      'type' => 'entityreference_autocomplete',
+    ),
+    'settings' => array(
+      'target_type' => 'user',
+      'handler_settings' => array(
+        'target_bundles' => NULL
+      ),
+    ),
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'type' => 'entityreference_entity_view',
+        'settings' => array(
+          'view_mode' => 'teaser',
+          'links' => FALSE,
+        ),
+      ),
     ),
   );
 
@@ -419,6 +459,7 @@ function _bht_center_delete_fields() {
     'country',
     'certification_icon',
     'certification',
+    'therapist',
   );
 
   foreach ($fields as $field) {
