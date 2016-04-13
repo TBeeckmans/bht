@@ -209,7 +209,7 @@ function _bht_center_map() {
   $module_path = drupal_get_path('module', 'bht_center');
 
   // Get the module default map options.
-  $map_options = unserialize(variable_get(BHT_CENTER_JS_MAP_OPTIONS, 'a:0:{}'));
+  $map_options = variable_get(BHT_CENTER_JS_MAP_OPTIONS, 'a:0:{}');
 
   // Get all BHT centers.
   $markers = node_load_multiple(_bht_center_nids());

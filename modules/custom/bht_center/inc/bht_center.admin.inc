@@ -6,9 +6,6 @@
 function _bht_center_settings_form($node, &$form_state) {
   $form = array();
   $map_options = variable_get(BHT_CENTER_JS_MAP_OPTIONS, 'a:0:{}');
-  if (!is_array($map_options)) {
-    $map_options = unserialize($map_options);
-  }
 
   $form['node_options'] = array(
     '#type' => 'fieldset',
