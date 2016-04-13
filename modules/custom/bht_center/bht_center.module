@@ -1,7 +1,6 @@
 <?php
 // TODO: Complete the phpdocs.
-// TODO: Change the certification machine name according to phpcs.
-define('BHT_CERTIFICATION_MACHINE_NAME', 'certification');
+define('BHT_CENTER_CERTIFICATION_MACHINE_NAME', 'certification');
 define('BHT_CENTER_MACHINE_NAME', 'bht_center');
 define('BHT_CENTER_JS_MAP_OPTIONS', 'a:0:{}');
 define('BHT_CENTER_MAP_GEOLOCATION', 'bht_center_map_geolocation');
@@ -235,15 +234,12 @@ function _bht_center_map() {
 
   // Define the search field.
   if (variable_get(BHT_CENTER_MAP_SEARCH, 1)) {
-    // TODO: Define the theme functions and templates.
-    // TODO: Add the search logic.
     $output[] = array(
       '#theme' => 'bht_center_map_search',
     );
   }
 
   // Define google map wrapper.
-  // TODO: Define the theme functions and templates.
   $output[] = array(
     '#theme' => 'bht_center_map',
   );
@@ -283,8 +279,6 @@ function _bht_center_map() {
   );
 
   // Add the BHT center javascript logic.
-  // TODO: Add javascript logic.
-  $output['#attached']['js'][] = $module_path . '/js/bht-center.js';
   $output['#attached']['js'][] = $module_path . '/js/bht-center-map.js';
 
   return $output;
@@ -324,7 +318,6 @@ function _bht_center_list() {
   );
 
   // Add the BHT center javascript logic.
-  // TODO: Add javascript logic.
   $output['#attached']['js'][] = $module_path . '/js/bht-center-list.js';
 
   return $output;
@@ -340,6 +333,11 @@ function bht_center_theme() {
 
   $theme['bht_center_map_search'] = array(
     'template' => 'templates/bht-center-map-search',
+    'variables' => array(),
+  );
+
+  $theme['bht_center_list'] = array(
+    'template' => 'templates/bht-center-list',
     'variables' => array(),
   );
 

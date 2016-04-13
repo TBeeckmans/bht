@@ -32,7 +32,7 @@ function _bht_center_create_certification_vocabulary() {
   $certification_vocab = new stdClass();
   $certification_vocab->name = 'BHT Certification';
   $certification_vocab->description = 'BHT Certification level';
-  $certification_vocab->machine_name = BHT_CERTIFICATION_MACHINE_NAME;
+  $certification_vocab->machine_name = BHT_CENTER_CERTIFICATION_MACHINE_NAME;
 
   // Create certification vocabulary.
   taxonomy_vocabulary_save($certification_vocab);
@@ -52,7 +52,7 @@ function _bht_center_create_certification_vocabulary() {
   $certification_instance = array(
     'field_name' => 'certification_icon',
     'entity_type' => 'taxonomy_term',
-    'bundle' => BHT_CERTIFICATION_MACHINE_NAME,
+    'bundle' => BHT_CENTER_CERTIFICATION_MACHINE_NAME,
     'label' => st('Certification icon'),
     'required' => TRUE,
     'widget' => array('type' => 'image_image'),
@@ -73,7 +73,7 @@ function _bht_center_user_cercification() {
     'settings' => array(
       'allowed_values' => array(
         array(
-          'vocabulary' => BHT_CERTIFICATION_MACHINE_NAME,
+          'vocabulary' => BHT_CENTER_CERTIFICATION_MACHINE_NAME,
           'parent' => 0,
         ),
       ),
@@ -499,6 +499,6 @@ function _bht_center_delete_configuration($ct) {
  * Deletes the certification vocabulary
  */
 function _bht_center_delete_certification_vocabulary() {
-  $voc = taxonomy_vocabulary_machine_name_load(BHT_CERTIFICATION_MACHINE_NAME);
+  $voc = taxonomy_vocabulary_machine_name_load(BHT_CENTER_CERTIFICATION_MACHINE_NAME);
   taxonomy_vocabulary_delete($voc->vid);
 }
