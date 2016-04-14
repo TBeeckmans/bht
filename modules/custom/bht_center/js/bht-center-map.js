@@ -6,42 +6,43 @@
 
   /**
    * Initialize a google map.
-   * Map is rendered as an overview, which show all bht centers.
+   * Map is rendered as an overview, which shows all bht centers.
    *
    * @param {Number} lat
    * @param {Number} long
    * @param {Number} zoom
    */
   function initializeMap(lat, lng, zoom, callback) {
-
     var latLng = new google.maps.LatLng(lat, lng);
 
-    var mapOptions = Drupal.settings.bht_center_map_options;
+    var defaultMapOptions = Drupal.settings.bht_center_map_options;
+
     var styles = '';
-    if (mapOptions.custom_style) {
-      styles = JSON.parse(mapOptions.custom_style);
+    if (defaultMapOptions.custom_style) {
+      styles = JSON.parse(defaultMapOptions.custom_style);
     }
-    mapOptions = {
+
+    var mapOptions = {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLng,
       zoom: zoom,
       styles: styles,
       // The MapType control lets the user toggle between map types (such as ROADMAP and SATELLITE).
       // This control appears by default in the top right corner of the map.
-      mapTypeControl: JSON.parse(mapOptions.map_type_control),
+      mapTypeControl: JSON.parse(defaultMapOptions.map_type_control),
       mapTypeControlOptions: {
         position: google.maps.ControlPosition.LEFT_BOTTOM,
       },
       // The disableDefaultUI property disables any automatic UI behavior from the Google Maps API.
-      disableDefaultUI: JSON.parse(mapOptions.disable_default_ui),
+      disableDefaultUI: JSON.parse(defaultMapOptions.disable_default_ui),
       // Disable scrollwheel zooming on the map
       scrollwheel: false,
       // The streetViewControl enables/disables the Pegman control that lets the user activate a Street View panorama.
-      streetViewControl: JSON.parse(mapOptions.street_view_control)
+      streetViewControl: JSON.parse(defaultMapOptions.street_view_control)
     };
 
     // Define map as a global variable, so we can allow the navigator to set the center.
-    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    window.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     // Invoke callback function.
     callback();
@@ -114,21 +115,21 @@
     // Initialize a markers array in order to handle changed map boundaries.
     markersArray = [];
 
-    $.each(Drupal.settings.bht_center_map_markers.nodes, function (key, value) {
+    $.each(Drupal.settings.bht_center_map_markers, function (key, value) {
 
       if (!isNaN(key)) {
         // Create marker.
-        var latLng = new google.maps.LatLng(value.lat, value.long);
+        var latLng = new google.maps.LatLng(value.lat, value.lng);
         var marker = new google.maps.Marker({
           nid: key,
           position: latLng,
           map: map,
-          icon: value.marker_url,
+          icon: value.icon,
         });
 
         // Create infoWindow.
         var infoWindow = new google.maps.InfoWindow({
-          content: value.render_marker
+          content: value.html
         });
 
         // Add event listener on every marker.
@@ -188,11 +189,10 @@
 
   Drupal.behaviors.bhtCenter = {
     attach: function (context, settings) {
-
       google.maps.event.addDomListener(window, 'load', function () {
         // Load map.
         var zoom = Drupal.settings.bht_center_map_zoom === 0 ? parseInt(Drupal.settings.bht_center_map_options.default_zoom) : Drupal.settings.bht_center_map_zoom;
-        initializeMap(Drupal.settings.center.lat, Drupal.settings.center.lng, zoom, function () {
+        initializeMap(Drupal.settings.bht_center_map_center.lat, Drupal.settings.bht_center_map_center.lng, zoom, function () {
           // Create search filter.
           if (Drupal.settings.bht_center_map_search) {
             buildMapFilter();

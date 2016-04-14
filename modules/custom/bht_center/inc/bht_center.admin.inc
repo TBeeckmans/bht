@@ -68,6 +68,13 @@ function _bht_center_settings_form($node, &$form_state) {
     '#default_value' => isset($map_options['default_zoom']) ? $map_options['default_zoom'] : 8,
   );
 
+  $form['map_options']['api_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Google maps API key'),
+    '#required' => FALSE,
+    '#default_value' => isset($map_options['api_key']) ? $map_options['api_key'] : '',
+  );
+
   // Set custom styles as a JSON object generated on
   // http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html
   $form['map_options']['custom_style'] = array(
@@ -134,7 +141,7 @@ function _bht_center_settings_form_submit($node, &$form_state) {
   variable_set(BHT_CENTER_GENERATE_LAT_LNG, $values->generate_lat_long);
 
   // Create a variable containing all custom javascript map options.
-  variable_set(BHT_CENTER_JS_MAP_OPTIONS, serialize($values->map_options));
+  variable_set(BHT_CENTER_JS_MAP_OPTIONS, $values->map_options);
 
   drupal_set_message(t('Values saved'));
 }

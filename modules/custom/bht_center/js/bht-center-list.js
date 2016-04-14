@@ -9,14 +9,16 @@
    *
    * Should be called when bounds of the Google map change
    */
-  $('.js-map-overview').bind('updateBhtCenters', function (event, nids) {
-    var overviewMarkup = '';
 
-    for (var i = 0; i < nids.length; i++) {
-      overviewMarkup += Drupal.settings.bht_center_items[nids[i]];
-    }
+  $(function() {
+    $('.js-map-overview').bind('updateBhtCenters', function (event, nids) {
+      var overviewMarkup = '';
+      for (var i = 0; i < nids.length; i++) {
+        overviewMarkup += Drupal.settings.bht_center_items[nids[i]];
+      }
 
-    $(this).html(overviewMarkup);
-  })
+      $(this).html(overviewMarkup);
+    })
+  });
 
 })(jQuery);

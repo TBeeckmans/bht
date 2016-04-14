@@ -249,8 +249,9 @@ function _bht_center_map() {
   );
 
   // Add the google map scripting.
+  $api_key = (!empty($map_options['api_key'])) ? '&key=' . check_plain($map_options['api_key']) : '';
   $output['#attached']['js'][] = array(
-    'data' => 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places',
+    'data' => 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places' . $api_key,
     'type' => 'external',
   );
   $output['#attached']['js'][] = array(
@@ -283,7 +284,7 @@ function _bht_center_map() {
   );
 
   // Add the BHT center javascript logic.
-//  $output['#attached']['js'][] = $module_path . '/js/bht-center-map.js';
+  $output['#attached']['js'][] = $module_path . '/js/bht-center-map.js';
 
   return $output;
 }
