@@ -7,4 +7,4 @@
  */
 ?>
 
-<div id="map-canvas" class="js-map-canvas map__canvas"></div>
+<div id="map-canvas" class="js-map-canvas map__canvas" style="width: 100%; height: 300px;"></div>

@@ -131,17 +131,19 @@ function bht_center_node_presave($node) {
  * Implements hook_block_info().
  */
 function bht_center_block_info() {
-  $block = array();
+  $blocks = array();
 
-  $block['bht_center_map'] = array(
+  $blocks['bht_center_map'] = array(
     'info' => t('BHT center map'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
   );
 
-  $block['bht_center_list'] = array(
+  $blocks['bht_center_list'] = array(
     'info' => t('BHT center list'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
   );
 
-  return $block;
+  return $blocks;
 }
 
 /**
@@ -184,22 +186,24 @@ function bht_center_block_save($delta = '', $edit = array()) {
  * Implements hook_block_view().
  */
 function bht_center_block_view($delta = '') {
-  $output = array();
+  $block = array();
 
   switch ($delta) {
     case 'bht_center_map':
-      _bht_center_map();
+      $block['title'] = NULL;
+      $block['content'] = _bht_center_map();
       break;
 
     case 'bht_center_list':
-      _bht_center_list();
+      $block['title'] = NULL;
+      $block['content'] = _bht_center_list();
       break;
 
     default:
       break;
   }
 
-  return $output;
+  return $block;
 }
 
 function _bht_center_map() {
@@ -226,8 +230,8 @@ function _bht_center_map() {
   foreach ($nodes_markers as $nid) {
     $marker = $markers['nodes'][$nid];
     $rendered_markers[$nid]['html'] = drupal_render($marker);
-    $rendered_markers[$nid]['lat'] = $marker['#node']->lat['und'][0]['value'];
-    $rendered_markers[$nid]['lng'] = $marker['#node']->lng['und'][0]['value'];
+    $rendered_markers[$nid]['lat'] = $marker['#node']->lat[LANGUAGE_NONE][0]['value'];
+    $rendered_markers[$nid]['lng'] = $marker['#node']->lng[LANGUAGE_NONE][0]['value'];
     // TODO: Get the marker, related to the referenced user certification grade.
     $rendered_markers[$nid]['icon'] = $module_path . '/img/marker.png';
   }
@@ -279,7 +283,7 @@ function _bht_center_map() {
   );
 
   // Add the BHT center javascript logic.
-  $output['#attached']['js'][] = $module_path . '/js/bht-center-map.js';
+//  $output['#attached']['js'][] = $module_path . '/js/bht-center-map.js';
 
   return $output;
 }
