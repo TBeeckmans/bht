@@ -248,6 +248,10 @@ function _bht_center_map() {
     '#theme' => 'bht_center_map',
   );
 
+  // Add the BHT centers css.
+  $output['#attached']['css'][] = $module_path . '/css/bht-center.css';
+  $output['#attached']['css'][] = $module_path . '/css/bht-center-map.css';
+
   // Add the google map scripting.
   $api_key = (!empty($map_options['api_key'])) ? '&key=' . check_plain($map_options['api_key']) : '';
   $output['#attached']['js'][] = array(
@@ -313,6 +317,9 @@ function _bht_center_list() {
     $bht_center = $bht_centers['nodes'][$nid];
     $rendered_bht_centers[$nid] = drupal_render($bht_center);
   }
+
+  // Add the BHT centers css.
+  $output['#attached']['css'][] = $module_path . '/css/bht-center-list.css';
 
   // Add the BHT centers javascript data.
   $output['#attached']['js'][] = array(

@@ -1,0 +1,11 @@
+.field-name-street {
+  display: inline-block;
+  float: left;
+  margin-right: 1ex;
+}
+
+.field-name-postal-code {
+  display: inline-block;
+  float: left;
+  margin-right: 1ex;
+}

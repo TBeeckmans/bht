@@ -64,7 +64,21 @@ function _bht_center_create_certification_vocabulary() {
 
 
 function _bht_center_user_cercification() {
-  $field = array(
+  $fields[] = array(
+    'field_name' => 'firstname',
+    'type' => 'text',
+    'locked' => TRUE,
+    'cardinality' => 1,
+    'translatable' => FALSE,
+  );
+  $fields[] = array(
+    'field_name' => 'lastname',
+    'type' => 'text',
+    'locked' => TRUE,
+    'cardinality' => 1,
+    'translatable' => FALSE,
+  );
+  $fields[] = array(
     'field_name' => 'certification',
     'type' => 'taxonomy_term_reference',
     'locked' => TRUE,
@@ -79,9 +93,31 @@ function _bht_center_user_cercification() {
       ),
     ),
   );
-  field_create_field($field);
+  foreach ($fields as $field) {
+    field_create_field($field);
+  }
 
-  $instance = array(
+  $instances[] = array(
+    'field_name' => 'firstname',
+    'entity_type' => 'user',
+    'bundle' => 'user',
+    'label' => st('Firstname'),
+    'required' => TRUE,
+    'widget' => array(
+      'type' => 'text_textfield',
+    ),
+  );
+  $instances[] = array(
+    'field_name' => 'lastname',
+    'entity_type' => 'user',
+    'bundle' => 'user',
+    'label' => st('Name'),
+    'required' => TRUE,
+    'widget' => array(
+      'type' => 'text_textfield',
+    ),
+  );
+  $instances[] = array(
     'field_name' => 'certification',
     'entity_type' => 'user',
     'bundle' => 'user',
@@ -91,7 +127,9 @@ function _bht_center_user_cercification() {
       'type' => 'options_select',
     ),
   );
-  field_create_instance($instance);
+  foreach ($instances as $instance) {
+    field_create_instance($instance);
+  }
 }
 
 
@@ -460,6 +498,8 @@ function _bht_center_delete_fields() {
     'certification_icon',
     'certification',
     'therapist',
+    'firstname',
+    'lastname',
   );
 
   foreach ($fields as $field) {
