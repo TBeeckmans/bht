@@ -259,11 +259,13 @@ function _bht_center_map() {
     'type' => 'external',
   );
   $output['#attached']['js'][] = array(
-    'data' => 'https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js',
+    //'data' => 'https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js',
+    'data' => $module_path . '/js/infobox.js',
     'type' => 'external',
   );
   $output['#attached']['js'][] = array(
-    'data' => 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js',
+    //'data' => 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js',
+    'data' => $module_path . '/js/markerclusterer.js',
     'type' => 'external',
   );
 
@@ -333,6 +335,55 @@ function _bht_center_list() {
   $output['#attached']['js'][] = $module_path . '/js/bht-center-list.js';
 
   return $output;
+}
+
+/**
+ * Implements hook_node_view_alter().
+ */
+function bht_center_node_view_alter(&$build) {
+  if ($build['#bundle'] == 'bht_center') {
+    $node = &$build['#node'];
+    $language = &$build['#language'];
+
+    if (isset($node->therapist) && !empty($node->therapist)) {
+      $therapist_items = field_get_items('node', $node, 'therapist', $language);
+      $certification_tids = array();
+      if (!empty($therapist_items)) {
+        foreach ($therapist_items as $therapist) {
+          $entity = NULL;
+          extract($therapist);
+          $certification_items = field_get_items('user', $entity, 'certification');
+          if (!empty($certification_items)) {
+            foreach ($certification_items as $certification) {
+              $certification_tid = reset($certification);
+              $certification_tids[] = $certification_tid;
+            }
+          }
+        }
+      }
+
+      if (!empty($certification_tids)) {
+        $query = db_select('taxonomy_term_data', 'td');
+        $query->join('field_data_certification_icon', 'i', 'i.entity_id = td.tid');
+        $query->join('file_managed', 'f', 'f.fid = i.certification_icon_fid');
+        $query->fields('td', array('name', 'weight', 'tid'));
+        $query->fields('f', array('uri'));
+        $query->condition('td.vid', get_bht_certification_vid())
+              ->condition('td.tid', $certification_tids);
+        $query->condition('i.bundle', 'certification')
+              ->condition('i.entity_type', 'taxonomy_term');
+        $query->condition('f.status', '1');
+        $query->orderBy('td.weight', 'DESC');
+        $query->range(0, 1);
+        $certification = $query->execute()
+                               ->fetchAllAssoc('tid', PDO::FETCH_OBJ);
+
+        if (!empty($certification)) {
+          $node->certification = $certification;
+        }
+      }
+    }
+  }
 }
 
 function bht_center_theme() {
@@ -419,4 +470,25 @@ function _bht_center_get_coordinates_from_address($source = array()) {
  */
 function _bht_center_create_url($source) {
   return @str_replace(' ', '+', implode(',', $source));
+}
+
+/**
+ * Get the BHT certification vocabulary id.
+ *
+ * @return array|mixed|null
+ *    The vocabulary id.
+ */
+function get_bht_certification_vid() {
+  $vid = &drupal_static(__FUNCTION__);
+
+  if (empty($vid)) {
+    $voc = taxonomy_vocabulary_machine_name_load(BHT_CENTER_CERTIFICATION_MACHINE_NAME);
+    $vid = $voc->vid;
+  }
+
+  if (!empty($vid)) {
+    return $vid;
+  }
+
+  return NULL;
 }

@@ -79,6 +79,13 @@ function _bht_center_user_cercification() {
     'translatable' => FALSE,
   );
   $fields[] = array(
+    'field_name' => 'mobile_phone',
+    'type' => 'text',
+    'locked' => TRUE,
+    'cardinality' => 1,
+    'translatable' => FALSE,
+  );
+  $fields[] = array(
     'field_name' => 'certification',
     'type' => 'taxonomy_term_reference',
     'locked' => TRUE,
@@ -113,6 +120,17 @@ function _bht_center_user_cercification() {
     'bundle' => 'user',
     'label' => st('Name'),
     'required' => TRUE,
+    'widget' => array(
+      'type' => 'text_textfield',
+    ),
+  );
+  $instances[] = array(
+    'field_name' => 'mobile_phone',
+    'entity_type' => 'user',
+    'bundle' => 'user',
+    'label' => st('Mobile phone'),
+    'required' => FALSE,
+    'description' => 'Start phone number with language prefix.',
     'widget' => array(
       'type' => 'text_textfield',
     ),
@@ -187,11 +205,6 @@ function _bht_center_create_content_type() {
       'name' => 'Fax',
       'required' => FALSE,
       'description' => 'Start fax number with language prefix.'
-    ),
-    'mobile_phone' => array(
-      'name' => 'Mobile phone',
-      'required' => FALSE,
-      'description' => 'Start phone number with language prefix.'
     ),
     'email' => array(
       'name' => 'Email',
