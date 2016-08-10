@@ -1,0 +1,176 @@
+//------------------------------------------------------------------------------
+// COLUMNS.SCSS ****************************************************************
+// Column classes used by an automated column generator (ask Thijs VDV).
+//------------------------------------------------------------------------------
+
+
+.col-12,
+.col-123,
+.col-13,
+.col-124,
+.col-14,
+.cel-12,
+.cel-123,
+.cel-13,
+.cel-124,
+.cel-14  {
+  float: left;
+  width: 100%;
+
+  & > *:not(.contextual-links-wrapper) {
+    float: left;
+    width: 100%;
+  }
+
+  .ie8 & > * {
+    float: left;
+    width: 100%;
+  }
+
+  .flexbox &,
+  .flexbox & > * {
+    @include display(flex);
+    @include flex-flow(wrap);
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  .col-12,
+  .col-123,
+  .col-124,
+  .cel-12 > *:not(.contextual-links-wrapper) > *,
+  .cel-123 > *:not(.contextual-links-wrapper) > *,
+  .cel-124 > *:not(.contextual-links-wrapper) > * {
+    @include span-columns($grid-columns/2 of $grid-columns);
+  }
+
+  .col-12:nth-of-type(2n),
+  .col-123:nth-of-type(2n),
+  .col-124:nth-of-type(2n),
+  .cel-12 > *:not(.contextual-links-wrapper) > .even,
+  .cel-123 > *:not(.contextual-links-wrapper) > .even,
+  .cel-124 > *:not(.contextual-links-wrapper) > .even,
+  .cel-12 > *:not(.contextual-links-wrapper) > :nth-of-type(2n),
+  .cel-123 > *:not(.contextual-links-wrapper) > :nth-of-type(2n),
+  .cel-124 > *:not(.contextual-links-wrapper) > :nth-of-type(2n) {
+    @include span-columns($grid-columns/2 omega of $grid-columns);
+  }
+
+  .ie8 .cel-12 > * > *,
+  .ie8 .cel-123 > * > *,
+  .ie8 .cel-124 > * > * {
+    @include span-columns($grid-columns/2 of $grid-columns);
+  }
+
+  .ie8 .cel-12 > * > .even,
+  .ie8 .cel-123 > * > .even,
+  .ie8 .cel-124 > * > .even {
+    @include span-columns($grid-columns/2 omega of $grid-columns);
+  }
+
+  .col-13,
+  .cel-13 > *:not(.contextual-links-wrapper) > * {
+    @include span-columns($grid-columns/3 of $grid-columns);
+  }
+
+  .col-13:nth-of-type(3n),
+  .cel-13 > *:not(.contextual-links-wrapper) > .third,
+  .cel-13 > *:not(.contextual-links-wrapper) > :nth-of-type(3n) {
+    @include span-columns($grid-columns/3 omega of $grid-columns);
+  }
+
+  .col-14,
+  .cel-14 > *:not(.contextual-links-wrapper) > * {
+    @include span-columns($grid-columns/4 of $grid-columns);
+  }
+
+  .col-14:nth-of-type(4n),
+  .cel-14 > *:not(.contextual-links-wrapper) > .fourth,
+  .cel-14 > *:not(.contextual-links-wrapper) > :nth-of-type(4n) {
+    @include span-columns($grid-columns/4 omega of $grid-columns);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  .col-123,
+  .col-123:nth-of-type(2n),
+  .cel-123 > *:not(.contextual-links-wrapper) > *,
+  .cel-123 > *:not(.contextual-links-wrapper) > .even,
+  .cel-123 > *:not(.contextual-links-wrapper) > :nth-of-type(2n) {
+    @include span-columns($grid-columns/3 of $grid-columns);
+  }
+
+  .col-123:nth-of-type(3n),
+  .cel-123 > *:not(.contextual-links-wrapper) > .third,
+  .cel-123 > *:not(.contextual-links-wrapper) > :nth-of-type(3n)  {
+    @include span-columns($grid-columns/3 omega of $grid-columns);
+  }
+
+  .ie8 .cel-123 > * > *,
+  .ie8 .cel-123 > * > .even {
+    @include span-columns($grid-columns/3 of $grid-columns);
+  }
+
+  .ie8 .cel-123 > * > .third,
+  .ie8 .cel-123 > * > :first-child + .even + .odd,
+  .ie8 .cel-123 > * > :first-child + .even + .odd + .even + .odd + .even {
+    @include span-columns($grid-columns/3 omega of $grid-columns);
+  }
+
+  .col-124,
+  .col-124:nth-of-type(2n),
+  .cel-124 > *:not(.contextual-links-wrapper) > *,
+  .cel-124 > *:not(.contextual-links-wrapper) > .even,
+  .cel-124 > *:not(.contextual-links-wrapper) > :nth-of-type(2n) {
+    @include span-columns($grid-columns/4 of $grid-columns);
+  }
+
+  .col-124:nth-of-type(4n),
+  .cel-124 > *:not(.contextual-links-wrapper) > .fourth,
+  .cel-124 > *:not(.contextual-links-wrapper) > :nth-of-type(4n)  {
+    @include span-columns($grid-columns/4 omega of $grid-columns);
+  }
+
+  .ie8 .cel-124 > * > *,
+  .ie8 .cel-124 > * > .even {
+    @include span-columns($grid-columns/4 of $grid-columns);
+  }
+
+  .ie8 .cel-124 > * > .fourth,
+  .ie8 .cel-124 > * > :first-child + .even + .odd + .even,
+  .ie8 .cel-124 > * > :first-child + .even + .odd + .even + .odd + .even + .odd + .even {
+    @include span-columns($grid-columns/4 omega of $grid-columns);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

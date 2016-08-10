@@ -1,0 +1,381 @@
+//------------------------------------------------------------------------------
+// CHECKOUT.SCSS ***************************************************************
+// Commerce cart and checkout theming
+//------------------------------------------------------------------------------
+
+
+//*** COMMERCE CHECKOUT PROGRESS ***
+.commerce__progress {
+  float: left;
+  width: 100%;
+  margin-bottom: em(30px);
+}
+
+.checkout__list {
+  @include reset-list;
+  counter-reset: checkout;
+}
+
+.checkout__item {
+  float: left;
+  width: em(25px, 18px);
+  margin: 0 em(5px, 18px) em(5px, 18px) 0;
+  padding: 0 em(5px, 18px);
+  font-size: em(18px);
+  background-color: $grey-dark;
+  color: $white;
+  white-space: nowrap;
+  overflow: hidden;
+
+  &:before {
+    margin-right: em(5px);
+    counter-increment: checkout;
+    content: counter(checkout) ".";
+  }
+  &.active {
+    width: auto;
+    text-indent: 0;
+    background-color: $grey;
+  }
+}
+
+
+//*** COMMERCE PANELS ***
+.commerce__pane-item {
+  float: left;
+  width: 100%;
+  margin-bottom: em(30px);
+
+  .description {
+    clear: both;
+  }
+}
+
+.commerce__pane-title {
+  margin-bottom: em(25px, 24px);
+  @include font(24, 1);
+  font-weight: 700;
+}
+
+
+//*** CART FORM PANEL ***
+.commerce__pane-item--order-list {
+  margin-bottom: 0;
+}
+
+
+//*** COMMERCE ORDER OVERVIEW - GENERAL ***
+.order__list {
+  @include reset-list;
+  float: left;
+  width: 100%;
+}
+
+.order__item {
+  float: left;
+  width: 100%;
+  margin-bottom: em(10px);
+  padding: em(10px);
+  border-top: 3px solid $grey-dark;
+
+  .form-item {
+    margin: 0;
+  }
+}
+
+.order__column {
+  float: left;
+  width: 100%;
+  margin-bottom: em(10px);
+}
+
+.order__column-title {
+  @include element-invisible;
+  font-weight: 700;
+
+  &:after {
+    content: '\003A';
+    margin-right: em(5px);
+  }
+}
+
+.order__column-content--line-item-title {
+  @include font(20, 1);
+  font-weight: 700;
+}
+
+
+//*** COMMERCE ORDER OVERVIEW - CART FORM ***
+.order__column--edit-quantity {
+  width: auto;
+  margin-right: em(10px);
+}
+
+.order__column--edit-delete {
+  width: auto;
+}
+
+.order__column-content input[type=text] {
+  float: none;
+  width: em(75px);
+  height: em(35px);
+  line-height: em(35px);
+}
+
+
+//*** COMMERCE ORDER OVERVIEW - CART SUMMARY ***
+.order__column--quantity .order__column-title {
+  @include element-visible;
+  float: left;
+  display: block;
+}
+
+
+//*** COMMERCE ORDER SUMMARY ***
+.order__summary,
+.commerce-order-handler-area-order-total {
+  float: left;
+  width: 100%;
+  text-align: right;
+
+  label {
+    float: right;
+    width: auto;
+    line-height: inherit;
+
+    &:after {
+      content: '\003A';
+      margin-right: em(5px);
+    }
+  }
+
+  .order-total {
+    float: right;
+    width: auto;
+    clear: both;
+  }
+}
+
+
+//*** COMMERCE BUTTONS ***
+.commerce__pane-item--buttons {
+  @include display(flex); // Used to switch the position on mobile devices
+  @include flex-direction(column-reverse); // Used to switch the position on mobile devices
+  width : 100%;
+}
+
+.commerce__pane-btn {
+  width: 100%;
+  margin-bottom: em(5px);
+}
+
+.commerce__pane-btn--shopping-cart {
+  background-color: transparent;
+
+  .btn {
+    width: 100%;
+  }
+
+  .btn-info {
+    display: block;
+    @include font(9, 1);
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** COMMERCE ACCOUNT PANE ***
+  .commerce__pane-item--account {
+
+    input[type='submit'] {
+      float: left;
+    }
+  }
+
+
+  //*** COMMERCE BUTTONS ***
+  .commerce__pane-item--buttons {
+    float: left;
+    display: block;
+    text-align: right;
+  }
+
+  .commerce__pane-btn {
+    width: auto;
+    margin-left: em(10px);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** COMMERCE ORDER OVERVIEW - GENERAL ***
+  .order__list {
+    padding-top: em(40px);
+  }
+
+  .order__item {
+    position: relative;
+    display: table;
+    margin-bottom: em(10px);
+    padding: em(20px) em(10px);
+  }
+
+  .order__column {
+    float: none;
+    position: relative;
+    display: table-cell;
+    width: 20%;
+    vertical-align: middle;
+  }
+
+  .order__column-title {
+    &:after {
+      content: none;
+    }
+  }
+
+  .order__item.first .order__column-title {
+    @include element-visible(absolute);
+    top: em(-60px);
+    display: block;
+    width: 100%;
+    font-weight: 700;
+  }
+
+
+  //*** COMMERCE ORDER OVERVIEW - CART FORM ***
+  .order__column--line-item-title {
+    width: 30%;
+  }
+
+  .order__column--commerce-unit-price,
+  .order__column--commerce-total {
+    width: 15%;
+  }
+
+  .order__column--edit-quantity,
+  .order__column--edit-delete {
+    width: 20%;
+    text-align: center;
+  }
+
+  .order__column--commerce-total {
+    text-align: right;
+  }
+
+
+  //*** COMMERCE ORDER OVERVIEW - CART SUMMARY ***
+  .order__list--summary {
+    .order__column--line-item-title {
+      width: 55%;
+    }
+  }
+
+  .order__column--quantity {
+    width: 15%;
+    text-align: center;
+
+    .order__column-title {
+      @include element-invisible;
+    }
+  }
+
+  
+  //*** COMMERCE ORDER SUMMARY ***
+  .order__summary,
+  .commerce-order-handler-area-order-total {
+    padding: em(20px) em(10px);
+  }
+
+
+  //*** COMMERCE BUTTONS ***
+  .commerce__pane-item--buttons {
+    float: left;
+    display: block;
+    text-align: right;
+  }
+  .commerce__pane-btn {
+    margin-left: em(10px);
+    width: auto;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** COMMERCE CHECKOUT PROGRESS ***
+  .checkout__item {
+    width: auto;
+  }
+
+
+  //*** COMMERCE ORDER OVERVIEW - CART FORM ***
+  .order__column--line-item-title {
+    width: 45%;
+  }
+
+  .order__column--commerce-unit-price,
+  .order__column--commerce-total {
+    width: 12.5%;
+  }
+
+  .order__column--edit-quantity,
+  .order__column--edit-delete {
+    width: 15%;
+  }
+
+  
+  //*** COMMERCE ORDER OVERVIEW - CART SUMMARY ***
+  .order__list--summary {
+    .order__column--line-item-title {
+      width: 60%;
+    }
+  }
+
+}
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+  //*** COMMERCE ORDER OVERVIEW - CART FORM ***
+  .order__column--line-item-title {
+    width: 50%;
+  }
+
+  .order__column--commerce-unit-price,
+  .order__column--commerce-total {
+    width: 10%;
+  }
+
+
+  //*** COMMERCE ORDER OVERVIEW - CART SUMMARY ***
+  .order__list--summary {
+    .order__column--line-item-title {
+      width: 70%;
+    }
+  }
+  
+  .order__column--quantity {
+    width: 10%;
+  }
+
+}

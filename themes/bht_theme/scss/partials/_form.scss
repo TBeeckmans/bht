@@ -1,0 +1,62 @@
+//------------------------------------------------------------------------------
+// FORM.SCSS *******************************************************************
+// All webform and custom form styling is separated from the forms_include file,
+// overriding of any defaults should be set in this file.
+//------------------------------------------------------------------------------
+
+
+//*** WEBFORM DEFAULT ***
+.form {
+  float: left;
+  width: 100%; 
+}
+
+.no-left-sidebar.no-right-sidebar .form {
+  max-width: em($break-2-w, $em-base-grid);
+}
+
+
+//*** WEBFORM NEWSLETTER ***
+.form__newsletter {
+}
+
+
+//*** WEBFORM CONTACT FORM ***
+.form__contact {
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

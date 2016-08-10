@@ -1,0 +1,68 @@
+//------------------------------------------------------------------------------
+// FACET_API.SCSS **************************************************************
+// Default facet api styling
+//------------------------------------------------------------------------------
+
+
+//*** FACET API BLOCK ***
+ul.facetapi-facetapi-links {
+  
+  li {
+    
+    a {
+      display: block;
+
+      &.facetapi-active {
+        position: relative;
+        min-height: em(25px);
+        padding-left: em(20px);
+        line-height: em(25px);
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 0;
+          margin-top: em(-12px);
+          @include icon(btn-close);
+        }
+      }
+    }
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

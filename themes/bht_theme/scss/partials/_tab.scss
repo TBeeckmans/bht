@@ -1,0 +1,108 @@
+//------------------------------------------------------------------------------
+// TAB.SCSS ********************************************************************
+// A default tabs system, use a separate ul.tab__nav structure for desktop.
+//------------------------------------------------------------------------------
+
+
+.tab__list {
+  @include reset-list;
+}
+
+.tab__nav {
+  display: none;
+}
+
+.tab__item {
+  float: left;
+  width: 100%;
+}
+
+.tab__label {
+  width: 100%;
+  position: relative;
+  background-color: $grey-light;
+  padding: em(5px) em(30px) em(5px) em(5px);
+  margin-bottom: em(10px);
+  line-height: em(25px);
+  cursor: pointer;
+
+  &:after {
+    content: '+';
+    display: block;
+    position: absolute;
+    top: em(5px);
+    right: em(15px);
+  }
+
+  & ~ *,
+  & ~ span.file {
+    display: none;
+  }
+
+  .tab__item.open & {
+    &:after {
+      content: '-';
+    }
+
+    & ~ *,
+    & ~ span.file {
+      display: block;
+    }
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  .tab__nav {
+    display: block;
+  }
+
+  .tab__label {
+    display: inline-block;
+    margin-right: em(10px);
+    background-color: $grey-light;
+    width: auto;
+    padding-right: em(5px);
+
+    &:after {
+      display: none;
+    }
+
+    .tab__item & {
+      display: none;
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

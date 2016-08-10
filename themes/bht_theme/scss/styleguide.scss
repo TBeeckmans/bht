@@ -1,0 +1,45 @@
+//------------------------------------------------------------------------------
+// STYLEGUIDE.SCSS *************************************************************
+// Incorporates all of the basic markup that belongs to the content, like
+// titles, links, headers, form elements, ...
+// This file can also be used to import in the CKEditor or IFRAMES.
+//------------------------------------------------------------------------------
+
+
+//*** STANDARD ***
+@charset "UTF-8";
+
+
+//*** LIBRARIES ***
+@import "bourbon"; // Import Bourbon Sass mixins
+@import "neat-helpers"; // Import grid helpers before setting visual grid vars
+
+
+//*** DEFINITIONS ***
+@import "variables"; // Import all defined variables (grid, font, colors, etc.)
+
+
+//*** GRID SYSTEM ***
+@import "neat"; // Import neat library after setting variables/functions/mixins
+@import "components/neat_overrides"; // Import custom neat functions/mixins
+
+
+//*** COMPONENTS ***
+@import "components/normalize"; // Import normalize.css 3.0.1
+@import "components/normalize_overrides";
+@import "components/functions";
+@import "components/mixins";
+@import "components/placeholders";
+@import "components/icon-svg-sprite.scss";
+
+
+//*** STYLEGUIDE ***
+@import "base_include";
+@import "forms_include";
+
+
+//*** GRID HELPERS ***
+//@import "partials/grid/columns";
+//@import "partials/grid/grid_placeholders";
+@import "partials/grid/overview";
+@import "partials/grid/the_aim_taxonomy";

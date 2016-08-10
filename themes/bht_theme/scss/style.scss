@@ -1,0 +1,59 @@
+//------------------------------------------------------------------------------
+// STYLE.SCSS ******************************************************************
+// This file is the core of the CSS files. Here the Magic grid is defined and
+// the different .scss files are being imported.
+//------------------------------------------------------------------------------
+
+
+//*** STANDARD ***
+@charset "UTF-8";
+
+
+//*** LIBRARIES ***
+@import "bourbon"; // Import Bourbon Sass mixins
+@import "neat-helpers"; // Import grid helpers before setting visual grid vars
+
+
+//*** DEFINITIONS ***
+@import "variables"; // Import all defined variables (grid, font, colors, etc.)
+
+
+//*** GRID STYSTEM ***
+@import "neat"; // Import neat library after setting variables/functions/mixins
+@import "components/neat_overrides"; // Import custom neat functions/mixins
+
+
+//*** NORMALIZE ***
+@import "components/normalize"; // Import normalize.css 3.0.1
+@import "components/normalize_overrides";
+
+
+//*** FUNCTIONS & MIXINS ***
+@import "components/functions";
+@import "components/mixins";
+
+
+//*** CORE ***
+@import "admin";
+@import "components/development";
+
+
+//*** PLACEHOLDERS ***
+@import "components/placeholders";
+@import "components/icon-svg-sprite.scss";
+
+
+//*** STYLEGUIDE ***
+@import "base_include";
+@import "forms_include";
+
+
+//*** JS PLUGINS ***
+@import "plugins/colorbox";
+//@import "plugins/flexslider";
+//@import "plugins/carousel";
+
+//*** FRONTEND ***
+@import "structure";
+@import "partials";
+@import "print";

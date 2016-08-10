@@ -1,0 +1,133 @@
+//------------------------------------------------------------------------------
+// SHOPPING_CART.SCSS **********************************************************
+// The default styling for the shopping cart block
+//------------------------------------------------------------------------------
+
+
+//*** SHOPPING CART BLOCK ***
+.shopping-cart__block {
+  float: right;
+  position: absolute !important; // logged in fix
+  right: em(95px);
+}
+
+.shopping-cart__link {
+  display: block;
+  color: inherit;
+}
+
+.shopping-cart__icon {
+  position: relative;
+  width: em(45px);
+  height: em(50px);
+  text-indent: em(-10000px);
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    margin-top: em(-12.5px);
+    margin-left: em(-9.5px);
+    @include icon(btn-cart);
+  }
+}
+
+.shopping-cart__quantity {
+  position: absolute;
+  top: em(10px, 11px);
+  left: em(25px, 11px);
+  width: em(16px, 11px);
+  height: em(16px, 11px);
+  border-radius: 100%;
+  @include font(11);
+  line-height: em(16px, 11px);
+  text-align: center;
+  background: $black;
+  color: $white;
+}
+
+.shopping-cart__links {
+  display: none;
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** SHOPPING CART BLOCK ***
+  .shopping-cart__block {
+    position: relative !important; // logged in fix
+    right: auto;
+    clear: right;
+    margin: em(15px) 0 0 em(20px);
+  }
+
+  .shopping-cart__link {
+    float: left;
+  }
+
+  .shopping-cart__icon {
+    float: left;
+    width: em(20px);
+    height: em(35px);
+  }
+
+  .shopping-cart__quantity {
+    float: left;
+    position: relative;
+    top: auto;
+    left: auto;
+    width: em(25px);
+    height: em(25px);
+    margin: em(5px) 0 0 em(5px);
+    @include font(16);
+    line-height: em(25px);
+  }
+
+  .shopping-cart__links {
+    float: left;
+    display: block;
+    margin-left: em(10px);
+  }
+
+  .shopping-cart__btn {
+    line-height: em(35px);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** SHOPPING CART BLOCK ***
+  .shopping-cart__block {
+    margin: em(20px) 0 0 em(30px);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

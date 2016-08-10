@@ -1,0 +1,143 @@
+//------------------------------------------------------------------------------
+// SOCIAL.SCSS *****************************************************************
+// The default styling for the social media and sharelinks.
+//------------------------------------------------------------------------------
+
+
+//*** SOCIAL MEDIA ***
+.social {
+  width: 100%;
+  float: left;
+  margin-bottom: em(30px);
+  text-align: center;
+
+  a {
+    text-indent: em(-10000px);
+    display: inline-block;
+    margin: 0 em(5px);
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  .facebook {
+    @include icon(facebook);
+  }
+
+  .googleplus {
+    @include icon(googleplus);
+  }
+
+  .linkedin {
+    @include icon(linkedin);
+  }
+
+  .pinterest {
+    @include icon(pinterest);
+  }
+
+  .twitter {
+    @include icon(twitter);
+  }
+
+  .youtube {
+    @include icon(youtube);
+  }
+
+  .vimeo {
+    @include icon(vimeo);
+  }
+
+  .linkedin {
+    @include icon(linkedin);
+  }
+}
+
+
+//*** SHARELINKS ***
+.sharelinks {
+  @extend %element-invisible;
+
+  a {
+    display: inline-block;
+    text-indent: em(-10000px);
+    margin-right: em(5px);
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  .facebook {
+    @include icon(facebook-share);
+  }
+
+  .googleplus {
+    @include icon(googleplus-share);
+  }
+
+  .linkedin {
+    @include icon(linkedin-share);
+  }
+
+  .pinterest {
+    @include icon(pinterest-share);
+  }
+
+  .twitter {
+    @include icon(twitter-share);
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** SOCIAL LINKS ***
+  .social {
+    float: right;
+    width: auto;
+    margin: 0;
+  }
+
+
+  //*** SHARELINKS ***
+  .sharelinks {
+    @include element-visible;
+    float: left;
+    width: 100%;
+    margin-bottom: em(30px);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

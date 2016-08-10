@@ -1,0 +1,240 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * @var String BHT_LINK_AUTOCOMPLETE_SETTINGS
+ */
+define("BHT_LINK_AUTOCOMPLETE_SETTINGS", 'bht_link_autocomplete_settings');
+
+/**
+ * @var String BHT_LINK_AUTOCOMPLETE_EXCLUDED
+ */
+define("BHT_LINK_AUTOCOMPLETE_EXCLUDED", 'bht_link_autocomplete_excluded');
+
+/**
+ * Implements hook_permission()
+ */
+function bht_link_autocomplete_permission() {
+  return array(
+    'administer link autocomplete settings' => array(
+      'title' => t("Update link autocomplete settings"),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu
+ */
+function bht_link_autocomplete_menu() {
+  // create a callback for the autocomplete page
+  $items['link/autocomplete'] = array(
+    'title' => "Link Autocomplete page",
+    'page callback' => '_link_autocomplete_content',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/bht/link-autocomplete'] = array(
+    'title' => 'Link autocomplete',
+    'description' => 'Administer the link autocomplete settings',
+    'access arguments' => array('administer link autocomplete settings'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('_bht_link_autocomplete_settings_form'),
+    'file' => 'bht_link_autocomplete.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_element_info_alter().
+ *
+ * This function adds the autocomplete field to the link textfield via a
+ * process function
+ */
+function bht_link_autocomplete_element_info_alter(&$types) {
+  $types['link_field']['#process'][] = 'bht_link_autocomplete_process_widget';
+}
+
+/**
+ * Implements MODULE_process_HOOK
+ */
+function bht_link_autocomplete_process_widget(&$element) {
+// add the custom autocomplete to the link (text)field
+  $element['url']['#autocomplete_path'] = 'link/autocomplete';
+
+  return $element;
+}
+
+/**
+ * Output the matches against a query via json data
+ * can be used as target of an autocomplete path
+ *
+ * @param String $arg
+ *   the string that has to be checked
+ *
+ * @todo: at the time of publication the db_select has a bug that having cannot be used with an or/and condition
+ * that is why we use the monster query underneath
+ */
+function _link_autocomplete_content($arg = '') {
+  $storage = variable_get(BHT_LINK_AUTOCOMPLETE_SETTINGS, array());
+  $process = FALSE;
+
+  $having = array();
+
+  $params = array(
+    ':alias' => "%{$arg}%",
+  );
+
+  if (isset($storage['node']) && !empty($storage['node'])) {
+    $process = TRUE;
+    $having[] = "(entity_type='node' AND bundle IN (:node_bundles))";
+    $params[':node_bundles'] = $storage['node'];
+  }
+
+  if (isset($storage['taxonomy_term']) && !empty($storage['taxonomy_term'])) {
+    $process = TRUE;
+    $having[] = "(entity_type='taxonomy_term' AND bundle IN (:taxonomy_bundles))";
+    $params[':taxonomy_bundles'] = $storage['taxonomy_term'];
+  }
+
+  if (isset($storage['entityform_type']) && !empty($storage['entityform_type'])) {
+    $process = TRUE;
+    $having[] = "(entity_type='entityform_type')";
+  }
+
+  if (!$process) {
+    drupal_json_output(array());
+    drupal_exit();
+  }
+
+  $sql = "SELECT source, alias, language, 
+CASE
+  WHEN ua.source REGEXP '[[:<:]]node[[:>:]]'
+	THEN
+		'node'
+  WHEN ua.source REGEXP '[[:<:]]taxonomy/term[[:>:]]'
+	THEN
+		'taxonomy_term'
+  WHEN ua.source REGEXP '[[:<:]]user[[:>:]]'
+	THEN
+		'user'
+  WHEN ua.source REGEXP '[[:<:]]eform/submit[[:>:]]'
+	THEN
+		'entityform_type'
+END as entity_type,
+CASE
+	WHEN ua.source REGEXP '[[:<:]]node[[:>:]]'
+	THEN
+		replace(ua.source, 'node/','')
+  WHEN ua.source REGEXP '[[:<:]]taxonomy/term[[:>:]]'
+	THEN
+		replace(ua.source, 'taxonomy/term/','')
+  WHEN ua.source REGEXP '[[:<:]]user[[:>:]]'
+	THEN
+		replace(ua.source, 'user/','')
+  WHEN ua.source REGEXP '[[:<:]]eform/submit[[:>:]]'
+	THEN
+		replace(ua.source, 'eform/submit/','')
+END as entity_id,
+CASE
+	WHEN ua.source REGEXP '[[:<:]]node[[:>:]]'
+	THEN
+		(SELECT type FROM node WHERE nid=entity_id)
+  WHEN ua.source REGEXP '[[:<:]]taxonomy/term[[:>:]]'
+	THEN
+		(SELECT v.machine_name FROM taxonomy_term_data AS d LEFT JOIN taxonomy_vocabulary AS v ON d.vid=v.vid WHERE tid=entity_id)
+  WHEN ua.source REGEXP '[[:<:]]user[[:>:]]'
+	THEN
+		'user'
+	WHEN ua.source REGEXP '[[:<:]]eform/submit[[:>:]]'
+	THEN
+		'entityform_type'
+END AS bundle
+ FROM url_alias AS ua WHERE ua.alias like :alias";
+
+  if (!empty($having)) {
+    $sql .= " HAVING " . implode(' OR ', $having);
+    $sql .= " ORDER BY ua.alias ASC";
+  }
+
+  $results = db_query($sql, $params)->fetchAll();
+
+  $matches = array();
+
+  foreach ($results as $result) {
+    $url_alias_text = _get_entity_title_by_alias_source($result->source);
+    $matches[$result->source] = !is_null($url_alias_text) ? $url_alias_text : $result->alias;
+
+    if (module_exists('locale')) {
+      $matches[$result->source] .= $result->language != 'und' ? " ({$result->language})" : "";
+    }
+  }
+
+  drupal_json_output($matches);
+  drupal_exit();
+}
+
+/**
+ * Inserts a wildcard into a string. This replaces token replaceable strings.
+ *
+ * @param String $str
+ *   the token replacable string
+ * @param String $wildcard
+ *   the wildcard you would like to insert into the string
+ *
+ * @return String
+ *   the cleaned string
+ */
+function _replace_token_by_wildcard($str, $wildcard = "%") {
+  while (strpos($str, ']') != 0 && strpos($str, '[') != 0):
+    $start = strpos($str, '[');
+    $end = strpos($str, ']');
+
+    $str = substr_replace($str, $wildcard, $start, ($end + 1) - $start);
+
+  endwhile;
+
+  return $str;
+}
+
+/**
+ * Retrieve the entity title from a given path alias
+ *
+ * @param String $source
+ *   the internal not aliased url path
+ *
+ * @return String
+ *   the title or NULL if the entity has no title or wasn't found
+ */
+function _get_entity_title_by_alias_source($source) {
+  $exploded = explode("/", $source);
+  // check if the input is a node entity
+  if ($exploded[0] == 'node') {
+    $result = db_select('node', 'n')
+      ->condition('nid', $exploded[1], '=')
+      ->fields('n', array('title'))
+      ->execute()->fetchField();
+  }
+
+  // check if the input is a user
+  if ($exploded[0] == 'user') {
+    $result = db_select('users', 'u')
+      ->condition('uid', $exploded[1], '=')
+      ->fields('u', array('name'))
+      ->execute()->fetchField();
+  }
+
+  // check if the input is a taxonomy term
+  if ($exploded[0] == 'taxonomy' && $exploded[1] == 'term') {
+    $result = db_select('taxonomy_term_data', 'ttd')
+      ->condition('tid', $exploded[2], '=')
+      ->fields('ttd', array('name'))
+      ->execute()->fetchField();
+  }
+
+  return isset($result) && $result ? $result : NULL;
+}

@@ -1,0 +1,99 @@
+//------------------------------------------------------------------------------
+// BREADCRUMB.SCSS *************************************************************
+// Default breadcrumb styling
+//------------------------------------------------------------------------------
+
+
+#breadcrumb {
+  float: left;
+  width: 100%;
+}
+
+.breadcrumb__title {
+  display: none;
+}
+
+.breadcrumb__list {
+  @include reset-list;
+  display: none;
+}
+
+.breadcrumb__back {
+  margin-bottom: em(20px);
+
+  .breadcrumb__text:before {
+    content: '\00AB';
+    margin-right: em(10px);
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  #breadcrumb {
+    margin-bottom: em(20px);
+  }
+
+  .breadcrumb__title {
+    display: inline-block;
+    @include element-invisible;
+  }
+
+  .breadcrumb__list {
+    display: inline-block;
+    line-height: em(35px);
+  }
+
+  .breadcrumb__item {
+    display: inline-block;
+
+    &:after {
+      content: '\00BB';
+      margin: 0 em(10px);
+    }
+
+    &.last:after {
+      content: none;
+    }
+  }
+
+  .breadcrumb__link {
+    display: inline-block;
+  }
+
+  .breadcrumb__back {
+    display: none;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

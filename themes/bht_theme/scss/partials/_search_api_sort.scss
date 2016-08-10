@@ -1,0 +1,111 @@
+//--------------------------------------------------------------------------------
+// SEARCH_API_SORT.SCSS **********************************************************
+// This file is used for the styling of the AIM's Search API sort
+//--------------------------------------------------------------------------------
+
+
+.search-api-sort {
+  float: left;
+  width: 100%;
+  margin-bottom: em(20px);
+}
+
+.search-api-sort__label {
+  float: left;
+  margin-right: em(10px);
+  line-height: em(35px);
+  font-weight: 700;
+}
+
+.search-api-sort__inner {
+  float: left;
+  position: relative;
+  min-width: em(185px);
+  border: 1px solid $grey;
+  cursor: pointer;
+}
+
+.search-api-sort__title {
+  position: relative;
+  margin: 0;
+  padding: 0 em(32px) 0 em(12px);
+  line-height: em(35px);
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: em(12px);
+    width: 0;
+    height: 0;
+    margin-top: em(-3px);
+    border-right: 4.5px solid transparent;
+    border-top: 6px solid $grey-dark;
+    border-left: 4.5px solid transparent;
+  }
+}
+
+.search-api-sort__list {
+  @include reset-list;
+  position: absolute;
+  display: none;
+  top: em(36px);
+  right: em(-1px);
+  left: em(-1px);
+  background: $white;
+  border-left: 1px solid $grey;
+  border-bottom: 1px solid $grey;
+  border-right: 1px solid $grey;
+  z-index: 1;
+}
+
+.search-api-sort__link {
+  display: block;
+  padding: 0 em(12px);
+  line-height: em(35px);
+  color: $black;
+  text-decoration: none;
+  @include transition(all 0.2s ease-in-out);
+
+  &:hover,
+  &.active-sort {
+    background: $grey-dark;
+    color: $white;
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

@@ -1,0 +1,144 @@
+//------------------------------------------------------------------------------
+// MIXINS.SCSS *****************************************************************
+// This file is used to quickly style different elements of the website.
+//------------------------------------------------------------------------------
+
+
+//*** RESET CSS FOR AN UNORDERED LIST ***
+@mixin reset-list() {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+//*** OPACITY CROSSBROWSER ***
+@mixin opacity($opacity) {
+  // IE 8
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})";
+  // Netscape
+  -moz-opacity: $opacity;
+  // Safari 1.x
+  -khtml-opacity: $opacity;
+  // Good browsers
+  opacity: $opacity;
+}
+
+
+//*** ALTERNATIVE FOR RGBA-PNG ***
+@mixin rgba-bg($color:$black, $opacity:0.7) {
+  background: tint($color, 100% - (100 * $opacity));
+  background: rgba(red($color), green($color), blue($color), $opacity);
+}
+
+
+//*** ALTERNATIVE FOR ADJUST-FONT-SIZE-TO() ***
+@mixin font($to-size, $lines: $to-size/$base-font-size, $from-size: $base-font-size) {
+  font-size: em($to-size, $from-size);
+  line-height: 1em * ($lines * $line-height) / em($to-size, $base-font-size);
+}
+
+
+//*** HYPHENATE ***
+@mixin hyphenate($hyphens: auto, $breaks: normal, $wraps: break-word) { // $hyphens: none | manual | auto || $breaks: normal | break-all | keep-all || $wraps: normal | break-word
+  @include hyphens($hyphens);
+  @include word-break($breaks);
+  word-wrap: $wraps;
+}
+
+
+//*** HYPHENS ***
+@mixin hyphens($value: auto) { // none | manual | auto
+  @include prefixer(hyphens, $value, webkit moz ms o spec);
+  @include prefixer(hyphenate-character, '\002D', webkit moz ms o spec);
+}
+
+
+//*** WORD BREAK ***
+@mixin word-break($value: normal) { // normal | break-all | keep-all
+  @include prefixer(word-break, $value, ms spec);
+}
+
+
+//*** BREAK-OUT ***
+$allowed-directions: ("left", "right");
+@mixin break-out($value: 100%, $direction: default) {
+  @include prefixer(box-sizing, content-box, webkit moz spec);
+
+  @if $direction != default {
+    @if index($allowed-directions, $direction) {
+      margin-#{$direction}: -$value;
+      padding-#{$direction}: $value;
+    }
+    @else {
+      @warn "The given direction is not valid."
+    }
+  }
+  @else {
+    margin-left: -$value;
+    margin-right: -$value;
+    padding-left: $value;
+    padding-right: $value;
+  }
+
+  * {
+    @include prefixer(box-sizing, border-box, webkit moz spec);
+  }
+}
+
+
+//*** SELECTION COLOR ***
+@mixin selection($background:$highlight, $text:$white) {
+  &::selection {
+    background-color: $background;
+    color: $text;
+  }
+  // Webkit based browsers
+  &::-webkit-selection {
+    background-color: $background;
+    color: $text;
+  }
+  // Mozilla based browsers
+  &::-moz-selection {
+    background-color: $background;
+    color: $text;
+  }
+  // Opera
+  &::-o-selection {
+    background-color: $background;
+    color: $text;
+  }
+  // Internet Explorer
+  &::-ms-selection {
+    background-color: $background;
+    color: $text;
+  }
+}
+
+
+//*** ICON SHORTHAND ***
+@mixin icon($icon) {
+  @extend %icon-#{$icon};
+  @extend %icon-#{$icon}-dims;
+}
+
+
+//*** HIDE ELEMENTS ***
+@mixin element-invisible($position: absolute) {
+  position: $position;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+
+//*** SHOW ELEMENTS ***
+@mixin element-visible($position: relative) {
+  position: $position;
+  height: auto;
+  width: auto;
+  overflow: inherit;
+  clip: inherit;
+}

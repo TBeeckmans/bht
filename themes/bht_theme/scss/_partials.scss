@@ -1,0 +1,41 @@
+//------------------------------------------------------------------------------
+// PARTIALS.SCSS ***************************************************************
+// Partial breakdown
+//------------------------------------------------------------------------------
+
+
+//*** GRID HELPERS ***
+//@import "partials/grid/columns";
+//@import "partials/grid/grid_placeholders";
+@import "partials/grid/overview";
+@import "partials/grid/the_aim_taxonomy";
+
+
+//*** GENERAL ***
+@import "partials/article";
+@import "partials/file";
+@import "partials/image";
+@import "partials/table_field";
+@import "partials/video";
+@import "partials/tab";
+@import "partials/company_logo";
+@import "partials/cookies";
+
+
+//*** NAVIGATION ***
+@import "partials/menus";
+@import "partials/language_switcher";
+@import "partials/breadcrumb";
+@import "partials/back";
+@import "partials/pager";
+
+//*** CONTENT ***
+@import "partials/banner";
+@import "partials/block";
+@import "partials/contact";
+@import "partials/faq";
+@import "partials/form";
+@import "partials/news";
+@import "partials/search";
+@import "partials/social";
+@import "partials/usp";

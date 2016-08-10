@@ -1,0 +1,390 @@
+//--------------------------------------------------------------------------------
+// ADMIN.SCSS ********************************************************************
+// Default admin styling
+//--------------------------------------------------------------------------------
+
+
+//*** GENERAL ***
+.element-invisible { @extend %element-invisible; }
+
+nav.tabs,
+#admin-menu {
+ display: none;
+}
+
+html body.admin-menu {
+ margin-top: 0px !important;
+}
+
+
+//*** TABS ***
+nav ul.primary {
+  float: left;
+  width: 100%;
+  margin: 0 0 em(15px) 0;
+  padding: 0;
+
+  li {
+    display: block;
+    margin-bottom: em(3px);
+
+    a {
+      display: block;
+      padding: em(5px) em(10px);
+      background: $grey;
+      text-decoration: none;
+      color: $white;
+
+      &:hover {
+        background: lighten($grey, 10%);
+      }
+
+      &.active {
+        background: darken($grey, 20%);
+      }
+    }
+  }
+}
+
+li.krumo-child {
+  float: none;
+}
+
+
+//*** MESSAGES ***
+.messages {
+  float: left;
+  width: 100%;
+  margin: 0 0 em(20px);
+  padding: em(10px);
+  border: 1px solid #be7;
+  color: #234600;
+  background: #f8fff0;
+
+  &.warning {
+    border-color: #ed5;
+    color: #840;
+    background: #fffce5;
+  }
+
+  &.error {
+    border-color: #ed541d;
+    color: #8c2e0b;
+    background: #fef5f1;
+  }
+}
+
+
+//*** CONTEXTUAL LINKS ***
+
+// Contextual links regions
+.contextual-links-region {
+  outline: none !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.contextual-links-region-active {
+  outline: #999 dashed 1px !important;
+}
+
+// Contextual links
+div.contextual-links-wrapper {
+  display: none !important;
+  position: absolute !important;
+  top: em(2px) !important;
+  right: em(5px) !important; /* LTR */
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  font-size: 90% !important;
+  z-index: 999 !important;
+}
+
+html.js div.contextual-links-wrapper {
+  display: block !important;
+}
+
+a.contextual-links-trigger {
+  display: none !important;
+  width: em(28px) !important;
+  height: em(18px) !important;
+  margin: 0 !important;
+  padding: 0 em(2px) !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  outline: none !important;
+  text-indent: em(34px) !important; /* LTR */
+  overflow: hidden !important;
+  background: transparent url(../img/gear-select.png) no-repeat 2px 0 !important;
+}
+
+a.contextual-links-trigger:before {
+  content: "" !important;
+  display: inline !important;
+  background: transparent !important;
+}
+
+a.contextual-links-trigger:after {
+  content: "" !important;
+  display: inline !important;
+  background: transparent !important;
+}
+
+a.contextual-links-trigger:hover,
+div.contextual-links-active a.contextual-links-trigger {
+  background: transparent url(../img/gear-select.png) no-repeat 2px 0 !important;
+  background-position: 2px -18px !important;
+}
+
+div.contextual-links-active a.contextual-links-trigger {
+  position: relative !important;
+  border-bottom: none !important;
+  border-color: #ccc !important;
+  border-radius: 4px 4px 0 0 !important;
+  background-color: #fff !important;
+  z-index: 1 !important;
+}
+
+div.contextual-links-wrapper ul.contextual-links {
+  float: none !important;
+  display: none !important;
+  position: absolute !important;
+  top: em(18px) !important;
+  right: 0 !important;
+  width: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: em(5px) 0 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px 0 4px 4px !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  background-color: #fff !important;
+  z-index: 5 !important;
+}
+
+.contextual-links-region:hover a.contextual-links-trigger,
+div.contextual-links-active a.contextual-links-trigger,
+div.contextual-links-active ul.contextual-links {
+  display: block !important;
+}
+
+ul.contextual-links li {
+  float: none !important;
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  line-height: 100% !important;
+  list-style: none !important;
+  list-style-image: none !important;
+}
+
+ul.contextual-links li:before {
+  content: none !important;
+}
+
+ul.contextual-links li:after {
+  content: none !important;
+}
+
+div.contextual-links-wrapper a {
+  text-decoration: none !important;
+}
+
+ul.contextual-links li a {
+  display: block !important;
+  min-height: inherit !important;
+  margin: em(5px) 0 !important;
+  padding: em(5px) em(15px) em(5px) em(5px) !important;
+  border: 0 !important;
+  text-indent: 0 !important;
+  line-height: inherit !important;
+  color: #333 !important;
+  background: transparent !important;
+}
+
+ul.contextual-links li a:before {
+  content: "" !important;
+  display: inline !important;
+  background: transparent !important;
+}
+
+ul.contextual-links li a:after {
+  content: "" !important;
+  display: inline !important;
+  background: transparent !important;
+}
+
+ul.contextual-links li a:hover {
+  background-color: #bfdcee !important;
+  text-decoration: none !important;
+}
+
+
+//*** COMMERCE STICKY ***
+#sticky-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $white;
+  background: rgba(255,255,255,0.85);
+  z-index: 999;
+
+  &.show {
+    display: block;
+  }
+}
+
+#sticky-admin-block {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: em(800px);
+  height: em(550px);
+  margin: auto;
+  border: 1px solid $grey;
+  background: $white;
+  padding: em(25px);
+
+  ul {
+    float: left;
+    width: 25%;
+    height: 100%;
+  }
+
+  li {
+    position: relative;
+    width: em(180px);
+    min-height: em(80px);
+    margin: em(5px);
+    padding: em(10px);
+    border: 1px solid $grey;
+    cursor: pointer;
+
+    &:hover, &.selected {
+      background: rgb(204,204,204);
+      background: rgba(204,204,204,0.5);
+    }
+
+    &:first-child {
+      min-height: em(120px);
+    }
+  }
+
+  .delete {
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 0;
+    padding: em(5px) em(10px);
+    color: red;
+  }
+}
+
+#sticky-close {
+  position: absolute;
+  top: em(-30px);
+  right: em(-1px);
+  height: em(30px);
+  padding: 0 em(10px);
+  line-height: em(30px);
+  cursor: pointer;
+  background: $grey;
+}
+
+#sticky-select {
+  width: 100%;
+  float: left;
+  margin: 0 em(5px) em(15px) em(5px);
+
+  p {
+    float: left;
+    width: 50%;
+    margin: 0;
+  }
+
+  select {
+    float: right;
+    width: 50%;
+  }
+}
+
+#uberparents {
+  display: none;
+}
+
+.sticky-block {
+  p {
+    margin: 0 em(5px) em(25px) em(5px);
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** TABS ***
+  nav ul.primary {
+
+    li {
+      display: inline-block;
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** GENERAL ***
+  nav.tabs,
+  #admin-menu {
+    display: block;
+  }
+
+  html body.admin-menu {
+    margin-top: em(30px) !important;
+  }
+
+
+  //*** TABS ***
+  nav ul.primary {
+    border-bottom: 1px solid $grey;
+    margin: em(15px) 0;
+    white-space: nowrap;
+
+    li {
+      margin-bottom: 0;
+
+      a {
+        padding: em(5px) em(20px);
+      }
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}

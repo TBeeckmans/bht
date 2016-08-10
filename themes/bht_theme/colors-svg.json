@@ -1,0 +1,114 @@
+{
+  "btn-arrow-down": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-arrow-left": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-arrow-right": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-arrow-up": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-cart": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-close": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-menu-close": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-menu": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-search": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "btn-tag-remove": {
+    "fill": "@@grey-dark",
+    "stroke": "none"
+  },
+  "btn-user": {
+    "fill": "@@black",
+    "stroke": "none"
+  },
+  "cb-close": {
+    "fill": "@@white",
+    "stroke": "none"
+  },
+  "cb-prev": {
+    "fill": "none",
+    "stroke": "@@white"
+  },
+  "cb-next": {
+    "fill": "none",
+    "stroke": "@@white"
+  },
+  "facebook": {
+    "fill": "@@grey-dark",
+    "stroke": "none"
+  },
+  "googleplus": {
+    "fill": "@@grey-dark",
+    "stroke": "none"
+  },
+  "linkedin": {
+    "fill": "@@grey-dark",
+    "stroke": "none"
+  },
+  "pinterest": {
+    "fill": "@@grey-dark",
+    "stroke": "none"
+  },
+  "twitter": {
+    "fill": "@@grey-dark",
+    "stroke": "none"
+  },
+  "youtube": {
+    "fill": "@@grey-dark",
+    "stroke": "none"
+  },
+  "vimeo": {
+    "fill": "@@grey-dark",
+    "stroke": "none"
+  },
+  "facebook-share": {
+    "fill": "@@grey",
+    "stroke": "none"
+  },
+  "googleplus-share": {
+    "fill": "@@grey",
+    "stroke": "none"
+  },
+  "linkedin-share": {
+    "fill": "@@grey",
+    "stroke": "none"
+  },
+  "pinterest-share": {
+    "fill": "@@grey",
+    "stroke": "none"
+  },
+  "twitter-share": {
+    "fill": "@@grey",
+    "stroke": "none"
+  },
+  "theaim": {
+    "fill": "#888888",
+    "stroke": "none",
+    "a": {
+      "fill": "#9CD949",
+      "stroke": "none"
+    }
+  }
+}

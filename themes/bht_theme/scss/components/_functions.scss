@@ -1,0 +1,49 @@
+//------------------------------------------------------------------------------
+// FUNCTIONS.SCSS **************************************************************
+// This file is used to quickly calculate property values.
+//------------------------------------------------------------------------------
+
+
+//*** VERTICAL RHYTHM ***
+@function rhythm($lines:1, $from-size: $base-font-size) {
+  @return 1em * ($lines * $line-height) / em($from-size, $em-base-grid);
+}
+
+
+//*** PARSE SPAN COLUMN ARGUMENTS ***
+$allowed-span-column-arguments: ("omega");
+$params: () !default;
+@function parse-span-column-arguments(
+  $settings: $params
+) {
+  $return: ();
+
+  @each $var in $settings {
+    @if type-of($var) == string {
+      @if index($allowed-span-column-arguments, $var) {
+        $return: append($return, $var, comma);
+      }
+    }
+  }
+
+  @return $return;
+}
+
+
+//*** CONTAINER SPAN ***
+@function container-span($span: $span) {
+  $last: length($span) * 1;
+  $prev: $last - 1;
+  @if $last > 2 {
+    @if nth($span, $prev) == 'of' {
+      $container-columns: nth($span, $last);
+      @return $container-columns;
+    }
+    @else {
+      @return $grid-columns;
+    }
+  }
+  @else {
+    @return $grid-columns;
+  }
+}

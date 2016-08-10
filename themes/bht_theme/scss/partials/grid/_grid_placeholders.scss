@@ -1,0 +1,189 @@
+//------------------------------------------------------------------------------
+// GRID_PLACEHOLDERS.SCSS ******************************************************
+// This file is used to define an oocss grid placeholder system.
+//------------------------------------------------------------------------------
+
+
+@mixin col-setup($namespace: 'd-', $grid-columns: $grid-columns) {
+
+  &.#{$namespace}col2 > *:not(.contextual-links-wrapper) {
+    @include span-columns($grid-columns/2 of $grid-columns);
+    &:nth-of-type(even),
+    &.even {
+      @include omega;
+    }
+  }
+
+  &.#{$namespace}col3 > *:not(.contextual-links-wrapper) {
+    @include span-columns($grid-columns/3 of $grid-columns);
+    &:nth-of-type(odd),
+    &.even {
+      margin-right: flex-gutter($grid-columns);
+      float: left;
+    }
+    &:nth-of-type(3n),
+    &.third {
+      @include omega;
+    }
+  }
+  &.#{$namespace}w-col2 > *:not(.contextual-links-wrapper) > * {
+    @include span-columns($grid-columns/2 of $grid-columns);
+    &:nth-of-type(even),
+    &.even {
+      @include omega;
+    }
+  }
+
+  &.#{$namespace}w-col3 > *:not(.contextual-links-wrapper) > * {
+    @include span-columns($grid-columns/3 of $grid-columns);
+    &:nth-of-type(odd),
+    &.even {
+      margin-right: flex-gutter($grid-columns);
+      float: left;
+    }
+    &:nth-of-type(3n),
+    &.third {
+      @include omega;
+    }
+  }
+
+}
+
+@mixin grid-setup($namespace: 'd-') {
+
+  //*** NESTED COLUMNS ***
+  @include col-setup($namespace, $grid-columns);
+
+  
+  //*** FULL ***
+  .#{$namespace}1-1 {
+    width: 100%;
+    margin-right: 0;
+    float: left;
+    @include col-setup($namespace, $grid-columns);
+  }
+
+
+  //*** HALVES ***
+  .#{$namespace}1-2 {
+    @include span-columns($grid-columns/2);
+    @include col-setup($namespace, $grid-columns/2);
+  }
+
+  .#{$namespace}1-2-end {
+    @include span-columns($grid-columns/2 omega);
+    @include col-setup($namespace, $grid-columns/2);
+  }
+
+
+  //*** THIRDS ***
+  .#{$namespace}1-3 {
+    @include span-columns($grid-columns/3);
+    @include col-setup($namespace, $grid-columns/3);
+  }
+
+  .#{$namespace}2-3 {
+    @include span-columns($grid-columns*(2/3));
+    @include col-setup($namespace, $grid-columns*(2/3));
+  }
+
+  .#{$namespace}1-3-end {
+    @include span-columns($grid-columns/3 omega);
+    @include col-setup($namespace, $grid-columns/3);
+  }
+
+  .#{$namespace}2-3-end {
+    @include span-columns($grid-columns*(2/3) omega);
+    @include col-setup($namespace, $grid-columns*(2/3));
+  }
+
+
+  //*** QUARTERS ***
+  .#{$namespace}1-4 {
+    @include span-columns($grid-columns/4);
+    @include col-setup($namespace, $grid-columns/4);
+  }
+
+  .#{$namespace}2-4 {
+    @include span-columns($grid-columns/2);
+    @include col-setup($namespace, $grid-columns/2);
+  }
+
+  .#{$namespace}3-4 {
+    @include span-columns($grid-columns*(3/4));
+    @include col-setup($namespace, $grid-columns*(3/4));
+  }
+
+  .#{$namespace}1-4-end {
+    @include span-columns($grid-columns/4 omega);
+    @include col-setup($namespace, $grid-columns/4);
+  }
+
+  .#{$namespace}2-4-end {
+    @include span-columns($grid-columns/2 omega);
+    @include col-setup($namespace, $grid-columns/2);
+  }
+
+  .#{$namespace}3-4-end {
+    @include span-columns($grid-columns*(3/4) omega);
+    @include col-setup($namespace, $grid-columns*(3/4));
+  }
+
+  
+  //*** OMEGAS ***
+  .#{$namespace}end {
+    @include omega;
+  }
+
+  .#{$namespace}not-end {
+    margin-right: flex-gutter($grid-columns);
+    float: left;
+  }
+
+}
+
+@include grid-setup('d-');
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  @include grid-setup('b1-');
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  @include grid-setup('b2-');
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  @include grid-setup('b3-');
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+  @include grid-setup('b4-');
+
+}

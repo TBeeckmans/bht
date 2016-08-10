@@ -1,0 +1,141 @@
+//------------------------------------------------------------------------------
+// OVERVIEW.SCSS ***************************************************************
+// Default overview classes, the modifier responsive makes it a 2-2-3-4-4 layout
+//------------------------------------------------------------------------------
+
+
+//*** GENERAL OVERVIEW ***
+// Use this class to style an overview of items where every li has 100% width,
+// so where all items are displayed under each other
+.overview {
+  float: left;
+  width: 100%;
+  @include reset-list;
+}
+
+.overview__item {
+  float: left;
+  width: 100%;
+  margin: em(10px) 0;
+}
+
+
+//*** RESPONSIVE OVERVIEW ***
+// Use this class on an overview of list items where items need to be listed two per line on mobile,
+// three per line on tablet and four per line on desktop
+.overview--responsive {
+  float: left;
+  width: 100%;
+  @include reset-list;
+
+  .overview__item {
+    &.odd {
+      @include span-columns($grid-columns/2);
+    }
+
+    &.even {
+      @include span-columns($grid-columns/2 omega);
+    }
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** RESPONSIVE OVERVIEW ***
+  .overview--responsive {
+    
+    .overview__item {
+    
+      &.odd {
+        @include span-columns($grid-columns/2);
+      }
+
+      &.even {
+        @include span-columns($grid-columns/2 omega);
+      }
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** RESPONSIVE OVERVIEW ***
+  .overview--responsive {
+    
+    .overview__item {
+      
+      &.odd,
+      &.even {
+        @include span-columns($grid-columns/3);
+      }
+
+      &.third {
+        @include span-columns($grid-columns/3 omega);
+      } 
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** RESPONSIVE OVERVIEW ***
+  .overview--responsive {
+    
+    .overview__item {
+      
+      &.odd,
+      &.even,
+      &.third {
+        @include span-columns($grid-columns/4);
+      }
+
+      &.fourth {
+        @include span-columns($grid-columns/4 omega);
+      }
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+  //*** RESPONSIVE OVERVIEW ***
+  .overview--responsive {
+    
+    .overview__item {
+     
+      &.odd,
+      &.even,
+      &.third {
+        @include span-columns($grid-columns/4);
+      }
+
+      &.fourth {
+        @include span-columns($grid-columns/4 omega);
+      }
+    }
+  }
+
+}

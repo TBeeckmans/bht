@@ -1,0 +1,114 @@
+{
+  "btn-arrow-down": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-arrow-left": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-arrow-right": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-arrow-up": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-cart": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-close": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-menu-close": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-menu": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-search": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "btn-tag-remove": {
+    "fill": "#828282",
+    "stroke": "none"
+  },
+  "btn-user": {
+    "fill": "#000000",
+    "stroke": "none"
+  },
+  "cb-close": {
+    "fill": "#FFFFFF",
+    "stroke": "none"
+  },
+  "cb-prev": {
+    "fill": "none",
+    "stroke": "#FFFFFF"
+  },
+  "cb-next": {
+    "fill": "none",
+    "stroke": "#FFFFFF"
+  },
+  "facebook": {
+    "fill": "#828282",
+    "stroke": "none"
+  },
+  "googleplus": {
+    "fill": "#828282",
+    "stroke": "none"
+  },
+  "linkedin": {
+    "fill": "#828282",
+    "stroke": "none"
+  },
+  "pinterest": {
+    "fill": "#828282",
+    "stroke": "none"
+  },
+  "twitter": {
+    "fill": "#828282",
+    "stroke": "none"
+  },
+  "youtube": {
+    "fill": "#828282",
+    "stroke": "none"
+  },
+  "vimeo": {
+    "fill": "#828282",
+    "stroke": "none"
+  },
+  "facebook-share": {
+    "fill": "#CCCCCC",
+    "stroke": "none"
+  },
+  "googleplus-share": {
+    "fill": "#CCCCCC",
+    "stroke": "none"
+  },
+  "linkedin-share": {
+    "fill": "#CCCCCC",
+    "stroke": "none"
+  },
+  "pinterest-share": {
+    "fill": "#CCCCCC",
+    "stroke": "none"
+  },
+  "twitter-share": {
+    "fill": "#CCCCCC",
+    "stroke": "none"
+  },
+  "theaim": {
+    "fill": "#888888",
+    "stroke": "none",
+    "a": {
+      "fill": "#9CD949",
+      "stroke": "none"
+    }
+  }
+}

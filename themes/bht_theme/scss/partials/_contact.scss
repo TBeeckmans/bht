@@ -1,0 +1,197 @@
+//------------------------------------------------------------------------------
+// CONTACT.SCSS ****************************************************************
+// Default contact CT styling
+//------------------------------------------------------------------------------
+
+
+//*** GOOGLE MAPS ***
+.contact__map {
+  float: left;
+  width: 100%;
+  max-width: em($break-2-w);
+  margin-bottom: em(20px);
+}
+
+.map__canvas,
+#map__canvas {
+  height: em(400px) !important; /* Override of module css */
+  width: 100% !important; /* Override of module css */
+}
+
+.contact__overview {
+  float: left;
+  width: 100%;
+}
+
+.contact__item {
+  float: left;
+  width: 100%;
+  padding: em(10px);
+}
+
+
+//*** INLINE CONTACT ITEM ***
+.contact__item--inline {
+
+  %contact-div {
+    display: inline-block;
+    float: left;
+
+    &:after {
+      display: inline-block;
+      margin: 0 em(5px);
+      content: '|';
+    }
+  }
+
+  %contact-span {
+    display: inline-block;
+    float: left;
+
+    &:after {
+      display: inline-block;
+      margin: 0 em(10px) 0 em(-5px);
+      content: ',';
+    }
+  }
+
+  .contact__name {
+    @extend %contact-div;
+  }
+
+  .contact__address {
+    @extend %contact-div;
+
+    &:after {
+      content: none;
+    }
+
+    span {
+      @extend %contact-span;
+
+      &:nth-last-child(1) {
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .contact__email,
+  .contact__phone,
+  .contact__country {
+    @extend %contact-div;
+  }
+
+  .contact__email {
+    clear: left;
+  }
+
+  .contact__vat {
+    @extend %contact-div;
+
+    &:after {
+      content: none;
+    }
+  }
+}
+
+
+.contact__main--contact-form {
+  float: left;
+  width: 100%;
+  margin-bottom: em(15px);
+}
+
+
+.contact__main--footer {
+  float: left;
+  width: 100%;
+  margin-bottom: em(15px);
+  text-align: center;
+
+  .label--inline {
+    float: none;
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** GOOGLE MAPS ***
+  .contact__overview {
+    .contact__item {
+      width: 50%;
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** CONTACT MAIN ***
+  .contact__main--contact-form {
+    @include span-columns(4 omega);
+  }
+
+  .contact__main--footer {
+    @include span-columns(4);
+    text-align: left;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** GOOGLE MAPS ***
+  .contact__overview {
+    .contact__item {
+      width: 33%;
+    }
+  }
+
+  //*** CONTACT MAIN ***
+  .contact__main--contact-form {
+    @include span-columns(6 omega);
+  }
+
+  .contact__main--footer {
+    @include span-columns(4);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+  //*** GOOGLE MAPS ***
+  .contact__overview {
+    .contact__item {
+      width: 25%;
+    }
+  }
+
+  //*** CONTACT MAIN ***
+  .contact__main--contact-form {
+    @include span-columns(10 omega);
+  }
+
+}

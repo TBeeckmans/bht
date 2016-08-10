@@ -1,0 +1,58 @@
+//------------------------------------------------------------------------------
+// NEAT_OVERRIDES.SCSS *********************************************************
+// This file overrides a few neat mixins and functions to our needs
+//------------------------------------------------------------------------------
+
+
+//*** OMEGA ***
+$allowed-directions: ("left", "right");
+@mixin omega($direction: default, $float: true) {
+  @if $direction != default {
+    @if index($allowed-directions, $direction) {
+      margin-#{$direction}: 0;
+      @if $float {
+        float: $direction;
+      }
+    }
+    @else {
+      @warn "The given direction is not valid."
+    }
+  }
+  @else {
+    $direction: get-direction($layout-direction, $default-layout-direction);
+    margin-#{$direction}: 0;
+    @if $float {
+      float: $direction;
+    }
+  }
+}
+
+
+//*** SPAN COLUMNS ***
+$columns: $grid-columns !default;
+$container-columns: $grid-columns !default;
+@mixin span-columns($span: $columns of $container-columns) {
+  $columns: nth($span,1);
+  $args: parse-span-column-arguments($span);
+  $container-columns: container-span($span);
+
+  $direction: get-direction($layout-direction, $default-layout-direction);
+  $opposite: get-opposite-direction($direction);
+
+  width: flex-grid($columns, $container-columns);
+  @if $columns == $container-columns {
+    float: #{$opposite};
+    @if index($args, "omega") {
+      @include omega(default, false);
+    }
+  }
+  @else {
+    @if index($args, "omega") {
+      @include omega;
+    }
+    @else {
+      margin-#{$direction}: flex-gutter($container-columns);
+      float: #{$opposite};
+    }
+  }
+}

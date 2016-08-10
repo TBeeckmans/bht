@@ -1,0 +1,308 @@
+//------------------------------------------------------------------------------
+// BASE_INCLUDE.SCSS ***********************************************************
+// Default base/text/elements styling
+//------------------------------------------------------------------------------
+
+
+//*** BODY ***
+body {
+  font-family: $base-font-family;
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-tap-highlight-color: rgba(red($highlight), green($highlight), blue($highlight), 0.5);
+  -webkit-text-size-adjust: 100%; // Prevents automatic text resize on screen resize
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+//*** HEADINGS ***
+h1,
+h2,
+h3 {
+  @include hyphenate();
+  margin: 0 0 em(10px);
+}
+
+h1 {
+  @include font(28);
+}
+
+h2 {
+  @include font(22, 1.2);
+}
+
+h3 {
+  @include font(18);
+}
+
+h4,
+h5,
+h6 {
+  margin-bottom: em(5px);
+  font-weight: bold;
+}
+
+.page-title {
+  @extend h1;
+}
+
+.page-title--intro { }
+
+.page-title--pseudo { }
+
+.item-title {
+  @extend h4;
+}
+
+
+//*** TEXT ***
+p {
+  font-size: em($base-font-size);
+  margin: 0 0 em(20px);
+}
+
+.clear {
+  clear: both;
+}
+
+p.title {
+  @extend h3;
+}
+
+p.intro {
+  font-weight: bold;
+  font-style: italic;
+}
+
+blockquote {
+  padding: em(10px) em(20px);
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+b, strong, caption, th, thead, dt, legend {
+  font-weight: bold;
+}
+
+cite, dfn, em, i {
+  font-style: italic;
+  font-weight: normal;
+}
+
+abbr, acronym {
+  text-transform: uppercase;
+}
+
+sup, sub {
+  line-height: 0;
+}
+
+sup {
+  vertical-align: super;
+}
+
+sub {
+  vertical-align: sub;
+}
+
+code, kbd, samp, pre, tt, var {
+  font-family: mono-space, monospace;
+}
+
+.rteright { text-align: right; }
+.rtecenter { text-align: center; }
+.rtejustify { text-align: justify; }
+
+
+//*** LINKS ***
+a {
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+a[href^="fax:"] {
+  cursor: text;
+  text-decoration: none;
+  color: inherit;
+}
+
+
+//*** BUTTONS - GENERAL ***
+.btn {
+  display: inline-block;
+  padding: em(8px) em(15px);
+  border: 1px solid transparent;
+  border-radius: 5px;
+  text-decoration: none;
+  color: $white;
+}
+
+
+//*** BUTTONS - BUTTON DEFAULT ***
+.btn--default {
+  color: $black;
+  background: $white;
+  border-color: $grey;
+
+  &:hover {
+    background: $grey-light;
+  }
+}
+
+
+//*** BUTTONS - BUTTON MORE ***
+.btn--more {
+  color: $black;
+  background: $white;
+  border-color: $grey;
+
+  &:hover {
+    background: $grey-light;
+  }
+
+  &:after {
+    content: " \003E";
+  }
+}
+
+
+//*** BUTTONS - BUTTON SUCCESS ***
+.btn--success {
+  background: $success;
+  border-color: $success;
+
+  &:hover {
+    background: darken($success, 5%);
+  }
+}
+
+
+//*** BUTTONS - BUTTON WARNING ***
+.btn--warning {
+  background: $warning;
+  border-color: $warning;
+
+  &:hover {
+    background: darken($warning, 5%);
+  }
+}
+
+
+//*** BUTTONS - BUTTON DANGER ***
+.btn--danger {
+  background: $danger;
+  border-color: $danger;
+
+  &:hover {
+    background: darken($danger, 5%);
+  }
+}
+
+
+//*** BUTTONS - BUTTON LINK ***
+.btn--link {
+  padding: 0;
+  text-decoration: underline;
+  color: $link;
+  background: transparent;
+}
+
+
+//*** IMAGES ***
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// FIX: Google Maps Zoom control not displaying properly
+.gmnoprint img {
+  max-width: none;
+}
+
+.ie8 img {
+  width: auto;
+}
+
+img.left {
+  float: left;
+  margin: 0 em(10px) em(10px) 0;
+}
+
+img.right {
+  float: right;
+  margin: 0 0 em(10px) em(10px);
+}
+
+
+//*** LIST ITEMS ***
+article,
+body.cke_show_borders {
+  ul,
+  ol {
+    padding-left: em(20px);
+    margin: 0 0 em(20px);
+    overflow: hidden;
+  }
+
+  ul {
+    list-style: square;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li.rtecenter {
+    list-style-position: inside;
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** LINKS ***
+  a[href^="tel:"] {
+    text-decoration: none;
+    color: inherit;
+    cursor: text;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

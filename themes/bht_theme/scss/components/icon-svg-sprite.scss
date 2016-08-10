@@ -1,0 +1,269 @@
+%icon {
+  background-image: url(../img/spritesheet.png);
+  background-repeat: no-repeat;
+
+  html.svg & {
+    background-image: url(../img/spritesheet.svg);
+  }
+}
+
+%icon-btn-arrow-down {
+  @extend %icon;
+  background-position: 0 0;
+}
+
+%icon-btn-arrow-down-dims {
+  width: 25px;
+  height: 25px;
+}
+
+%icon-btn-arrow-left {
+  @extend %icon;
+  background-position: 0 -25px;
+}
+
+%icon-btn-arrow-left-dims {
+  width: 25px;
+  height: 25px;
+}
+
+%icon-btn-arrow-right {
+  @extend %icon;
+  background-position: 0 -50px;
+}
+
+%icon-btn-arrow-right-dims {
+  width: 25px;
+  height: 25px;
+}
+
+%icon-btn-arrow-up {
+  @extend %icon;
+  background-position: 0 -75px;
+}
+
+%icon-btn-arrow-up-dims {
+  width: 25px;
+  height: 25px;
+}
+
+%icon-btn-cart {
+  @extend %icon;
+  background-position: 0 -100px;
+}
+
+%icon-btn-cart-dims {
+  width: 19px;
+  height: 25px;
+}
+
+%icon-btn-close {
+  @extend %icon;
+  background-position: 0 -125px;
+}
+
+%icon-btn-close-dims {
+  width: 25px;
+  height: 25px;
+}
+
+%icon-btn-menu {
+  @extend %icon;
+  background-position: 0 -150px;
+}
+
+%icon-btn-menu-dims {
+  width: 34px;
+  height: 35px;
+}
+
+%icon-btn-menu-close {
+  @extend %icon;
+  background-position: 0 -185px;
+}
+
+%icon-btn-menu-close-dims {
+  width: 34px;
+  height: 35px;
+}
+
+%icon-btn-search {
+  @extend %icon;
+  background-position: 0 -220px;
+}
+
+%icon-btn-search-dims {
+  width: 18px;
+  height: 18.1px;
+}
+
+%icon-btn-user {
+  @extend %icon;
+  background-position: 0 -239px;
+}
+
+%icon-btn-user-dims {
+  width: 15px;
+  height: 22px;
+}
+
+%icon-cb-close {
+  @extend %icon;
+  background-position: 0 -261px;
+}
+
+%icon-cb-close-dims {
+  width: 20px;
+  height: 20px;
+}
+
+%icon-cb-next {
+  @extend %icon;
+  background-position: 0 -281px;
+}
+
+%icon-cb-next-dims {
+  width: 19.1px;
+  height: 36.7px;
+}
+
+%icon-cb-prev {
+  @extend %icon;
+  background-position: 0 -318px;
+}
+
+%icon-cb-prev-dims {
+  width: 19.1px;
+  height: 36.7px;
+}
+
+%icon-facebook {
+  @extend %icon;
+  background-position: 0 -355px;
+}
+
+%icon-facebook-dims {
+  width: 20.3px;
+  height: 31px;
+}
+
+%icon-facebook-share {
+  @extend %icon;
+  background-position: 0 -386px;
+}
+
+%icon-facebook-share-dims {
+  width: 20.3px;
+  height: 31px;
+}
+
+%icon-googleplus {
+  @extend %icon;
+  background-position: 0 -417px;
+}
+
+%icon-googleplus-dims {
+  width: 37.7px;
+  height: 31px;
+}
+
+%icon-googleplus-share {
+  @extend %icon;
+  background-position: 0 -448px;
+}
+
+%icon-googleplus-share-dims {
+  width: 37.7px;
+  height: 31px;
+}
+
+%icon-linkedin {
+  @extend %icon;
+  background-position: 0 -479px;
+}
+
+%icon-linkedin-dims {
+  width: 37.1px;
+  height: 31px;
+}
+
+%icon-linkedin-share {
+  @extend %icon;
+  background-position: 0 -510px;
+}
+
+%icon-linkedin-share-dims {
+  width: 37.1px;
+  height: 31px;
+}
+
+%icon-pinterest {
+  @extend %icon;
+  background-position: 0 -541px;
+}
+
+%icon-pinterest-dims {
+  width: 30.1px;
+  height: 31px;
+}
+
+%icon-pinterest-share {
+  @extend %icon;
+  background-position: 0 -572px;
+}
+
+%icon-pinterest-share-dims {
+  width: 30.1px;
+  height: 31px;
+}
+
+%icon-theaim {
+  @extend %icon;
+  background-position: 0 -603px;
+}
+
+%icon-theaim-dims {
+  width: 80px;
+  height: 17px;
+}
+
+%icon-twitter {
+  @extend %icon;
+  background-position: 0 -620px;
+}
+
+%icon-twitter-dims {
+  width: 47.6px;
+  height: 31px;
+}
+
+%icon-twitter-share {
+  @extend %icon;
+  background-position: 0 -651px;
+}
+
+%icon-twitter-share-dims {
+  width: 47.6px;
+  height: 31px;
+}
+
+%icon-vimeo {
+  @extend %icon;
+  background-position: 0 -682px;
+}
+
+%icon-vimeo-dims {
+  width: 42.1px;
+  height: 31px;
+}
+
+%icon-youtube {
+  @extend %icon;
+  background-position: 0 -713px;
+}
+
+%icon-youtube-dims {
+  width: 32.9px;
+  height: 31px;
+}
+

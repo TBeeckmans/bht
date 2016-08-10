@@ -1,0 +1,389 @@
+//--------------------------------------------------------------------------------
+// SEO_FILTERS.SCSS **************************************************************
+// This file is used for the styling of the AIM's seo filters
+//--------------------------------------------------------------------------------
+
+
+//*** SEO FILTER BLOCK ***
+.seo-filter {
+  float: left;
+  width: 100%;
+  margin-bottom: em(20px);
+}
+
+.seo-filter__title {
+  margin-bottom: em(5px);
+  padding-bottom: em(5px);
+  border-bottom: 1px solid $grey;
+}
+
+.seo-filter__content {
+  float: left;
+  width: 100%;
+}
+
+.seo-filter__single {
+  font-weight: 600;
+}
+
+.seo-filter--toggle {
+
+  .seo-filter__title {
+    position: relative;
+    cursor: pointer;
+
+    &:after {
+      content: "+";
+      position: absolute;
+      top: 0;
+      right: 0;
+      @include font(20);
+      font-weight: 700;
+      @include transition(all 0.2s ease-in-out);
+    }
+  }
+
+  .seo-filter__content {
+    display: none;
+    padding-bottom: em(10px);
+  }
+}
+
+.seo-filter .open {
+
+  .seo-filter__title {
+    
+    &:after {
+      @include transform(rotate(45deg));
+    }
+  }
+}
+
+
+//*** SEO RANGE FILTER ***
+.ui-widget {
+  font-size: $font-size;
+}
+
+.seo-filter__range-slider {
+  display: none;
+  margin-top: em(15px);
+  height: em(12px);
+  border: 1px solid $grey-light;
+  border-radius: 0;
+  box-shadow: inset 0 em(2px) em(6px) $grey;
+
+  .ui-widget-header {
+    background: $grey;
+  }
+
+  .ui-slider-handle {
+    width: em(20px);
+    height: em(20px);
+    border: none;
+    border-radius: 100%;
+    background: $grey-dark;
+    cursor: pointer;
+  }
+}
+
+.seo-filter__range-form {
+  margin-top: em(5px);
+
+  input[type="text"] {
+    width: 39%;
+    margin: 0 2% 0 0;
+    height: em(35px);
+    line-height: em(35px);
+    background: $white;
+  }
+  
+  input[type="submit"] {
+    float: left;
+    width: 18%;
+    height: em(35px);
+    margin: 0;
+    padding: 0;
+    text-indent: em(-10000px);
+    background: url(../img/btn-range.png) no-repeat 50% 50% $grey-dark;
+  }
+}
+
+
+//*** SEO FILTER LIST ***
+.seo-filter__list {
+  @include reset-list;
+
+  .seo-filter__list {
+    padding-left: em(20px);
+  }
+}
+
+.seo-filter__item {
+  float: left;
+  width: 100%;
+}
+
+.seo-filter__link {
+  float: left;
+  clear: both;
+  position: relative;
+  padding-left: em(20px);
+  line-height: em(30px);
+  color: inherit;
+  text-decoration: none;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: em(8px);
+    left: 0;
+    width: em(12px);
+    height: em(12px);
+    border: 1px solid $grey-dark;
+  }
+}
+
+.seo-filter__link--active {
+  
+  &:before {
+    background: $grey-dark;
+  }
+}
+
+.seo-filter__prediction {
+  color: $grey-dark;
+}
+
+
+//*** SEO FILTER COLLAPSE ***
+.seo-filter__collapse {
+
+  &.seo-filter__collapsed {
+    @extend %element-invisible;
+  }
+}
+
+.seo-filter__collapse-toggle {
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+
+//*** SEO FILTER SHOW RESULTS ***
+.seo-filter-show-results {
+  float: left;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+
+//*** SEO FILTER TOGGLE ***
+.seo-filter__toggle {
+  @include span-columns(1.5);
+  margin-bottom: em(20px);
+}
+
+.seo-filter__toggle-link {
+  display: block;
+  position: relative;
+  @include break-out($gutter/2, 'left');
+  margin-bottom: 0;
+  line-height: em(35px);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  background: $grey-dark;
+  color: $white;
+
+  &:after {
+    content: "";
+    position: absolute;
+    right: em(-12px);
+    width: 0;
+    height: 0;
+    border-top: 17.5px solid transparent;
+    border-bottom: 17.5px solid transparent;
+    border-left: 12px solid $grey-dark;
+  }
+}
+
+
+//*** SEO FILTER TAGS ***
+.seo-filter-tags {
+  @include span-columns(2.5 omega);
+  margin-bottom: em(15px);
+}
+
+.seo-filter-tag__link {
+  position: relative;
+  float: left;
+  display: none;
+  margin-right: em(5px);
+  padding: 0 em(40px) 0 em(15px);
+  border-radius: 5px;
+  line-height: em(35px);
+  text-decoration: none;
+  color: $black;
+  background: $grey-light;
+  @include transition(all 0.2s ease-in-out);
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: em(12px);
+    margin-top: em(-4.5px);
+    @include icon(btn-tag-remove);
+  }
+
+  &:hover {
+    background: $grey;
+  }
+}
+
+.seo-filter-tag__link--remove {
+  display: block;
+  margin: 0 0 0 em(5px);
+  padding: 0;
+  background: transparent;
+
+  &:after {
+    content: none;
+  }
+
+  &:hover {
+    background: transparent;
+    text-decoration: underline;
+  }
+}
+
+
+//*** SEO FILTER LOADING ***
+.seo-filter__loading {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 3;
+  @include transition(all 0.2s ease-in-out);
+}
+
+.seo-filter__throbber {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding-top: em(60px);
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  background: url(../img/filter-loading.gif) no-repeat 50% 0 transparent;
+  @include transform(translate(-50%, -50%));
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** SEO FILTER BLOCK ***
+  .seo-filter {
+    padding: 0;
+    margin-bottom: em(30px);
+  }
+
+  .seo-filter__title {
+    margin-bottom: em(10px);
+  }
+
+  .seo-filter--toggle {
+
+    .seo-filter__title {
+      cursor: inherit;
+
+      &:after {
+        content: none;
+      }
+    }
+
+    .seo-filter__content {
+      display: block !important; // Toggle scripting overwrite
+      padding: 0;
+    }
+  }
+
+  //*** RANGE SLIDER ***
+  .seo-filter__range-slider {
+    display: block;
+    margin-top: em(30px);
+  }
+
+  .seo-filter__range-form {
+    margin: em(25px) 0 em(10px);
+  }
+
+  
+  //*** SEO FILTER SHOW RESULTS ***
+  .seo-filter-show-results {
+    display: none;
+  }
+
+
+  //*** SEO FILTER TOGGLE ***
+  .seo-filter__toggle {
+    display: none;
+  }
+
+
+  //*** SEO FILTER TAGS ***
+  .seo-filter-tags {
+    float: left;
+    width: 100%;
+  }
+
+  .seo-filter-tag__link {
+    display: block;
+  }
+
+  .seo-filter-tag__link--remove {
+    margin-left: em(20px);
+    padding: 0;
+  }
+
+  .seo-filter-tag__link--remove-single {
+    display: none;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

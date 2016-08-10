@@ -1,0 +1,242 @@
+<?php
+
+/**
+ * @file
+ * Main hooks & functions for bht_paragraphs_title
+ */
+
+/**
+ * Implements hook_ENTITY_TYPE_view()
+ */
+function bht_paragraphs_title_paragraphs_item_view($entity, $view_mode, $langcode) {
+  if ($entity->bundle === 'page_title') {
+
+    // Get menu item.
+    $menu_item = menu_get_item();
+
+    // Get load callback.
+    if (isset($menu_item['load_functions']) && is_array($menu_item['load_functions']) && count($menu_item['load_functions']) === 1) {
+      $load_function = reset($menu_item['load_functions']);
+    }
+    else {
+      watchdog('paragraphs title', 'Cannot determine load function for path %path.', array('%path' => $menu_item['path']), WATCHDOG_NOTICE);
+      return;
+    }
+
+    $load_type = str_replace('_load', '', $load_function);
+
+    $load_type_info = entity_get_info($load_type);
+
+    if (empty($load_type_info)) {
+      watchdog('paragraphs title', 'Load type %loadtype does not match any entity type.', array('%loadtype' => $load_type), WATCHDOG_NOTICE);
+      return;
+    }
+
+    if (!empty($menu_item['page_arguments']) && count($menu_item['page_arguments']) == 1) {
+      $menu_object = reset($menu_item['page_arguments']);
+    }
+
+    if (!empty($load_type) && !empty($menu_object)) {
+      $entity->content['title'] = _paragraphs_title_output_page_title($menu_object, $load_type, $view_mode);
+    }
+    else {
+      watchdog('paragraphs title', 'No load type or menu object. Cannot display paragraphs title.', array(), WATCHDOG_NOTICE);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_extra_fields_alter().
+ */
+function bht_paragraphs_title_field_extra_fields_alter(&$info) {
+  $entity_info = entity_get_info();
+
+  foreach ($entity_info as $entity_type => $entity_type_info) {
+    switch ($entity_type) {
+      case 'node':
+        foreach ($entity_type_info['bundles'] as $bundle_name => $bundle) {
+          if (!isset($info[$entity_type][$bundle_name]['display']['title'])) {
+            $info[$entity_type][$bundle_name]['display']['title'] = array(
+              'label' => t('Title'),
+              'description' => t('The node title.'),
+              'weight' => -99,
+            );
+          }
+        }
+        break;
+
+      case 'taxonomy_term':
+        foreach ($entity_type_info['bundles'] as $bundle_name => $bundle) {
+          if (!isset($info[$entity_type][$bundle_name]['display']['title'])) {
+            $info[$entity_type][$bundle_name]['display']['name'] = array(
+              'label' => t('Name'),
+              'description' => t('The taxonomy title.'),
+              'weight' => -99,
+            );
+          }
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_view()
+ */
+function bht_paragraphs_title_entity_view($entity, $type, $view_mode, $langcode) {
+  switch ($type) {
+    case 'node':
+
+      if ($entity->type !== 'block') {
+        // First check if we even need to display our custom fields
+        $display = field_extra_fields_get_display('node', $entity->type, $view_mode);
+
+        if (isset($display['title'])) {
+          $display_title = $display['title']['visible'];
+
+          if (_paragraphs_title_available($entity->content)) {
+            $display_title = FALSE;
+          }
+
+          // Attach title to the term.
+          if ($display_title) {
+            // $entity->content['title']['#markup'] = (isset($entity->meta_title) && $entity->meta_title !== '') ? $entity->meta_title : $entity->title;
+            $entity->content['title'] = _paragraphs_title_output_page_title($entity, $type, $view_mode);
+          }
+        }
+      }
+      break;
+
+    case 'taxonomy_term':
+
+      // First check if we even need to display our custom fields
+      $display = field_extra_fields_get_display('taxonomy_term', $entity->vocabulary_machine_name, $view_mode);
+      $display_title = $display['name']['visible'];
+
+      if (_paragraphs_title_available($entity->content)) {
+        $display_title = FALSE;
+      }
+
+      // Attach title to the term.
+      if ($display_title) {
+        // $entity->content['name']['#markup'] = (isset($entity->meta_title) && $entity->meta_title !== '') ? $entity->meta_title : $entity->name;
+        $entity->content['name'] = _paragraphs_title_output_page_title($entity, $type, $view_mode);
+      }
+      break;
+  }
+}
+
+/**
+ * Check if the entity contains a paragraps_title paragraphs item
+ */
+function _paragraphs_title_available($content) {
+  $found_paragraph_title = FALSE;
+
+  if (isset($content['#entity_type'], $content['#bundle']) && $content['#entity_type'] == 'paragraphs_item' && $content['#bundle'] == 'page_title') {
+    $found_paragraph_title = TRUE;
+  }
+  else {
+    foreach (element_children($content) as $element_name) {
+      $found_paragraph_title = _paragraphs_title_available($content[$element_name]);
+      if ($found_paragraph_title) {
+        return $found_paragraph_title;
+      }
+    }
+  }
+
+  return $found_paragraph_title;
+}
+
+/**
+ * Return render array for page title
+ *
+ * @param type $title
+ */
+function _paragraphs_title_output_page_title($entity, $entity_type, $view_mode) {
+
+  switch ($entity_type) {
+    case 'node':
+      $title = $entity->title;
+
+      if (isset($entity->meta_title) && !empty($entity->meta_title)) {
+        $title = $entity->meta_title;
+      }
+
+      break;
+
+    case 'taxonomy_term':
+      $title = $entity->name;
+
+      if (isset($entity->meta_title) && !empty($entity->meta_title)) {
+        $title = $entity->meta_title;
+      }
+
+      break;
+
+    default:
+      break;
+  }
+
+  if ($view_mode === 'full') {
+    $build = array(
+      '#theme' => 'paragraphs_page_title',
+      'title' => $title,
+    );
+  }
+  else {
+    $build = array(
+      '#theme' => 'paragraphs_title',
+      'title' => $title,
+    );
+  }
+
+
+  return $build;
+}
+
+function _bht_paragraphs_title_set($paragraphs) {
+  $return = FALSE;
+
+  if (!empty($paragraphs) && gettype($paragraphs) == 'array') {
+    $paragraphs_items = element_children($paragraphs);
+    foreach ($paragraphs_items as $key) {
+      if (gettype($paragraphs[$key]) == 'array') {
+        if (!isset($paragraphs[$key]['#bundle'])) {
+          $return = _bht_paragraphs_title_set($paragraphs[$key]);
+        }
+        else {
+          if ($paragraphs[$key]['#bundle'] == 'page_title') {
+            return TRUE;
+          }
+          else {
+            $return = _bht_paragraphs_title_set($paragraphs[$key]);
+          }
+        }
+      }
+      if ($return) {
+        break;
+      }
+    }
+  }
+
+  return $return;
+}
+
+/**
+ * Implements hook_theme()
+ */
+function bht_paragraphs_title_theme() {
+  $themes['paragraphs_page_title'] = array(
+    'template' => 'templates/paragraphs-page-title',
+    'render element' => 'title',
+  );
+  $themes['paragraphs_title'] = array(
+    'template' => 'templates/paragraphs-title',
+    'render element' => 'title',
+  );
+
+  return $themes;
+}

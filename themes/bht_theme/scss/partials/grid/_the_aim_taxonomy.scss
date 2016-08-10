@@ -1,0 +1,135 @@
+//------------------------------------------------------------------------------
+// THE_AIM_TAXONOMY.SCSS *******************************************************
+// Default layout for taxonomy term children and node items by the_aim_taxonomy.
+//
+// Overwrite specific things with your BEM classes on the content items.
+// By example:
+//   CHILDREN : shop-categories__child-item, shop-categories__child-item--tax-children-teaser
+//   CONTENT  : product-display__content-item, product-display__content-item--tax-content-teaser
+//------------------------------------------------------------------------------
+
+
+//*** TAXONOMY CHILDREN ***
+.taxonomy-children {
+  float : left;
+  width : 100%;
+}
+
+.child-item {
+  float: left;
+  width: 100%;
+  margin-bottom: em(20px);
+}
+
+.child-item--tax-children-teaser { }
+
+
+//*** TAXONOMY CONTENT ***
+.taxonomy-content {
+  float : left;
+  width : 100%;
+}
+
+.content-item {
+  float: left;
+  width: 100%;
+  margin-bottom: em(20px);
+}
+
+.content-item--tax-content-teaser { }
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** TAXONOMY CHILDREN ***
+  .child-item {
+    @include span-columns($grid-columns/2);
+
+    &.even {
+      @include omega;
+    }
+  }
+
+
+  //*** TAXONOMY CONTENT ***
+  .content-item {
+    @include span-columns($grid-columns/2);
+
+    &.even {
+      @include omega;
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** TAXONOMY CHILDREN ***
+  .child-item {
+
+    &.odd,
+    &.even {
+      @include span-columns($grid-columns/3);
+    }
+
+    &.third {
+      @include omega;
+    }
+  }
+
+
+  //*** TAXONOMY CONTENT ***
+  .content-item {
+
+    &.odd,
+    &.even {
+      @include span-columns($grid-columns/3);
+    }
+
+    &.third {
+      @include omega;
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+  //*** TAXONOMY CONTENT ***
+  .content-item {
+    
+    &.odd,
+    &.even,
+    &.third {
+      @include span-columns($grid-columns/4);
+    }
+
+    &.fourth {
+      @include omega;
+    }
+  }
+
+}

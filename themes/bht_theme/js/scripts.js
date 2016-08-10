@@ -1,0 +1,142 @@
+(function ($) {
+
+  // ***********
+  // ESSENTIAL *
+  // ***********
+
+  // Give warning for IE8
+  if ($.browser.msie && $.browser.version == "8.0"){
+    $('<div />')
+      .attr("style", "background: pink; padding: 10px; text-align: center;")
+      .text(Drupal.t("We do no longer support IE8, please update your browser!"))
+      .prependTo('body');
+  }
+
+  // Add novalidate attribute to all forms because HTML5 validation fucks with
+  // the Ajax callbacks in, for example, commerce checkout process
+  // Also, this way a user gets to see all error messages at once instead of only one at a time
+  $('form').attr('novalidate', true);
+
+
+  // ***********
+  // USABILITY *
+  // ***********
+
+  // Select all text on iput field click
+  $('body').delegate('input', 'click', function () {
+    $(this).select();
+  });
+
+  // UX telephone keyboard trigger
+  if($('#edit-submitted-telephone-number').length) {
+    $('#edit-submitted-telephone-number')[0].type = 'tel';
+  }
+
+  // ***********
+  // ANALYTICS *
+  // ***********
+
+  // Load when header and all HTML have been sent
+  var delimiters = "-|\\.|—|–|&nbsp;";
+  var spechars = new RegExp("([- \(\)\.:]|\\s|" + delimiters + ")","gi"); //Special characters to be removed from the link
+  $(document).ready(function() {
+    $("a[href^='tel:']").click(function(e) {
+      // prevent link from redirecting
+      e.preventDefault();
+
+      var link  = $(this).attr('href');
+
+      if (window.ga) {
+        var tracklink = link.replace('tel:','').replace(spechars,'');
+        ga('send', 'event', 'Phone', 'Click', tracklink);
+      }
+
+      setTimeout(function() {
+        window.location = link;
+      },300);
+    });
+    $("a[href^='mailto:']").click(function(e) {
+      // prevent link from redirecting
+      e.preventDefault();
+
+      var link  = $(this).attr('href');
+
+      if (window.ga) {
+        var tracklink = link.replace('mailto:','').replace(spechars,'');
+        ga('send', 'event', 'Email', 'Click', tracklink);
+      }
+
+      setTimeout(function() {
+        window.location = link;
+      },300);
+    });
+  });
+
+
+  // ***************
+  // FUNCTIONALITY *
+  // ***************
+
+  // (LANGUAGE) TOGGLE
+  $('.js-language-toggle .nav__title').click(function() {
+    $(this).siblings('*').slideToggle('fast').parent().toggleClass('open');
+  });
+
+  // (MENU) TOGGLE
+  $('.js-nav-toggle .nav__title').click(function() {
+    $(this).siblings('*').slideToggle('fast').parent().toggleClass('open');
+  });
+
+  // (HEADER) TOGGLE
+  $('.js-header-toggle .nav__title, .js-header-toggle .block__title').click(function() {
+    var element = $(this);
+    var timeout = 0;
+    if($('.js-header-toggle.open')) {
+      var timeout = 200;
+      $('.js-header-toggle.open .nav__title, .js-header-toggle.open .block__title').not($(this)).siblings('*').slideToggle('fast');
+      $('.js-header-toggle.open').not($(this).parent()).removeClass('open');
+    }
+    setTimeout( function() {
+      element.parent().toggleClass('open');
+      element.siblings('*').slideToggle(300);
+    }, timeout)
+  });
+
+  // Everything that needs to be executed when all our images/files/... are
+  // loaded, not only when DOM is ready
+  $(window).load(function() {
+    // // FLEXSLIDER
+    // $('.js-flexslider').flexslider({
+    //   selector: ".banner__list > .banner__item",
+    //   animation: "slide",
+    //   mousewheel: false,
+    //   slideshow: true,
+    //   animationLoop: true,
+    //   slideshowSpeed: 4000,
+    //   animationSpeed: 600,
+    //   controlNav: false,
+    //   touch: true
+    // });
+
+    // // COLORBOX
+    // $(".js-colorbox a").colorbox({
+    //   rel:'gal',
+    //   transition:'fade',
+    //   maxWidth:'100%',
+    //   maxHeight:'100%',
+    //   title:function(){
+    //     return $(this).find("img").attr('alt')
+    //   }
+    // });
+    // // Hide title tag where empty
+    // $(document).bind("cbox_complete", function(){
+    //   if($('#cboxTitle').is(':empty')) {
+    //     $("#cboxTitle").hide();
+    //   }
+    // });
+
+    // FITVIDS
+    // $(".player").fitVids();
+
+  });
+})(jQuery);

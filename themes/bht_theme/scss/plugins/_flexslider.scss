@@ -1,0 +1,103 @@
+//------------------------------------------------------------------------------
+// FLEXSLIDER.SCSS *************************************************************
+// Default flexslider styling
+//------------------------------------------------------------------------------
+
+
+//*** DEFAULTS ***
+.flex-viewport {
+  // Prevents text shift with flexslider
+  @include transform(translatez(0));
+}
+
+
+//*** DIRECTION NAV ***
+.flex-direction-nav {
+  @include reset-list;
+
+  a {
+    position: absolute;
+    top: 50%;
+    width: em(46px);
+    height: em(46px);
+    margin-top: em(-13px);
+    cursor: pointer;
+    text-indent: em(-10000px);
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: em(-13px);
+      margin-left: em(-13px);
+    }
+  }
+
+  .flex-prev {
+    left: 0;
+
+    &:after {
+      @include icon(btn-arrow-left);
+    }
+  }
+
+  .flex-next {
+    right: 0;
+
+    &:after {
+      @include icon(btn-arrow-right);
+    }
+  }
+}
+
+
+//*** CONTROL NAV ***
+.flex-control-nav {
+  @include reset-list;
+  position: absolute;
+  width: 100%;
+  bottom: em(-30px);
+  text-align: center;
+
+  li {
+    margin: 0 em(5px);
+    display: inline-block;
+  }
+
+  a {
+    display: block;
+    width: em(10px);
+    height: em(10px);
+    border-radius: 100%;
+    @include opacity(0.5);
+    text-indent: em(-10000px);
+    cursor: pointer;
+    background: $grey-dark;
+
+    &:hover,
+    &.flex-active {
+      @include opacity(1);   
+    }
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+  
+  //*** DIRECTION NAV ***
+  .flex-direction-nav {
+    
+    a {
+      background: rgba(255,255,255,0.5);
+    }
+  }
+
+}

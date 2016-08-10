@@ -1,0 +1,184 @@
+//------------------------------------------------------------------------------
+// IMAGE.SCSS ******************************************************************
+// Default image (gallery) styling
+//------------------------------------------------------------------------------
+
+
+//*** COVER IMAGE ***
+.cover-image-link {
+  display: block;
+}
+
+.cover-image {
+  width: 100%;
+  vertical-align: bottom;
+}
+
+
+//*** IMAGE GALLERY LIST ***
+.gallery__list {
+  float: left;
+  width: 100%;
+  @include reset-list;
+}
+
+.gallery__item {
+  @include span-columns($grid-columns/2);
+  margin-bottom: $gutter;
+
+  &.even {
+    @include omega;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+
+
+//*** IMAGE GALLERY LIST BLOCK ***
+// Using this modifier will display the first image as a big image
+// and the following images as small thumbnails underneath it
+.gallery__list--block {
+
+  .gallery__item {
+    @include span-columns($grid-columns/2);
+
+    &.odd {
+      @include omega;
+    }
+
+    &.first {
+      float: left;
+      width: 100%;
+    }
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** IMAGE GALLERY LIST ***
+  .gallery__item {
+
+    &.odd,
+    &.even {
+      @include span-columns($grid-columns/3);
+    }
+
+    &.third {
+      @include omega;
+    }
+  }
+
+  
+  //*** IMAGE GALLERY LIST BLOCK ***
+  .gallery__list--block {
+    
+    .gallery__item {
+      
+      &.odd,
+      &.even {
+        @include span-columns($grid-columns/3);
+      }
+
+      &.third + .gallery__item {
+        @include omega;
+      }
+
+      &.first {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** IMAGE GALLERY LIST ***
+  .gallery__list {
+    margin-top: em(15px);
+  }
+
+  .gallery__item {
+
+    &.odd,
+    &.even,
+    &.third {
+      @include span-columns($grid-columns/4);
+    }
+
+    &.fourth {
+      @include omega;
+    }
+  }
+
+
+  //*** IMAGE GALLERY LIST BLOCK ***
+  .gallery__list--block {
+
+    .gallery__item {
+      
+      &.odd,      
+      &.even,
+      &.third + .gallery__item {
+        @include span-columns($grid-columns/4);
+      }
+
+      &.fourth + .gallery__item {
+        @include omega;
+      }
+
+      &.first {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** IMAGE GALLERY LIST ***
+  .gallery__item {
+
+    &.odd,
+    &.even,
+    &.third
+    &.fourth {
+      @include span-columns($grid-columns/5);
+    }
+
+    &.fifth {
+      @include omega;
+    }
+  }
+
+}
+
+
+//-------------------
+//-- BREAK 4 --------
+//-------------------
+@include media($break-4) {
+
+}

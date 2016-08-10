@@ -1,0 +1,260 @@
+//------------------------------------------------------------------------------
+// FORMS_INCLUDE.SCSS **********************************************************
+// Default form styling
+//------------------------------------------------------------------------------
+
+
+// Some reset that isn't in Eric Meyer's reset.css
+button,
+input[type="button"] {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+*:focus {
+  outline: none; // Prevent yellow outline in Chrome
+}
+
+input {
+  border-radius: 0; // Prevent rounded corners on iPhone
+}
+
+input,
+textarea {
+  @include selection;
+}
+
+.form-item {
+  float: left;
+  width: 100%;
+  margin-bottom: em(15px);
+}
+
+fieldset > * {
+  float: left;
+  width: 100%;
+}
+
+form,
+input[type="text"],
+input[type="tel"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+  float: left;
+  width: 100%;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="submit"],
+textarea,
+select {
+  border: 1px solid $grey;
+  font-size: $font-size;
+
+  &:focus {
+    outline: 1px solid $highlight;
+  }
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="password"],
+input[type="email"],
+input[type="number"] {
+  padding: 0 em(10px);
+}
+
+.ie8 {
+  input[type="text"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="email"],
+  input[type="number"] {
+    line-height: em(35px);
+  }
+}
+
+textarea {
+  padding: em(10px);
+  font-family: $base-font-family;
+  resize: vertical;
+  max-size: 100%;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="password"],
+input[type="email"],
+input[type="number"] {
+  height: em(35px);
+}
+
+select {
+  padding: em(10px);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  float: left;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  & + label,
+  & + .ajax-progress-throbber + label {
+    width: 95%;
+    padding-left: em(10px);
+  }
+}
+
+input[type="submit"] {
+  float: right;
+  display: block;
+  width: 100%;
+  padding: em(10px) em(25px);
+  background: $grey;
+  cursor: pointer;
+
+  &:hover {
+    background: $grey-light;
+  }
+}
+
+.form-actions input[type="submit"] {
+  float: left;
+}
+
+label,
+legend,
+small {
+  float: left;
+  width: 100%;
+}
+
+.label--inline {
+  width: auto;
+  height: auto;
+  line-height: inherit;
+
+  &:after {
+    content: ": ";
+    margin-right: em(15px);
+  }
+}
+
+label.required:after {
+  content: " *";
+}
+
+small,
+.description {
+  @include font(11);
+}
+
+.webform-component-radios,
+.webform-component-checkboxes {
+  > label {
+    margin-bottom: em(8px);
+  }
+}
+
+.form-radios,
+.form-checkboxes {
+  float: left;
+  width: 100%;
+
+  > div {
+    float: left;
+    width: 100%;
+    margin-bottom: em(5px);
+  }
+
+  label {
+    margin: 0;
+  }
+  
+  input,
+  label {
+    height: em(20px);
+    line-height: em(15px);
+  }
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="password"],
+input[type="email"],
+input[type="submit"],
+textarea {
+  -webkit-appearance: none; //Prevent rounded corners and shadow on IOS
+}
+
+.url-textfield {
+  display: none;
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  input[type="submit"] {
+    width: auto;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select,
+  small,
+  .form-radios,
+  .form-checkboxes {
+    max-width: em($break-1-w);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select,
+  small,
+  .form-radios,
+  .form-checkboxes {
+    max-width: em($break-2-w);
+  }
+
+}

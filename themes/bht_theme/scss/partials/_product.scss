@@ -1,0 +1,54 @@
+//------------------------------------------------------------------------------
+// PRODUCT.SCSS ****************************************************************
+// The default styling for products and it's different overviews.
+//------------------------------------------------------------------------------
+
+
+//*** RELATED PRODUCTS ***
+.product__related {
+  float: left;
+  width: 100%;
+}
+
+
+//*** BESTSELLER PRODUCTS ***
+.product__bestseller {
+  float: left;
+  width: 100%;
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

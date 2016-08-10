@@ -1,0 +1,26 @@
+{
+  "name": "bht_theme",
+  "version": "0.0.1",
+  "description": "Drupal 7 theming",
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-penthouse": "^0.3.0",
+    "grunt-replace": "^1.0.1",
+    "grunt-sass": "^1.2.0",
+    "grunt-shared-config": "^0.3.17",
+    "grunt-tinypng": "^0.6.1",
+    "node-bourbon": "^4.2.8",
+    "node-neat": "^1.7.2"
+  },
+  "scripts": {
+    "postinstall": "find node_modules/ -name '*.info' -type f -delete"
+  }
+}

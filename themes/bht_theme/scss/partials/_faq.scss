@@ -1,0 +1,78 @@
+//------------------------------------------------------------------------------
+// FAQ.SCSS ********************************************************************
+// Default FAQ styling.
+//------------------------------------------------------------------------------
+
+
+.faq__overview {
+  float: left;
+  width: 100%;
+  margin-top: em(10px);
+}
+
+.faq__item {
+  margin-bottom: em(5px);
+}
+
+.faq__question {
+  position: relative;
+  min-height: em(30px);
+  padding-left: em(35px);
+  line-height: em(30px);
+  cursor: pointer;
+  font-weight: 700;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include icon(btn-arrow-right);
+  }
+
+  &.down:before {
+    @include icon(btn-arrow-down);
+  }
+}
+
+.faq__answer {
+  display: none;
+  padding: 0 0 em(20px) em(35px);
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

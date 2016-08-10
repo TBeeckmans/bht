@@ -1,0 +1,125 @@
+//------------------------------------------------------------------------------
+// NEWS.SCSS *******************************************************************
+// Default news styling
+//------------------------------------------------------------------------------
+
+
+//*** GENERAL ***
+.news__item {
+  @include display(flex);
+  @include flex-direction(column);
+  margin-bottom: em(20px);
+  text-decoration: none;
+}
+
+.news__date {
+  font-style: italic;
+}
+
+.news__date--page {
+  margin-bottom: em(10px);
+}
+
+.news__item-title {
+  @include flex(1 0 auto);
+}
+
+
+//*** NEWS OVERVIEW ***
+.news__overview {
+  float: left;
+  width: 100%;
+  @include display(flex);
+  @include flex-wrap(wrap);
+  margin-top: em(15px);
+}
+
+
+//*** LATEST NEWS OVERVIEW ***
+.news__latest {
+  float: left;
+  width: 100%;
+  @include display(flex);
+  @include flex-wrap(wrap);
+  @include break-out($gutter/2);
+  margin-top: em(15px);
+  padding-top: em(20px);
+  background: $grey-light;
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** GENERAL ***
+  .news__item {
+    width: flex-grid(3,6);
+    margin-right: flex-gutter(6);
+
+    &.even {
+      margin-right: 0;
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** GENERAL ***
+  .news__item {
+
+    &.odd,
+    &.even {
+      width: flex-grid(3,9);
+      margin-right: flex-gutter(9);
+    }
+    
+    &.third {
+      margin-right: 0;
+    }
+  }
+
+}
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** GENERAL ***
+  .news__item {
+    
+    &.odd,
+    &.even {
+      width: flex-grid(3,12);
+      margin-right: flex-gutter(12);
+    }
+    
+    &.fourth {
+      margin-right: 0;
+    }
+  }
+
+}
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+  //*** LATEST NEWS OVERVIEW ***
+  .news__latest {
+    @include break-out();
+  }
+
+}

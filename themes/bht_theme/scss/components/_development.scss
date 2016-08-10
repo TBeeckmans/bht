@@ -1,0 +1,91 @@
+//------------------------------------------------------------------------------
+// DEVELOPMENT.SCSS ************************************************************
+// This file contains styles and logic only used during development.
+//------------------------------------------------------------------------------
+
+//*** BREAKPOINT LABELS ***
+@if $show-breakpoint-label {
+
+  body:after {
+    display: block;
+    position: fixed;
+    top: em(70px);
+    right: 0;
+    height: auto;
+    padding: em(5px) em(10px);
+    color: $black;
+    @include rgba-bg(red);
+  }
+  
+}
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** BREAKPOINT LABELS ***
+  @if $show-breakpoint-label {
+
+    body:after {
+      @include rgba-bg(orange);
+    }
+
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** BREAKPOINT LABELS ***
+  @if $show-breakpoint-label {
+
+    body:after {
+      @include rgba-bg(yellow);
+    }
+
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** BREAKPOINT LABELS ***
+  @if $show-breakpoint-label {
+
+    body:after {
+      @include rgba-bg(teal);
+    }
+
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+  //*** BREAKPOINT LABELS ***
+  @if $show-breakpoint-label {
+
+    body:after {
+     @include rgba-bg(limegreen); 
+    }
+
+  }
+
+}

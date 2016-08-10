@@ -1,0 +1,133 @@
+//------------------------------------------------------------------------------
+// LANGUAGE_SWITCHER.SCSS *******************************************************************
+// Default language switcher styling
+//------------------------------------------------------------------------------
+
+
+//*** LANGUAGE SWITCHER ***
+.nav__language {
+  float: right;
+  position: relative;
+  margin-right: em(45px);
+
+  .nav__title {
+    position: relative;
+    width: em(40px, 14px);
+    margin: 0;
+    padding: 0 em(15px, 14px) 0 em(5px);
+    @include font(14);
+    font-weight: 600;
+    line-height: em(50px, 14px);
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: em(5px, 14px);
+      width: 0; 
+      height: 0; 
+      margin-top: em(-1.5px, 14px);
+      border-left: 2px solid transparent;
+      border-right: 2px solid transparent;
+      border-top: 3px solid $black;
+    }
+  }
+}
+
+.language__list {
+  display: none;
+  position: absolute;
+  @include reset-list;
+  width: 100%;
+  background: $grey-light;
+  z-index: 1;
+}
+
+.language__link {
+  display: block;
+  line-height: em(30px);
+  text-align: center;
+  text-decoration: none;
+  @include transition(all 0.2s ease-in-out);
+  color: $black;
+
+  &:hover,
+  &.active {
+    background: $grey;
+  }
+  &.active {
+    font-weight: 600;
+  }
+}
+
+.language__link--disabled {
+  text-decoration: line-through;
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+  
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** LANGUAGE SWITCHER ***
+  .nav__language {
+    margin: 0 0 0 em(20px);
+
+    .nav__title {
+      display: none;
+    }
+  }
+
+  .language__list {
+    display: block !important; // js overwrite
+    position: relative;
+    width: auto;
+  }
+
+  .language__item {
+    float: left;
+  }
+  
+  .language__link {
+    padding: 0 em(5px);
+    line-height: em(35px);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** LANGUAGE SWITCHER ***
+  .nav__language {
+    margin-left: em(30px);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

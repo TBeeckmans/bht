@@ -1,0 +1,71 @@
+//------------------------------------------------------------------------------
+// COMPANY_LOGO.SCSS ***********************************************************
+// Default company logo styling.
+//------------------------------------------------------------------------------
+
+
+//*** BLOCK THE AIM ***
+.theaim__block {
+  float: right;
+  width: 100%;
+  margin-bottom: em(15px);
+}
+
+
+//*** THE AIM LOGO ***
+.theaim {
+  display: block;
+  clear: both;
+  margin: 0 auto;
+  @include icon(theaim);
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** BLOCK THE AIM ***
+  .theaim__block {
+    width: auto;
+  }
+
+  //*** THE AIM LOGO ***
+  .theaim {
+    margin: 0;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

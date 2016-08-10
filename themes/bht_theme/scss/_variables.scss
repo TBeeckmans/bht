@@ -1,0 +1,66 @@
+//------------------------------------------------------------------------------
+// VARIABLES.SCSS **************************************************************
+// This file contains all of the variables like colors, font settings, column
+// settings and breakpoints
+//------------------------------------------------------------------------------
+
+
+//*** FONT SETTINGS ***
+// Import your fonts here like the example below.
+// @import url('http://fonts.googleapis.com/css?family=Abel');
+// $abel: "Abel", Arial, sans-serif;
+$base-font-family: "Arial";
+$base-font-size: 16;
+$base-line-height: 24;
+// Variables for correct em calculations
+$em-base: $base-font-size;
+$em-base-grid: 16; // Shouldn't change, needed for container width calculation.
+// Calculate the correct font properties
+$font-size: em($base-font-size, $em-base-grid);
+$line-height: em($base-line-height, $em-base);
+
+
+//*** FIXED GRID SETTING ***
+$fixed-container: false;
+
+
+//*** BREAKPOINTS ***
+//Widths per breakpoint
+$break-default-w: 320;
+$break-1-w: 480;
+$break-2-w: 768;
+$break-3-w: 960;
+$break-4-w: 1200;
+//Columns per breakpoint
+$break-default-c: 4;
+$break-1-c: 6;
+$break-2-c: 9;
+$break-3-c: 12;
+$break-4-c: 15;
+//Breakpoint rules
+$break-1: new-breakpoint(min-width em($break-1-w, $em-base-grid) $break-1-c);
+$break-2: new-breakpoint(min-width em($break-2-w, $em-base-grid) $break-2-c);
+$break-3: new-breakpoint(min-width em($break-3-w, $em-base-grid) $break-3-c);
+$break-4: new-breakpoint(min-width em($break-4-w, $em-base-grid) $break-4-c);
+
+
+//*** COLUMNS SETTINGS ***
+$grid-columns: $break-default-c;
+$column: (em($break-default-w/$break-default-c)/4)*3;
+$gutter: em($break-default-w/$break-default-c)/4;
+$max-width: em($break-4-w);
+@if $fixed-container {
+  $max-width: em($break-default-w);
+}
+
+//*** GRID BACKGROUND ***
+$show-breakpoint-label: true; // Set this value to false before going live
+$show-grid-background: false; // Set this value to false before going live
+$visual-grid: $show-grid-background;
+$visual-grid-color: navy;
+$visual-grid-index: back; // Set this value to either front or back
+$visual-grid-opacity: 0.3;
+
+
+//*** COLORS ***
+@import "components/colors";

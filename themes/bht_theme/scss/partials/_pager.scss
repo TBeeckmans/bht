@@ -1,0 +1,70 @@
+//------------------------------------------------------------------------------
+// PAGER.SCSS ******************************************************************
+// Default pager styling.
+//------------------------------------------------------------------------------
+
+
+ul.pager {
+  @include reset-list;
+  float: left;
+  width: 100%;
+  margin: em(20px) 0;
+  text-align: center;
+  list-style-type: none;
+}
+
+.pager__item {
+  display: inline-block;
+  
+  a,
+  &.pager__item--current {
+    display: inline-block;
+    padding: 0 em(10px);
+    border: 1px solid $black;
+  }
+
+  a {
+    text-decoration: none;
+    background: $grey;
+
+    &:hover {
+      background: $grey-light;
+    }
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------------
+//-- BREAK 1 --------
+//-------------------
+@include media($break-1) {
+
+}//End break-1
+
+
+//-------------------
+//-- BREAK 2 --------
+//-------------------
+@include media($break-2) {
+
+}//End break-2
+
+
+//-------------------
+//-- BREAK 3 --------
+//-------------------
+@include media($break-3) {
+
+}//End break-3
+
+
+//-------------------
+//-- BREAK 4 --------
+//-------------------
+@include media($break-4) {
+
+}//End break-4

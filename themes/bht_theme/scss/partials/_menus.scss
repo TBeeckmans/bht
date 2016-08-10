@@ -1,0 +1,315 @@
+//--------------------------------------------------------------------------------
+// MENUS.SCSS ********************************************************************
+// This file is used to style the different menus of the website. Use the class
+// .js-nav-toggle to make the menu dropdown for mobile.
+//--------------------------------------------------------------------------------
+
+
+//*** GENERAL ***
+.nav__list {
+  @include reset-list;
+}
+
+.nav__link {
+  display: block;
+  text-decoration: none;
+  @include transition(all 0.2s ease-in-out);
+}
+
+
+//*** MOBILE MENU ***
+.nav__mobile {
+  float: right;
+  position: static !important; // logged in fix
+  width: 100%;
+
+  .nav__title {
+    position: absolute;
+    top: 0;
+    right: $gutter/2;
+    width: em(45px);
+    height: em(50px);
+    text-indent: em(-10000px);
+    cursor: pointer;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: em(-17.5px);
+      margin-left: em(-17px);
+      @include icon(btn-menu);
+    }
+  }
+
+  &.open .nav__title:after {
+    @include icon(btn-menu-close);
+  }
+
+  .nav__layout {
+    display: none;
+    padding: em(10px) 0;
+  }
+
+  .nav__list {
+    float: left;
+    width: 50%;
+  }
+
+  .nav__link {
+    padding: 0 em(5px);
+    line-height: em(35px);
+    color: inherit;
+  }
+
+  .nav__item.active .nav__link,
+  .nav__item.active-trail .nav__link,
+  .nav__link:hover {
+    background-color: $grey
+  }
+}
+
+
+//*** MAIN MENU ***
+.nav__main {
+  display: none;
+}
+
+
+//*** SECONDARY MENU ***
+.nav__secondary {
+  display: none;
+}
+
+
+//*** SUB MENU ***
+.nav__sub {
+  float: left;
+  width: 100%;
+  margin-bottom: em(10px);
+
+  .nav__link {
+    padding: em(5px) em(10px);
+    margin-bottom: em(5px);
+    color: inherit;
+    background: $grey-light;
+  }
+
+  .nav__item.active .nav__link,
+  .nav__item.active-trail .nav__link,
+  .nav__link:hover {
+    background: $grey;
+  }
+}
+
+
+//*** FOOTER MENU ***
+.nav__footer {
+  float: left;
+  width: 100%;
+  margin-bottom: em(20px);
+  text-align: center;
+
+  .nav__title {
+    @extend h3;
+  }
+
+  .nav__list {
+  }
+
+  .nav__item {
+    display: block;
+  }
+
+  .nav__link {
+    color: inherit;
+  }
+
+  .nav__item.active .nav__link,
+  .nav__item.active-trail .nav__link,
+  .nav__link:hover {
+    text-decoration: underline;
+  }
+}
+
+
+//*** BOTTOM MENU ***
+.nav__bottom {
+  float: left;
+  width: 100%;
+  margin-bottom: em(20px);
+  text-align: center;
+
+  .nav__title {
+    @extend h3;
+  }
+
+  .nav__list {
+  }
+
+  .nav__item {
+    display: block;
+  }
+
+  .nav__link {
+    color: inherit;
+  }
+
+  .nav__item.active .nav__link,
+  .nav__item.active-trail .nav__link,
+  .nav__link:hover {
+    text-decoration: underline;
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** SUB MENU ***
+  .nav__sub {
+
+    .nav__item {
+      display: inline-block;
+    }
+  }
+
+
+  //*** FOOTER MENU ***
+  .nav__footer {
+
+    .nav__item {
+      display: inline-block;
+      margin: 0 em(5px);
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+
+  //*** MOBILE MENU ***
+  .nav__mobile {
+    display: none;
+  }
+  
+
+  //*** MAIN MENU ***
+  .nav__main {
+    float: left;
+    display: block;
+    width: 100%;
+    margin-top: em(15px);
+
+    .nav__title {
+      display: none;
+    }
+
+    .nav__list {
+      display: table !important; // toggle script overwrite;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    .nav__item {
+      display: table-cell;
+      text-align: center;
+    }
+
+    .nav__link {
+      line-height: em(45px);
+      color: inherit;
+    }
+
+    .nav__item.active .nav__link,
+    .nav__item.active-trail .nav__link,
+    .nav__link:hover {
+      background: $grey;
+    }
+  }
+
+
+  //*** SECONDARY MENU ***
+  .nav__secondary {
+    float: right;
+    display: block;
+
+    .nav__item {
+      float: left;
+      text-align: center;
+    }
+
+    .nav__link {
+      padding: 0 em(5px);
+      line-height: em(35px);
+      color: inherit;
+    }
+
+    .nav__item.active .nav__link,
+    .nav__item.active-trail .nav__link,
+    .nav__link:hover {
+      background: $grey;
+    }
+  }
+
+  //*** SUB MENU ***
+  .nav__sub {
+    .nav__item {
+      display: block;
+    }
+  }
+  
+
+  //*** FOOTER MENU ***
+  .nav__footer {
+    @include span-columns(6);
+    margin: em(5px) 0 0;
+
+    .nav__list {
+      text-align: left;
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** MAIN MENU ***
+  .nav__main {
+    margin-top: em(20px);
+  }
+
+
+  //*** SECONDARY MENU ***
+  .nav__secondary {
+
+    .nav__link {
+      padding: 0 em(10px);
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

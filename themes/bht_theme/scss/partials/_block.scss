@@ -1,0 +1,78 @@
+//--------------------------------------------------------------------------------
+// BLOCKS.SCSS ********************************************************************
+// This file is used to style all the blocks, coming from views. Also single blocks
+// like search block, language switcher, social media,... are styled in this file.
+//--------------------------------------------------------------------------------
+
+
+//*** BLOCK ***
+.block {
+  float: left;
+  width: 100%;
+  margin-bottom: em(15px);
+  padding: em(15px);
+  border: 1px solid $grey-dark;
+  text-align: center;
+  background: $grey-light;
+
+  *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.block--cta {
+  background: $grey;
+}
+
+
+//*** BEANS WITH LINK WRAPPER ***
+.block--has-link {
+  padding: 0;
+}
+
+.block__link {
+  display: block;
+  padding: em(15px);
+  color: inherit;
+}
+
+.block__title {
+  @extend h3;
+  font-weight: 700;
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

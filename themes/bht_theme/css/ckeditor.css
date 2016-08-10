@@ -1,0 +1,33 @@
+html {
+  background: #eee;
+  text-align: center;
+}
+
+.cke_editable {
+  @include outer-container;
+  background: #fff;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  padding: 1em;
+}
+
+.cke_editable .cboxElement img {
+  outline: 1px dashed #ccc;
+  /*position: relative;
+  display: inline-block;*/
+}
+/*
+.cke_editable .cboxElement:before {
+  content: "";
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 16px;
+  height: 16px;
+  background: #fff url(../../../modules/the_aim/the_aim_ckeditor_addons/plugins/colorbox/icons/colorbox.png);
+  border: 2px solid #fff;
+}*/

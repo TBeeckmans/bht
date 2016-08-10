@@ -1,0 +1,266 @@
+//--------------------------------------------------------------------------------
+// USER.SCSS *********************************************************************
+// This file is used to theme everything to do with user
+// Some of the theming for user back-office can also be found in _checkout.scss, as
+// the same classes are used
+//--------------------------------------------------------------------------------
+
+
+//*** USER CTA ***
+.user__cta {
+  float: left;
+  width: 100%;
+}
+
+.user__title {
+  @extend h3;
+  font-weight: 700;
+}
+
+
+//*** USER FORMS - GENERAL ***
+.user-form {
+  .form-actions {
+    margin-bottom: 0;
+  }
+}
+
+
+//*** USER FORMS - USER LOGIN FORM ***
+.user-form.login {
+  .links a {
+    float: left;
+    clear: both;
+  }
+}
+
+
+//*** USER FORMS - USER REGISTER FORM ***
+.user-form.register {
+  .user-details {
+    margin-bottom: em(25px);
+  }
+
+  .user-psw {
+    margin-bottom: 0;
+  }
+}
+
+.password-parent,
+.password-strength,
+.confirm-parent,
+.password-confirm,
+.password-suggestions {
+  float: left;
+  width: 100%;
+}
+
+.password-strength-title {
+  float: left;
+}
+
+.password-strength-text,
+.password-confirm span {
+  float: right;
+  font-weight: bold;
+}
+
+
+//*** USER ACCOUNT OVERVIEW (/user/uid) ***
+.user__block {
+  float: left;
+  width: 100%;
+  margin-bottom: em(15px);
+  padding: em(15px);
+  border: 1px solid $grey;
+}
+
+.user__block-title {
+  @extend h3;
+  font-weight: 700;
+}
+
+.user__link {
+  display: inline-block;
+  margin-top: em(15px);
+}
+
+
+//*** USER PROFILE BLOCK ***
+.user__profile-list {
+  margin-top: em(15px);
+}
+
+.user__profile-label {
+  float: left;
+  margin-right: em(5px);
+  font-weight: 700;
+
+  &:after {
+    content: '\003A';
+  }
+}
+
+
+//*** USER LATEST ORDERS ***
+.user__order-list {
+  @include reset-list;
+}
+
+.user__order-item {
+  padding: em(10px) 0;
+  border-top: 3px solid $grey-dark;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.user__order-column-title {
+  float: left;
+  margin-right: em(5px);
+  font-weight: 700;
+
+  &:after {
+    content: '\003A';
+  }
+}
+
+
+//*** USER ORDER DETAIL ***
+.order__content {
+  float: left;
+  width: 100%;
+}
+
+.order__customer-profile {
+  float: left;
+  width: 100%;
+  margin-top: em(20px);
+
+  label {
+    @extend h3;
+    font-weight: 700;
+  }
+}
+
+.order__links {
+  float: left;
+  width: 100%;
+  margin-top: em(20px);
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** USER ORDER DETAIL ***
+  .order__customer-profile {
+    @include span-columns(3);
+  }
+  
+  .order__customer-profile--billing {
+    clear: both;
+  }
+  
+  .order__customer-profile--shipping {
+    @include omega;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** USER CTA ***
+  .user__cta {
+    width: auto;
+  }
+
+
+  //*** USER FORMS - GENERAL ***
+  .user-form {
+    @include span-columns(5 of 10);
+  }
+
+
+  //*** USER LATEST ORDERS ***
+  .user__order-list {
+    float: left;
+    width: 100%;
+    padding-top: em(40px);
+  }
+  
+  .user__order-item {
+    float: left;
+    width: 100%;
+  }
+  
+  .user__order-column {
+    position: relative;
+    float: left;
+    width: 25%;
+  }
+  
+  .user__order-column-title {
+    @include element-invisible;
+
+    &:after {
+      content: none;
+    }
+  }
+  
+  .user__order-item.first .user__order-column-title {
+    @include element-visible(absolute);
+    top: em(-50px);
+  }
+
+  
+  //*** USER ORDER DETAIL ***
+  .order__customer-profile {
+    @include span-columns(3);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** USER PROFILE BLOCK ***
+  .user__block--profile {
+    @include span-columns(4.5);
+  }
+
+
+  //*** USER LATEST ORDERS ***
+  .user__block--orders {
+    @include span-columns(7.5 omega);
+  }
+
+
+  //*** USER ORDER DETAIL ***
+  .order__customer-profile {
+    @include span-columns(3);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

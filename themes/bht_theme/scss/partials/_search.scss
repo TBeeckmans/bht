@@ -1,0 +1,132 @@
+//------------------------------------------------------------------------------
+// SEARCH.SCSS *****************************************************************
+// Default searchbox styling.
+//------------------------------------------------------------------------------
+
+
+//*** SEARCH BOX ***
+.searchbox {
+  float: right;
+  position: static !important; // logged in fix
+  width: 100%;
+
+  .block__title {
+    position: absolute;
+    top: 0;
+    right: em(95px);
+    width: em(40px);
+    height: em(50px);
+    margin: 0;
+    @include font(16);
+    text-indent: em(-10000px);
+    cursor: pointer;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: em(-9px);
+      margin-left: em(-9px);
+      @include icon(btn-search);
+    }
+  }
+
+  form {
+    display: none;
+    position: relative;
+  }
+
+  .form-item {
+    margin: 0;
+    padding: em(10px) 0;
+  }
+
+  input[type="text"] {
+    padding-right: em(32px);
+  }
+
+  input[type="submit"] {
+    position: absolute;
+    top: 50%;
+    right: em(10px);
+    margin-top: em(-9px); // Half of the image itself to put it dead in the middle
+    padding: 0;
+    border: 0;
+    text-indent: em(-10000px);
+    overflow: hidden;
+    background-color: transparent;
+    @include icon(btn-search);
+
+    &:hover {
+      @include icon(btn-search);
+    }
+  }
+
+  &.open .block__title:after {
+    @include icon(btn-menu-close);
+    margin-top: em(-17.5px);
+    margin-left: em(-17px);
+  }
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+  
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** SEARCH BOX ***
+  .searchbox {
+    @include span-columns(4 omega);
+    clear: right;
+    margin-top: em(15px);
+
+    .block__title {
+      display: none;
+    }
+
+    form {
+      display: block !important; // js overwrite
+    }
+    
+    .form-item {
+      padding: 0;
+    }
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** SEARCH BOX ***
+  .searchbox {
+    @include span-columns(4 omega);
+    margin-top: em(20px);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

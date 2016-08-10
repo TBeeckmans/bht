@@ -1,0 +1,56 @@
+//------------------------------------------------------------------------------
+// USP.SCSS ********************************************************************
+// Build for the USP overview and items, a special content type by default
+// used in the eco-ip and the commerce sites from the regular ip.
+//------------------------------------------------------------------------------
+
+
+//*** USP OVERVIEW ***
+.usp__overview {
+  float: left;
+  width: 100%;
+}
+
+.usp__list {
+  @include reset-list;
+}
+
+.usp__item {
+
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

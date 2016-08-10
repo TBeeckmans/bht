@@ -1,0 +1,384 @@
+//--------------------------------------------------------------------------------
+// STRUCTURE.SCSS ****************************************************************
+// This file contains the structure of the website. It controls the position and
+// size of the main blocks (#content, #sidebar).
+//--------------------------------------------------------------------------------
+
+
+//*** COMPATIBILITY MODE ***
+.ie8 #ie7 {
+  display: none;
+}
+
+
+//*** THROBBER ***
+.ajax-progress-throbber {
+  display: none;
+}
+
+
+//*** BODY ***
+body {
+  &:after {
+    content: "default";
+    @if $show-breakpoint-label == false {
+      display: block;
+      height: 0;
+      overflow: hidden;
+    }
+  }
+}
+
+body.cke_editable {
+  max-width: em($break-default-w);
+  margin: 0 auto;
+}
+
+
+//*** MAIN WRAPPER ***
+.wrapper {
+  overflow: hidden;
+
+  .overlay-open & {
+    &:before {
+      content: "";
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(red($black), green($black), blue($black), 0.15);
+      z-index: 2;
+    }
+  }
+}
+
+
+//*** CONTAINERS ***
+.container {
+  @include outer-container;
+  position: relative;
+  padding: 0 $gutter/2;
+}
+
+
+//*** LOGO ***
+#logo {
+  float: left;
+
+  img {
+    display: block;
+    height: em(50px);
+  }
+}
+
+
+//*** FILTERS MOBILE ***
+.filter-mobile {
+  position: fixed;
+  top: 0;
+  left: -80%;
+  width: 80%;
+  height: 100vh;
+  max-height: 100%;
+  padding: 0 em(15px) em(25px);
+  background: $grey-light;
+  overflow-y: auto;
+  @include transition(left 0.3s ease-in-out);
+  z-index: 3;
+
+  .overlay-open & {
+    left: 0;
+  }
+}
+
+.filter-mobile__title {
+  position: relative;
+  @include break-out(em(15px, 18px));
+  margin-bottom: em(15px, 18px);
+  @include font(18);
+  line-height: em(38px, 18px);
+  font-weight: 600;
+  color: $white;
+  background: $grey;
+}
+
+.filter-mobile__close {
+  position: absolute;
+  top: 50%;
+  right: em(10px, 18px);
+  margin-top: em(-17.5px, 18px);
+  text-indent: em(-10000px);
+  @include icon(btn-menu-close);
+  cursor: pointer;
+}
+
+
+//*** FILTERS DESKTOP ***
+.filter-desktop {
+  display: none;
+}
+
+
+//*** REGIONS ***
+#top,
+.wrapper > header,
+#slider,
+#main,
+#sidebar-left,
+#content,
+#sidebar-right,
+.wrapper > footer,
+#bottom {
+  float: left;
+  width: 100%;
+}
+
+
+//*** HEADER ***
+.wrapper > header {
+  margin-bottom: em(25px);
+  // padding: em(25px) 0;
+  background: $grey-light;
+}
+
+
+//*** CONTENT ***
+#content {
+  margin-bottom: em(25px);
+}
+
+
+//*** FOOTER ***
+.wrapper > footer {
+  padding: em(25px) 0;
+  background: $grey-light;
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+  //*** BODY ***
+  body {
+    &:after {
+      content: "break-1";
+    }
+  }
+  
+  @if $fixed-container {
+    .container { max-width: em($break-1-w); }
+    .ie8 .container { width: em($break-1-w); }
+    body:before { max-width: em($break-1-w); }
+  }
+  
+  body.cke_editable {
+    max-width: em($break-1-w);
+    margin: 0 auto;
+  }
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  //*** BODY ***
+  body {
+    &:after {
+      content: "break-2";
+    }
+  }
+
+  @if $fixed-container {
+    .container { max-width: em($break-2-w); }
+    .ie8 .container { width: em($break-2-w); }
+    body:before { max-width: em($break-2-w); }
+  }
+
+  body.cke_editable {
+    max-width: em($break-2-w);
+    margin: 0 auto;
+  }
+
+
+  //*** MAIN WRAPPER ***
+  .wrapper {
+    .overlay-open & {
+      &:before {
+        content: none;
+      }
+    }
+  }
+  
+
+  //*** LOGO ***
+  #logo {
+    @include span-columns(2);
+
+    img {
+      height: auto;
+    }
+  }
+
+
+  //*** FILTERS MOBILE ***
+  .filter-mobile {
+    display: none;
+  }
+
+
+  //*** FILTERS DESKTOP ***
+  .filter-desktop {
+    display: block;
+  }
+  .filter-desktop__title {
+    margin-bottom: em(25px, 20px);
+    @include font(20, 1);
+    font-weight: 600;
+  }
+
+
+  //*** CONTENT ***
+  #content {
+    @include span-columns(5);
+  }
+
+  body.no-left-sidebar.no-right-sidebar #content,
+  body.maintenance-page #content {
+    float: left;
+    width: 100%;
+  }
+
+  body.no-left-sidebar #content {
+    @include span-columns(7);
+  }
+
+  body.no-right-sidebar #content {
+    @include span-columns(7 omega);
+  }
+
+
+  //*** SIDEBARS ***
+  #sidebar-left {
+    @include span-columns(2);
+  }
+
+  #sidebar-right {
+    @include span-columns(2 omega);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  //*** BODY ***
+  body {
+    &:after {
+      content: "break-3";
+    }
+  }
+  
+  @if $fixed-container {
+    .container { max-width: em($break-3-w); }
+    .ie8 .container { width: em($break-3-w); }
+    body:before { max-width: em($break-3-w); }
+  }
+  
+  body.cke_editable {
+    margin: 0 auto;
+    max-width: em($break-3-w);
+  }
+
+
+  //*** LOGO ***
+  #logo {
+    width: auto;
+    margin: 0;
+  }
+
+
+  //*** CONTENT ***
+  #content {
+    @include span-columns(6);
+  }
+
+  body.no-left-sidebar #content {
+    @include span-columns(9);
+  }
+
+  body.no-right-sidebar #content {
+    @include span-columns(9 omega);
+  }
+
+
+  //*** SIDEBARS ***
+  #sidebar-left {
+    @include span-columns(3);
+  }
+
+  #sidebar-right {
+    @include span-columns(3 omega);
+  }
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+  
+  //*** BODY ***
+  body {
+    &:after {
+      content: "break-4";
+    }
+  }
+
+  @if $fixed-container {
+    .container { max-width: em($break-4-w); }
+    body:before { max-width: em($break-4-w); }
+  }
+  
+  .ie8 .container { width: em($break-4-w); }
+  body.cke_editable {
+    margin: 0 auto;
+    max-width: em($break-4-w);
+  }
+
+
+  //*** CONTENT ***
+  #content {
+    @include span-columns(7);
+  }
+
+  body.no-left-sidebar #content {
+    @include span-columns(11);
+  }
+
+  body.no-right-sidebar #content {
+    @include span-columns(11 omega);
+  }
+
+
+  //*** SIDEBARS ***
+  #sidebar-left {
+    @include span-columns(4);
+  }
+
+  #sidebar-right {
+    @include span-columns(4 omega);
+  }
+
+}

@@ -1,0 +1,25 @@
+{{#common}}%{{prefix}} {
+  background-image: url(../img/{{filename.png}});
+  background-repeat: no-repeat;
+
+  html.svg & {
+    background-image: url(../img/{{filename.svg}});
+  }
+}
+
+{{/common}}{{#svg}}
+{{#selector}}%{{expression}}{{^last}},
+{{/last}}{{/selector}} {
+  {{#common}}@extend %{{prefix}};
+  background-position: {{position}};{{/common}}{{^common}}{{#sprite}}background-image: url(../img/{{{sprite}}});
+  background-position: {{position}};{{/sprite}}{{^sprite}}background-image: url(../img/{{#encode}}"{{{encoded}}}"{{/encode}}{{^encode}}{{{path}}}{{/encode}});{{/sprite}}
+  background-repeat: no-repeat;{{/common}}
+}{{#dims}}{{#dimensions}}
+
+{{#selector}}%{{expression}}{{^last}},
+{{/last}}{{/selector}} {
+  width: {{width}}px;
+  height: {{height}}px;
+}{{/dimensions}}{{/dims}}
+
+{{/svg}}

@@ -1,0 +1,154 @@
+//--------------------------------------------------------------------------------
+// CAROUSEL.SCSS *****************************************************************
+// Default carousel styling (By Thierry)
+//--------------------------------------------------------------------------------
+
+
+@mixin carousel-class($break, $gutter: false) {
+  $show-items: 5;
+  @while $show-items > 0 {
+    $total-items: 20;
+    @while $total-items > 0 {
+      $correction: (1 / $show-items) * $total-items;
+      @if $gutter == true {
+        $single-item-width: flex-grid($grid-columns/$show-items, $grid-columns * $correction);
+        $single-gutter-width: flex-gutter($grid-columns * $correction);
+      }
+
+      &.b#{$break}-show-#{$show-items} .items-#{$total-items} {
+        @if $gutter == true {
+          width: 100% * $correction + (flex-gutter($grid-columns)*($correction - 1));
+        }
+        @else {
+          width: 100% * $correction;
+        }
+
+        .carousel__item {
+          float: left;
+          @if $gutter == true {
+            width: $single-item-width;
+            margin-right: $single-gutter-width;
+
+            &.last {
+              margin-right: 0;
+            }
+          } @else {
+            width: 100%/$total-items;
+          }
+        }
+      }
+      $total-items: $total-items - 1;
+    }
+    $show-items: $show-items - 1;
+  }
+}
+
+.carousel {
+  position: relative;
+
+  $break-list: (default, $break-1, $break-2, $break-3, $break-4);
+  @each $break in $break-list {
+    $i: index($break-list, $break) - 1;
+    @if $i == 0 {
+      @include carousel-class($i);
+    }
+    @else {
+      @include media($break) {
+        @include carousel-class($i);
+      }
+    }
+  }
+}
+
+.carousel__list {
+  @include transition(left .4s cubic-bezier(1,-0.3,0,1.25));
+  @include transform(translatez(0));
+  left: 0;
+  position: relative;
+}
+
+.carousel__item {
+  img {
+    width: 100%;
+  }
+}
+
+.layout__carousel {
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel__nav {}
+
+.carousel__nav-link {
+  @include transition(all .4s linear);
+
+  &:after {
+    content: "";
+    display: block;
+    margin: em(8px);
+  }
+
+  &.prev,
+  &.next {
+    position: absolute;
+    top: 45%;
+  }
+
+  &.prev {
+    left: em(5px);
+
+    &:after {
+      @include icon(slider-prev);
+    }
+  }
+
+
+  &.next {
+    right: em(5px);
+
+    &:after {
+      @include icon(slider-next);
+    }
+  }
+
+}
+.carousel.first .carousel__nav-link.prev,
+.carousel.last .carousel__nav-link.next {
+  opacity: 0;
+}
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+}
+
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

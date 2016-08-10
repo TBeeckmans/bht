@@ -1,0 +1,12 @@
+//------------------------------------------------------------------------------
+// NORMALIZE_OVERRIDES.SCSS ****************************************************
+// This file is used to override or extend the default normalize resetter.
+//------------------------------------------------------------------------------
+
+
+//*** UNDO DEFAULT FIELDSET STYLING ***
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}

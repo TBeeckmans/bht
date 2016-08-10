@@ -1,0 +1,97 @@
+//------------------------------------------------------------------------------
+// BANNER.SCSS *****************************************************************
+// Default banner styling
+//------------------------------------------------------------------------------
+
+
+.banner {
+  margin-bottom: em(15px);
+}
+
+.banner--slider {
+  position: relative;
+}
+
+.banner__list {
+  @include reset-list();
+}
+
+.banner__item {
+  float: left;
+  width: 100%;
+}
+
+.banner__link {
+  display: block;
+}
+
+.banner__image img {
+  display: block;
+}
+
+.banner__text {
+  float: left;
+  width: 100%;
+  padding: em(15px);
+  text-align: center;
+  background: $grey-light;
+
+  p {
+    margin: 0;
+  }
+  
+  .btn {
+    margin-top: em(15px);
+  }
+}
+
+.banner__title {
+  margin-bottom: em(5px);
+  font-weight: 700;
+}
+
+
+//*************************
+//***** MEDIA QUERIES *****
+//*************************
+
+//-------------
+//-- BREAK 1 --
+//-------------
+@include media($break-1) {
+
+}
+
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  .banner__item {
+    position: relative;
+  }
+
+  .banner__text {
+    position: absolute;
+    bottom: em(15px);
+    left: em(15px);
+    width: auto;
+    padding: em(10px);
+    text-align: left;
+  }
+
+}
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+}
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+}

@@ -1,0 +1,8 @@
+name = Link autocomplete
+description = Custom link autocomplete field
+core = 7.x
+package = BHT
+
+dependencies[] = link
+
+version = 7.x-1.0

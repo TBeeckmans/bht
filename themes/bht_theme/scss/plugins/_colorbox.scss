@@ -1,0 +1,160 @@
+//--------------------------------------------------------------------------------
+// COLORBOX.SCSS *****************************************************************
+// This file is used to style the colorbox popup
+//--------------------------------------------------------------------------------
+
+
+//*** GENERAL - DON'T TOUCH ***
+#colorbox,
+#cboxOverlay,
+#cboxWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+#cboxOverlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+#cboxMiddleLeft,
+#cboxBottomLeft {
+  clear: left;
+}
+
+#cboxContent {
+  position: relative;
+  overflow: hidden;
+}
+
+#cboxLoadedContent {
+  overflow: visible !important;
+}
+
+#cboxLoadingOverlay,
+#cboxLoadingGraphic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#cboxPrevious,
+#cboxNext,
+#cboxClose,
+#cboxSlideshow {
+  cursor: pointer;
+}
+
+#cboxPrevious,
+#cboxNext {
+  position: absolute;
+  top: 50%;
+  width: em(35px);
+  height: em(60px);
+  margin-top: em(-30px);
+  text-indent: em(-10000px);
+  background: $black;
+  background: rgba(0,0,0,0.5);
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: em(-18px);
+    margin-left: em(-9px);
+  }
+  &:hover {
+    background: rgba(0,0,0,0.75);
+  }
+}
+
+#cboxPrevious {
+  left: 0;
+}
+
+#cboxNext {
+  right: 0;
+}
+
+#cboxClose {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: em(35px);
+  height: em(35px);
+  text-indent: em(-10000px);
+  background: $black;
+  background: rgba(0,0,0,0.5);
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: em(-10px);
+    margin-left: em(-10px);
+  }
+  &:hover {
+    background: rgba(0,0,0,0.75);
+  }
+}
+
+.cboxPhoto {
+  float: left;
+  display: block;
+  margin: auto;
+  border: 0;
+  max-width: none;
+}
+
+.cboxIframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+#cboxTitle {
+  position: absolute;
+  top: em(10px);
+  left: em(10px);
+  padding: em(5px);
+  background: $background;
+}
+
+
+//*** SPECIFIC - OWN STYLING ***
+#cboxOverlay {
+  @include opacity(0.5);
+  background: $white;
+}
+
+#cboxLoadingGraphic {
+  background: url('../img/colorbox-loading.gif') no-repeat center center;
+}
+
+#cboxLoadingOverlay {
+  background: $white;
+}
+
+#cboxPrevious:before {
+  @include icon(cb-prev);
+}
+
+#cboxNext:before {
+  @include icon(cb-next);
+}
+
+#cboxLoadedContent img {
+}
+
+#cboxClose:before {
+  @include icon(cb-close);
+}

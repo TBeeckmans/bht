@@ -75,3 +75,44 @@ function bht_form_optimizer_form_alter(&$form, &$form_state, $form_id) {
       break;
   }
 }
+
+/**
+ * @param $entity
+ * @return object Entity object
+ */
+function _paragraphs_root_entity($entity) {
+  $root_entity = NULL;
+
+  if (is_object($entity)) {
+    if (method_exists($entity, 'hostEntity')) {
+      $root_entity = $entity->hostEntity();
+      if (method_exists($root_entity, 'hostEntity')) {
+        $root_entity = _paragraphs_root_entity($root_entity);
+      }
+    }
+  }
+
+  return $root_entity;
+}
+
+
+/**
+ * @param $entity
+ * @return string Entity type
+ */
+function _paragraphs_root_entity_type($entity) {
+  $root_entity = NULL;
+  $root_entity_type = NULL;
+
+  if (is_object($entity)) {
+    if (method_exists($entity, 'hostEntity') && method_exists($entity, 'hostEntityType')) {
+      $root_entity = $entity->hostEntity();
+      $root_entity_type = $entity->hostEntityType();
+      if (method_exists($root_entity, 'hostEntity') && method_exists($root_entity, 'hostEntityType')) {
+        $root_entity_type = _paragraphs_root_entity_type($root_entity);
+      }
+    }
+  }
+
+  return $root_entity_type;
+}
