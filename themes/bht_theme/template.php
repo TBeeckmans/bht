@@ -350,27 +350,27 @@ function bht_theme_preprocess_entity(&$variables, $hook) {
       $variables['classes_array'] = array('bean');
     }
 
-    $link = $variables['field_link'];
+    if (!empty($variables['field_link'])) {
+      $link = $variables['field_link'];
 
-    // Get the link array.
-    while (!isset($link['url']) && gettype($link) == 'array') {
-      $link = reset($link);
-    }
+      // Get the link array.
+      while (!isset($link['url']) && gettype($link) == 'array') {
+        $link = reset($link);
+      }
 
-    // Parse the link address from the link array.
-    if (isset($link['url']) && strlen($link['url']) > 0) {
-      // Try to get the internal source link.
-      $linkurl = theme_get_relative_link($link['url']);
-      // If an internal link is found, wrap the block content in a link.
-      if ($linkurl && $needle = array_search("bean__" . $variables['elements']['#bundle'] . "__" . $variables['elements']['#view_mode'], $variables['theme_hook_suggestions'])) {
-        // Add a theme hook suggestion before the specific nid-delta suggestion.
-        $extra_theme_hook_suggestions = array(
-          "bean__" . $variables['elements']['#bundle'] . "__has_link",
-          "bean__" . $variables['elements']['#bundle'] . "__" . $variables['view_mode'] . "__has_link",
-        );
-        array_splice($variables['theme_hook_suggestions'], ++$needle, 0, $extra_theme_hook_suggestions);
-        // Remove the field_link from the bean content.
-        //unset($variables['content']['field_link']);
+      // Parse the link address from the link array.
+      if (isset($link['url']) && strlen($link['url']) > 0) {
+        // Try to get the internal source link.
+        $linkurl = theme_get_relative_link($link['url']);
+        // If an internal link is found, wrap the block content in a link.
+        if ($linkurl && $needle = array_search("bean__" . $variables['elements']['#bundle'] . "__" . $variables['elements']['#view_mode'], $variables['theme_hook_suggestions'])) {
+          // Add a theme hook suggestion before the specific nid-delta suggestion.
+          $extra_theme_hook_suggestions = array(
+            "bean__" . $variables['elements']['#bundle'] . "__has_link",
+            "bean__" . $variables['elements']['#bundle'] . "__" . $variables['view_mode'] . "__has_link",
+          );
+          array_splice($variables['theme_hook_suggestions'], ++$needle, 0, $extra_theme_hook_suggestions);
+        }
       }
     }
   }

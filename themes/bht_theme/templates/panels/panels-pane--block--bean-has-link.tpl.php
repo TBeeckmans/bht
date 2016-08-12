@@ -27,7 +27,7 @@
   <?php endif; ?>
 
   <?php if (isset($link) && isset($link_options)): ?>
-    <a href="<?php print check_plain(url($link, $link_options)); ?>" class="pane__link">
+    <a href="<?php print rawurldecode(url($link, $link_options)); ?>" class="pane__link">
       <div class="layout__pane">
   <?php endif; ?>
 
