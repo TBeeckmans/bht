@@ -21,8 +21,12 @@
  */
 function bht_custom_entity_info_alter(&$entity_info) {
 
-  $entity_info['node']['view modes']['teaser_promote'] = array(
-    'label' => t('Promote teaser'),
+  $entity_info['node']['view modes']['promoted'] = array(
+    'label' => t('Promoted'),
+    'custom settings' => TRUE,
+  );
+  $entity_info['node']['view modes']['teaser_promoted'] = array(
+    'label' => t('Promoted teaser'),
     'custom settings' => TRUE,
   );
 

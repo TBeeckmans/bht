@@ -33,6 +33,55 @@ function bht_custom_theme() {
     ),
   );
 
+  $theme['event_promoted'] = array(
+    'template' => 'templates/event-promoted',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
+  $theme['action_current'] = array(
+    'template' => 'templates/action-current',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
+  $theme['action_past'] = array(
+    'template' => 'templates/action-past',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
+  $theme['recipe_related'] = array(
+    'template' => 'templates/recipe-related',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
+  $theme['recipe_promoted'] = array(
+    'template' => 'templates/recipe-promoted',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
+  $theme['recipe_sticky'] = array(
+    'template' => 'templates/recipe-sticky',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
+  $theme['brand_banner'] = array(
+    'template' => 'templates/brand-banner',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
   return $theme;
 }
 

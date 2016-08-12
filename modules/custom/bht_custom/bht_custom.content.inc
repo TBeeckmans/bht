@@ -47,7 +47,7 @@ function _paragraphs_date_content($entity) {
   $output = array(
     '#theme' => 'date_created',
     '#timestamp' => $rootEntity->created,
-    '#css_block' => $css_block
+    '#css_block' => $css_block,
   );
 
   // Set date field if available.
@@ -292,36 +292,30 @@ function _content_event_latest() {
 function _content_event_promoted() {
   $output = array();
 
-  //// BUILD QUERY
-  ////////////////
-  //// Select the table
-  //$query = db_select('node', 'n');
-  //// Pick the fields
-  //$query->fields('n', array('nid'));
-  //// Add conditions
-  //$query->condition('n.type', 'recipe')
-  //      ->condition('n.status', '1')
-  //      ->condition('n.promote', '1');
-  //// Filtered by language
-  //if (module_exists('i18n_node')) {
-  //  global $language;
-  //  $query->condition('n.language', $language->language);
-  //}
-  //// Limit the results
-  //$query->range(0,1);
-  //// Process query
-  //$nids = $query->execute()->fetchCol();
-  //
-  //if (!empty($nids)) {
-  //  // Load the nodes
-  //  $nodes = node_load_multiple($nids);
-  //  $nodes = node_view_multiple($nodes, 'teaser_promote');
-  //
-  //  $output = array(
-  //    '#theme' => 'recipe_promoted',
-  //    '#items' => $nodes['nodes'],
-  //  );
-  //}
+  // BUILD QUERY.
+  // Select the table.
+  $query = db_select('node', 'n');
+  // Pick the fields.
+  $query->fields('n', array('nid'));
+  // Add conditions.
+  $query->condition('n.type', 'event')
+        ->condition('n.status', '1')
+        ->condition('n.promote', '1');
+  // Limit the results.
+  $query->range(0, 1);
+  // Process query.
+  $nids = $query->execute()->fetchCol();
+
+  if (!empty($nids)) {
+    // Load the nodes.
+    $nodes = node_load_multiple($nids);
+    $nodes = node_view_multiple($nodes, 'promoted');
+
+    $output = array(
+      '#theme' => 'event_promoted',
+      '#items' => $nodes['nodes'],
+    );
+  }
 
   return $output;
 }
@@ -336,36 +330,32 @@ function _content_event_promoted() {
 function _content_event_promoted_cta() {
   $output = array();
 
-  //// BUILD QUERY
-  ////////////////
-  //// Select the table
-  //$query = db_select('node', 'n');
-  //// Pick the fields
-  //$query->fields('n', array('nid'));
-  //// Add conditions
-  //$query->condition('n.type', 'action')
-  //      ->condition('n.status', '1')
-  //      ->condition('n.promote', '1');
-  //// Filtered by language
-  //if (module_exists('i18n_node')) {
-  //  global $language;
-  //  $query->condition('n.language', $language->language);
-  //}
-  //// Limit the results
-  //$query->range(0,1);
-  //// Process query
-  //$nids = $query->execute()->fetchCol();
-  //
-  //if (!empty($nids)) {
-  //  // Load the nodes
-  //  $nodes = node_load_multiple($nids);
-  //  $nodes = node_view_multiple($nodes, 'teaser_promote');
-  //
-  //  $output = array(
-  //    '#theme' => 'action_promoted',
-  //    '#items' => $nodes['nodes'],
-  //  );
-  //}
+  // BUILD QUERY.
+  // Select the table.
+  $query = db_select('node', 'n');
+  // Pick the fields.
+  $query->fields('n', array('nid'));
+  // Add conditions.
+  $query->condition('n.type', 'event')
+        ->condition('n.status', '1')
+        ->condition('n.promote', '1');
+  // Limit the results.
+  $query->range(0, 1);
+  // Process query.
+  $nids = $query->execute()->fetchCol();
+
+  if (!empty($nids)) {
+    // Load the nodes.
+    $nodes = node_load_multiple($nids);
+    $nodes = node_view_multiple($nodes, 'teaser_promoted');
+
+    $output = array(
+      '#theme' => 'event_promoted_cta',
+      '#items' => $nodes['nodes'],
+    );
+  }
+
+  return $output;
 
   return $output;
 }
