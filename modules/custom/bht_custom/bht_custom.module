@@ -1,7 +1,16 @@
 <?php
+/**
+ * @file
+ * Adds custom functionality, configuration and structure to the site.
+ */
 
 /**
- * Implements hook_permission
+ * Define any constants here.
+ */
+//define('BHT_VARIABLE', variable_get('bht_variable', ''));
+
+/**
+ * Implements hook_permission().
  */
 function bht_permission() {
   // Add an extra access check to manage display page.
@@ -13,7 +22,7 @@ function bht_permission() {
 }
 
 /**
- * Implements hook_menu
+ * Implements hook_menu().
  */
 function bht_menu() {
   $items = array();
@@ -34,7 +43,7 @@ function bht_menu() {
 }
 
 /**
- * Implements hook_menu_alter
+ * Implements hook_menu_alter().
  */
 function bht_custom_menu_alter(&$items) {
   // This adds an access check for the manage display pages.
@@ -48,71 +57,36 @@ function bht_custom_menu_alter(&$items) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Define blocks.
  */
-function bht_form_optimizer_form_alter(&$form, &$form_state, $form_id) {
-  // Add BEM styling to user forms
-  switch ($form_id) {
-    case 'user_login':
-      $form['#attributes'] = array('class' => array('user__form', 'user__form--login'));
-      break;
-
-    case 'user_pass':
-      $form['#attributes'] = array('class' => array('user__form', 'user__form--password'));
-      break;
-
-    case 'user_register_form':
-      $form['#attributes'] = array('class' => array('user__form', 'user__form--register'));
-      unset($form['account']['#type']);
-      break;
-
-    case 'user_profile_form':
-      $form['#attributes'] = array('class' => array('user__form', 'user__form--profile'));
-      unset($form['account']['#type']);
-      break;
-
-    default:
-      break;
-  }
-}
+module_load_include('inc', 'bht_custom', 'bht_custom.blocks');
 
 /**
- * @param $entity
- * @return object Entity object
+ * Alter forms.
  */
-function _paragraphs_root_entity($entity) {
-  $root_entity = NULL;
-
-  if (is_object($entity)) {
-    if (method_exists($entity, 'hostEntity')) {
-      $root_entity = $entity->hostEntity();
-      if (method_exists($root_entity, 'hostEntity')) {
-        $root_entity = _paragraphs_root_entity($root_entity);
-      }
-    }
-  }
-
-  return $root_entity;
-}
-
+module_load_include('inc', 'bht_custom', 'bht_custom.forms');
 
 /**
- * @param $entity
- * @return string Entity type
+ * Alter entities and/or add view modes to them.
  */
-function _paragraphs_root_entity_type($entity) {
-  $root_entity = NULL;
-  $root_entity_type = NULL;
+module_load_include('inc', 'bht_custom', 'bht_custom.entities');
 
-  if (is_object($entity)) {
-    if (method_exists($entity, 'hostEntity') && method_exists($entity, 'hostEntityType')) {
-      $root_entity = $entity->hostEntity();
-      $root_entity_type = $entity->hostEntityType();
-      if (method_exists($root_entity, 'hostEntity') && method_exists($root_entity, 'hostEntityType')) {
-        $root_entity_type = _paragraphs_root_entity_type($root_entity);
-      }
-    }
-  }
+/**
+ * Generate content.
+ */
+module_load_include('inc', 'bht_custom', 'bht_custom.content');
 
-  return $root_entity_type;
-}
+/**
+ * Add theme templates and/or hooks.
+ */
+module_load_include('inc', 'bht_custom', 'bht_custom.theme');
+
+/**
+ * Define tokens.
+ */
+module_load_include('inc', 'bht_custom', 'bht_custom.tokens');
+
+/**
+ * Add module helper functions.
+ */
+module_load_include('inc', 'bht_custom', 'bht_custom.helper');
