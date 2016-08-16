@@ -5,7 +5,6 @@
  * Generate the renderable arrays for the custom content.
  */
 
-
 /**
  * Generate the paragraphs date field.
  *
@@ -63,7 +62,6 @@ function _paragraphs_date_content($entity) {
 
   return $output;
 }
-
 
 /**
  * Generate a renderable array with the start and / or the end date.
@@ -136,53 +134,6 @@ function _format_date($entityType, $entity, $date_fieldname) {
  * @return array $output
  *    Renderable array of news nodes.
  */
-function _content_news_overview() {
-  $output = array();
-
-  //// BUILD QUERY
-  ////////////////
-  //// Select the table
-  //$query = db_select('node', 'n')->extend('PagerDefault')->element(1);
-  //// Join tables
-  //$query->leftJoin('field_data_field_action_date', 'd', 'd.entity_id = n.nid');
-  //// Pick the fields
-  //$query->fields('n', array('nid'));
-  //// Add conditions
-  //$query->condition('n.status', '1')
-  //      ->condition('n.type', 'action')
-  //      ->condition("d.field_action_date_value2", time(), '>=');
-  //// Filtered by language
-  //if (module_exists('i18n_node')) {
-  //  global $language;
-  //  $query->condition('n.language', $language->language);
-  //}
-  //// Add sorting
-  //$query->orderBy('n.sticky', 'DESC')
-  //      ->orderBy('d.field_action_date_value2', 'DESC')
-  //      ->orderBy('n.title', 'ASC');
-  //// Limit the pager range
-  //$query->limit(variable_get('action_current_count', '3'));
-  //// Process query
-  //$nids = $query->execute()->fetchCol();
-  //
-  //if (!empty($nids)) {
-  //  // Load the nodes
-  //  $nodes = node_load_multiple($nids);
-  //  $nodes = node_view_multiple($nodes, 'teaser');
-  //
-  //  $output[] = array(
-  //    '#theme' => 'news',
-  //    '#items' => $nodes['nodes'],
-  //  );
-  //  $output[] = array(
-  //    '#theme' => 'pager',
-  //    '#element' => 1,
-  //  );
-  //}
-
-  return $output;
-}
-
 
 /**
  * Generate the latest news list.
@@ -193,92 +144,67 @@ function _content_news_overview() {
 function _content_news_latest() {
   $output = array();
 
-  //// BUILD QUERY
-  ////////////////
-  //// Select the table
-  //$query = db_select('node', 'n')->extend('PagerDefault')->element(2);
-  //// Join tables
-  //$query->leftJoin('field_data_field_action_date', 'd', 'd.entity_id = n.nid');
-  //// Pick the fields
-  //$query->fields('n', array('nid'));
-  //// Add conditions
-  //$query->condition('n.status', '1')
-  //      ->condition('n.type', 'action')
-  //      ->condition("d.field_action_date_value2", time(), '<');
-  //// Filtered by language
-  //if (module_exists('i18n_node')) {
-  //  global $language;
-  //  $query->condition('n.language', $language->language);
-  //}
-  //// Add sorting
-  //$query->orderBy('n.sticky', 'DESC')
-  //      ->orderBy('d.field_action_date_value2', 'DESC')
-  //      ->orderBy('n.title', 'ASC');
-  //// Limit the pager range
-  //$query->limit(variable_get('action_past_count', '8'));
-  //// Process query
-  //$nids = $query->execute()->fetchCol();
-  //
-  //if (!empty($nids)) {
-  //  // Load the nodes
-  //  $nodes = node_load_multiple($nids);
-  //  $nodes = node_view_multiple($nodes);
-  //
-  //  $output[] = array(
-  //    '#theme' => 'action_past',
-  //    '#items' => $nodes['nodes'],
-  //  );
-  //  $output[] = array(
-  //    '#theme' => 'pager',
-  //    '#element' => 2,
-  //  );
-  //}
+  // Get the results of the news and events with a calculated publication date.
+  $query = db_select('node', 'n');
+  $query->leftJoin('field_data_field_date', 'd', 'd.entity_id = n.nid');
+  $query->addExpression('CASE WHEN d.field_date_value IS NULL THEN FROM_UNIXTIME(n.created) ELSE FROM_UNIXTIME(d.field_date_value) - INTERVAL 2 MONTH END', 'publish');
+  $query->fields('n', array('nid', 'type', 'title'));
+  $query->condition('n.status', '1')
+        ->condition('n.type', array('news', 'events'));
+  if (drupal_is_front_page()) {
+    $and = db_and();
+    $and->condition('n.type', 'events');
+    $and->condition('n.promote', '0');
+    $or = db_or()->condition($and)
+                 ->condition('n.type', 'news');
+    $query->condition($or);
+  }
+  $query->where('FROM_UNIXTIME(d.field_date_value) - INTERVAL 10 MONTH <= NOW() OR (d.field_date_value IS NULL AND n.created <= NOW())')
+        ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 2 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 2 MONTH))');
+  $query->orderBy('sticky', 'DESC');
+  $query->orderBy('publish', 'DESC');
+  $results = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_OBJ);
 
-  return $output;
-}
+  // Add a weight count based on the incremental total of each entity type.
+  $event_count = 0;
+  $news_count = 0;
+  foreach ($results as $nid => $node) {
+    switch ($node->type) {
+      case 'events':
+        $results[$nid]->weight = ++$event_count;
+        break;
+
+      case 'news':
+        $results[$nid]->weight = ++$news_count;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  // Sort by the given weight.
+  usort($results, '_bht_news_weight_sort');
+
+  // Only return the first two items.
+  $results = array_slice($results, 0, 2);
 
 
-/**
- * Generate the latest event list.
- *
- * @return array $output
- *    Renderable array of event nodes.
- */
-function _content_event_latest() {
-  $output = array();
+  if (!empty($results)) {
+    $nids = array();
+    foreach ($results as $node) {
+      $nids[] = $node->nid;
+    }
 
-  //// BUILD QUERY
-  ////////////////
-  //// Select the table
-  //$query = db_select('node', 'n');
-  //// Pick the fields
-  //$query->fields('n', array('nid'));
-  //// Add conditions
-  //$query->condition('n.type', 'recipe')
-  //      ->condition('n.status', '1');
-  //$db_or = db_or()->condition('n.sticky', '1')
-  //                ->condition('n.promote', '1');
-  //$query->condition($db_or);
-  //// Filtered by language
-  //if (module_exists('i18n_node')) {
-  //  global $language;
-  //  $query->condition('n.language', $language->language);
-  //}
-  //// Sort the results
-  //$query->orderBy('n.promote', 'DESC');
-  //// Process query
-  //$nids = $query->execute()->fetchCol();
-  //
-  //if (!empty($nids)) {
-  //  // Load the nodes
-  //  $nodes = node_load_multiple($nids);
-  //  $nodes = node_view_multiple($nodes, 'teaser_sticky');
-  //
-  //  $output = array(
-  //    '#theme' => 'recipe_sticky',
-  //    '#items' => $nodes['nodes'],
-  //  );
-  //}
+    // Load the nodes.
+    $nodes = node_load_multiple($nids);
+    $nodes = node_view_multiple($nodes);
+
+    $output[] = array(
+      '#theme' => 'news_latest',
+      '#items' => $nodes['nodes'],
+    );
+  }
 
   return $output;
 }

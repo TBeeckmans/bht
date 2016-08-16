@@ -10,26 +10,8 @@
 function bht_custom_block_info() {
   $block = array();
 
-  $block['news'] = array(
-    'info' => t('News'),
-    'cache' => DRUPAL_CACHE_PER_PAGE,
-    'visibility' => BLOCK_VISIBILITY_LISTED,
-    'pages' => '',
-    'region' => '-1',
-    'status' => 1,
-  );
-
   $block['news_latest'] = array(
     'info' => t('Latest news'),
-    'cache' => DRUPAL_CACHE_PER_PAGE,
-    'visibility' => BLOCK_VISIBILITY_NOTLISTED,
-    'pages' => '',
-    'region' => '-1',
-    'status' => 1,
-  );
-
-  $block['event_latest'] = array(
-    'info' => t('Latest event'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
     'visibility' => BLOCK_VISIBILITY_NOTLISTED,
     'pages' => '',
@@ -110,11 +92,6 @@ function bht_custom_block_view($delta='') {
     case 'news_latest':
       $block['subject'] = t('Latest news');
       $block['content'] = _content_news_latest();
-      break;
-
-    case 'event_latest':
-      $block['subject'] = t('Latest event');
-      $block['content'] = _content_event_latest();
       break;
 
     case 'event_promoted':

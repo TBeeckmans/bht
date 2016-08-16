@@ -235,3 +235,31 @@ function _paragraphs_root_entity_type($entity) {
 
   return $root_entity_type;
 }
+
+/**
+ * User sort function for the BHT News.
+ *
+ * @param object $a
+ *    Object A t o compare.
+ * @param object $b
+ *    Object B t o compare.
+ *
+ * @return int
+ *    The sort indicator.
+ */
+function _bht_news_weight_sort($a, $b) {
+  if ($a->weight != $b->weight) {
+    return $a->weight < $b->weight ? -1 : 1;
+  }
+
+  return 0;
+}
+
+/**
+ * Theme helper function. Print location of template file.
+ */
+function theme_helper($file) {
+  if ((bool) variable_get('bht_production', FALSE)) {
+    print "<!-- " . $file . "-->";
+  }
+}

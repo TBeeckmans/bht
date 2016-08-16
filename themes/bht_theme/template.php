@@ -233,7 +233,7 @@ function bht_theme_preprocess_panels_pane(&$variables) {
   }
 
   // Add some usable classes based on type/subtype.
-  while (!empty($content) && gettype($content) == 'array' && !isset($content['#entity_type'])) {
+  while (!empty($content) && gettype($content) == 'array' && !isset($content['#entity_type']) && !isset($content['#theme'])) {
     $content = reset($content);
   }
 
@@ -242,7 +242,7 @@ function bht_theme_preprocess_panels_pane(&$variables) {
   if (isset($content['#entity'])) {
     $entity = $content['#entity'];
   }
-  elseif (isset($content['#' . $content['#entity_type']])) {
+  elseif (isset($content['#entity_type']) && isset($content['#' . $content['#entity_type']])) {
     $entity = $content['#' . $content['#entity_type']];
   }
 
@@ -1451,15 +1451,6 @@ function bht_theme_tablefield_view($variables) {
 /**
  * CUSTOM FUNCTIONS.
  */
-
-/**
- * Theme helper function. Print location of template file.
- */
-function theme_helper($file) {
-  if ((bool) variable_get('bht_production', FALSE)) {
-    print "<!-- " . $file . "-->";
-  }
-}
 
 /**
  * Helper function for returning the relative source path.

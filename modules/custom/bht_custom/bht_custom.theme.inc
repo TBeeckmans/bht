@@ -1,12 +1,8 @@
 <?php
 /**
- * @file bht_custom.theme.inc
- *
- * @description
+ * @file
  * Add theming functions/templates etc.
  */
-
-
 
 /**
  * Implements hook_theme().
@@ -33,8 +29,22 @@ function bht_custom_theme() {
     ),
   );
 
+  $theme['news_latest'] = array(
+    'template' => 'templates/news-latest',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
   $theme['event_promoted'] = array(
     'template' => 'templates/event-promoted',
+    'variables' => array(
+      'items' => NULL,
+    ),
+  );
+
+  $theme['event_promoted_cta'] = array(
+    'template' => 'templates/event-promoted-cta',
     'variables' => array(
       'items' => NULL,
     ),
@@ -88,17 +98,55 @@ function bht_custom_theme() {
 
 /**
  * Add custom theme hook suggestions for the date field.
+ *
  * @param $variables
  */
 function bht_custom_preprocess_date_field(&$variables) {
   if (isset($variables['css_block']) && !empty($variables['css_block'])) {
-    $variables['theme_hook_suggestions'][] = $variables['theme_hook_original'] . '__' . drupal_clean_css_identifier($variables['css_block'], array(' ' => '_', '-' => '_', '/' => '_', '[' => '_', ']' => ''));
+    $variables['theme_hook_suggestions'][] = $variables['theme_hook_original'] . '__' . drupal_clean_css_identifier(
+        $variables['css_block'],
+        array(
+          ' ' => '_',
+          '-' => '_',
+          '/' => '_',
+          '[' => '_',
+          ']' => '',
+        )
+      );
   }
   if (isset($variables['css_modifier']) && !empty($variables['css_modifier'])) {
-    $variables['theme_hook_suggestions'][] = $variables['theme_hook_original'] . '__' . drupal_clean_css_identifier($variables['css_modifier'], array(' ' => '_', '-' => '_', '/' => '_', '[' => '_', ']' => ''));
+    $variables['theme_hook_suggestions'][] = $variables['theme_hook_original'] . '__' . drupal_clean_css_identifier(
+        $variables['css_modifier'],
+        array(
+          ' ' => '_',
+          '-' => '_',
+          '/' => '_',
+          '[' => '_',
+          ']' => '',
+        )
+      );
   }
   if (isset($variables['css_block']) && !empty($variables['css_block'])
-  && isset($variables['css_modifier']) && !empty($variables['css_modifier'])) {
-    $variables['theme_hook_suggestions'][] = $variables['theme_hook_original'] . '__' . drupal_clean_css_identifier($variables['css_block'], array(' ' => '_', '-' => '_', '/' => '_', '[' => '_', ']' => '')) . '__' . drupal_clean_css_identifier($variables['css_modifier'], array(' ' => '_', '-' => '_', '/' => '_', '[' => '_', ']' => ''));
+    && isset($variables['css_modifier']) && !empty($variables['css_modifier'])
+  ) {
+    $variables['theme_hook_suggestions'][] = $variables['theme_hook_original'] . '__' . drupal_clean_css_identifier(
+        $variables['css_block'],
+        array(
+          ' ' => '_',
+          '-' => '_',
+          '/' => '_',
+          '[' => '_',
+          ']' => '',
+        )
+      ) . '__' . drupal_clean_css_identifier(
+        $variables['css_modifier'],
+        array(
+          ' ' => '_',
+          '-' => '_',
+          '/' => '_',
+          '[' => '_',
+          ']' => '',
+        )
+      );
   }
 }
