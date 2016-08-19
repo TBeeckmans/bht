@@ -1,0 +1,7 @@
+name = BHT mobile menu
+description = Custom module for mobile menus
+core = 7.x
+
+package = BHT
+version = 7.x-1.0
+

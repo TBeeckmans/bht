@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * Implementation of hook_block_info().
+ */
+function bht_mobilemenu_block_info() {
+  return array(
+    'multimenu' => array(
+      'title' => t('Menu'),
+      'info' => t('CB - Mobile menu'),
+      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+      'pages' => '',
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+      'status' => 1,
+      'region' => '-1',
+      'css_class' => '<tag:nav> nav__mobile js-header-toggle',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_block_view().
+ */
+function bht_mobilemenu_block_view($delta='') {
+	$block = array();
+
+  switch ($delta) {
+    case 'multimenu':
+      $block['subject'] = t('CB - Multimenu');
+      $block['content'] = _content_multimenu();
+    break;
+  }
+
+  return $block;
+}
+
+/**
+ * Returns a renderable menu array
+ */
+function _content_multimenu() {
+  $output = array('container' => array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'class' => array('nav__layout'),
+      ),
+    ),
+  );
+
+  // Grab the system menu
+  $main_menu = menu_tree_page_data('main-menu');
+
+  // Set active trails
+  menu_tree_active_path($main_menu);
+
+  // Generate the renderable array
+  $output['container'][] = menu_tree_output($main_menu);
+
+  // Grab the system menu
+  $secondary_menu = menu_tree_page_data('menu-secondary-menu');
+
+  // Set active trails
+  menu_tree_active_path($secondary_menu);
+
+  // Generate the renderable array
+  $output['container'][] = menu_tree_output($secondary_menu);
+
+  // Return the renderable menu
+  return $output;
+}
+
+
+/**
+ * Add the active trail indicators into the tree.
+ *
+ * The data returned by menu_tree_page_data() has link['in_active_trail'] set to
+ * TRUE for each menu item in the active trail. The data returned from
+ * menu_tree_all_data() does not contain the active trail indicators. This is a
+ * helper function that adds it back in.
+ *
+ * @param array $tree
+ *   The menu tree.
+ */
+function menu_tree_active_path(array &$tree) {
+  // Grab any menu item to find the menu_name for this tree.
+  $menu_item = current($tree);
+  $tree_with_trail = menu_tree_page_data($menu_item['link']['menu_name']);
+
+  // To traverse the original tree down the active trail, we use a pointer.
+  $subtree_pointer =& $tree;
+
+  // Find each key in the active trail.
+  while ($tree_with_trail) {
+    foreach ($tree_with_trail as $key => &$value) {
+      if ($tree_with_trail[$key]['link']['in_active_trail'] && isset($subtree_pointer[$key])) {
+        // Set the active trail info in the original tree.
+        $subtree_pointer[$key]['link']['in_active_trail'] = TRUE;
+        // Continue in the subtree, if it exists.
+        $tree_with_trail =& $tree_with_trail[$key]['below'];
+        $subtree_pointer =& $subtree_pointer[$key]['below'];
+        break;
+      }
+      else {
+        unset($tree_with_trail[$key]);
+      }
+    }
+  }
+}
