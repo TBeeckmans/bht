@@ -56,7 +56,7 @@ header('X-UA-Compatible: IE=edge,chrome=1');
   <?php print $head; ?>
   <?php print $styles; ?>
 
-  <?php if ((bool) variable_get('bht_production', FALSE)): ?>
+  <?php if (!(bool) variable_get('bht_production', FALSE)): ?>
     <script>
       ;(function(){function k(a,b){var d=!1;a&&"string"===typeof a&&(d=void 0===c[a]?void 0:Boolean(c[a]))&&b&&"function"===typeof b&&(d=Boolean(b(a)));return d}function l(a,b){try{c.setItem(a,b);if(Boolean(c.getItem(a)!==b))throw Error();m(a)}catch(d){try{c.setItem(a,"")}catch(e){}n(a)}}function p(a){for(var b in a)a.hasOwnProperty(b)&&q(b)}function q(a){var b=new XMLHttpRequest;b.open("GET","<?php print base_path() . path_to_theme(); ?>/css/"+f[a]+'?<?php print variable_get("css_js_query_string", "0"); ?>',
       !0);b.onload=function(){if(200<=b.status&&400>b.status){var c=b.responseText.replace(/\.\.\//g,"<?php print base_path() . path_to_theme(); ?>/");l(a,c)}else l(a,"")};b.send()}function n(a){if("queryString"!==a){a=f[a];var b=document.head,c=document.createElement("link");c.type="text/css";c.rel="stylesheet";c.href="<?php print base_path() . path_to_theme(); ?>/css/"+a;b.appendChild(c)}}function m(a){if("queryString"!==a){var b=document.createElement("style");b.rel="stylesheet";document.head.appendChild(b);

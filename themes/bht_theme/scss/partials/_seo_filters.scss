@@ -14,7 +14,7 @@
 .seo-filter__title {
   margin-bottom: em(5px);
   padding-bottom: em(5px);
-  border-bottom: 1px solid $grey;
+  border-bottom: 1px solid $grey-medium;
 }
 
 .seo-filter__content {
@@ -69,12 +69,12 @@
   display: none;
   margin-top: em(15px);
   height: em(12px);
-  border: 1px solid $grey-light;
+  border: 1px solid $grey;
   border-radius: 0;
-  box-shadow: inset 0 em(2px) em(6px) $grey;
+  box-shadow: inset 0 em(2px) em(6px) $grey-medium;
 
   .ui-widget-header {
-    background: $grey;
+    background: $grey-medium;
   }
 
   .ui-slider-handle {
@@ -226,7 +226,7 @@
   line-height: em(35px);
   text-decoration: none;
   color: $black;
-  background: $grey-light;
+  background: $grey;
   @include transition(all 0.2s ease-in-out);
 
   &:after {
@@ -239,7 +239,7 @@
   }
 
   &:hover {
-    background: $grey;
+    background: $grey-medium;
   }
 }
 

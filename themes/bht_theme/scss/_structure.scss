@@ -80,7 +80,7 @@ body.cke_editable {
   height: 100vh;
   max-height: 100%;
   padding: 0 em(15px) em(25px);
-  background: $grey-light;
+  background: $grey;
   overflow-y: auto;
   @include transition(left 0.3s ease-in-out);
   z-index: 3;
@@ -98,7 +98,7 @@ body.cke_editable {
   line-height: em(38px, 18px);
   font-weight: 600;
   color: $white;
-  background: $grey;
+  background: $grey-medium;
 }
 
 .filter-mobile__close {
@@ -135,9 +135,10 @@ body.cke_editable {
 
 //*** HEADER ***
 .wrapper > header {
-  margin-bottom: em(25px);
-  // padding: em(25px) 0;
-  background: $grey-light;
+  background-color: $white;
+  padding: 1.25em 0;
+  z-index: 2;
+  color: $black;
 }
 
 
@@ -150,7 +151,7 @@ body.cke_editable {
 //*** FOOTER ***
 .wrapper > footer {
   padding: em(25px) 0;
-  background: $grey-light;
+  background: $grey;
 }
 
 

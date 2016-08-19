@@ -31,7 +31,7 @@ nav ul.primary {
     a {
       display: block;
       padding: em(5px) em(10px);
-      background: $grey;
+      background: $grey-medium;
       text-decoration: none;
       color: $white;
 
@@ -250,7 +250,7 @@ ul.contextual-links li a:hover {
   width: em(800px);
   height: em(550px);
   margin: auto;
-  border: 1px solid $grey;
+  border: 1px solid $grey-medium;
   background: $white;
   padding: em(25px);
 
@@ -266,7 +266,7 @@ ul.contextual-links li a:hover {
     min-height: em(80px);
     margin: em(5px);
     padding: em(10px);
-    border: 1px solid $grey;
+    border: 1px solid $grey-medium;
     cursor: pointer;
 
     &:hover, &.selected {
@@ -297,7 +297,7 @@ ul.contextual-links li a:hover {
   padding: 0 em(10px);
   line-height: em(30px);
   cursor: pointer;
-  background: $grey;
+  background: $grey-medium;
 }
 
 #sticky-select {
@@ -366,7 +366,7 @@ ul.contextual-links li a:hover {
 
   //*** TABS ***
   nav ul.primary {
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid $grey-medium;
     margin: em(15px) 0;
     white-space: nowrap;
 

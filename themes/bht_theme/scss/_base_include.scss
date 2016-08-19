@@ -149,10 +149,10 @@ a[href^="fax:"] {
 .btn--default {
   color: $black;
   background: $white;
-  border-color: $grey;
+  border-color: $grey-medium;
 
   &:hover {
-    background: $grey-light;
+    background: $grey;
   }
 }
 
@@ -161,10 +161,10 @@ a[href^="fax:"] {
 .btn--more {
   color: $black;
   background: $white;
-  border-color: $grey;
+  border-color: $grey-medium;
 
   &:hover {
-    background: $grey-light;
+    background: $grey;
   }
 
   &:after {

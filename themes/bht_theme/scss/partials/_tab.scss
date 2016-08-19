@@ -20,7 +20,7 @@
 .tab__label {
   width: 100%;
   position: relative;
-  background-color: $grey-light;
+  background-color: $grey;
   padding: em(5px) em(30px) em(5px) em(5px);
   margin-bottom: em(10px);
   line-height: em(25px);
@@ -76,7 +76,7 @@
   .tab__label {
     display: inline-block;
     margin-right: em(10px);
-    background-color: $grey-light;
+    background-color: $grey;
     width: auto;
     padding-right: em(5px);
 

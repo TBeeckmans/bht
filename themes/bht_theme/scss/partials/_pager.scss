@@ -25,10 +25,10 @@ ul.pager {
 
   a {
     text-decoration: none;
-    background: $grey;
+    background: $grey-medium;
 
     &:hover {
-      background: $grey-light;
+      background: $grey;
     }
   }
 }

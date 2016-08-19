@@ -36,7 +36,7 @@
     "stroke": "none"
   },
   "btn-tag-remove": {
-    "fill": "#828282",
+    "fill": "#A3AEC6",
     "stroke": "none"
   },
   "btn-user": {
@@ -56,51 +56,51 @@
     "stroke": "#FFFFFF"
   },
   "facebook": {
-    "fill": "#828282",
+    "fill": "#A3AEC6",
     "stroke": "none"
   },
   "googleplus": {
-    "fill": "#828282",
+    "fill": "#A3AEC6",
     "stroke": "none"
   },
   "linkedin": {
-    "fill": "#828282",
+    "fill": "#A3AEC6",
     "stroke": "none"
   },
   "pinterest": {
-    "fill": "#828282",
+    "fill": "#A3AEC6",
     "stroke": "none"
   },
   "twitter": {
-    "fill": "#828282",
+    "fill": "#A3AEC6",
     "stroke": "none"
   },
   "youtube": {
-    "fill": "#828282",
+    "fill": "#A3AEC6",
     "stroke": "none"
   },
   "vimeo": {
-    "fill": "#828282",
+    "fill": "#A3AEC6",
     "stroke": "none"
   },
   "facebook-share": {
-    "fill": "#CCCCCC",
+    "fill": "#DCDCE3",
     "stroke": "none"
   },
   "googleplus-share": {
-    "fill": "#CCCCCC",
+    "fill": "#DCDCE3",
     "stroke": "none"
   },
   "linkedin-share": {
-    "fill": "#CCCCCC",
+    "fill": "#DCDCE3",
     "stroke": "none"
   },
   "pinterest-share": {
-    "fill": "#CCCCCC",
+    "fill": "#DCDCE3",
     "stroke": "none"
   },
   "twitter-share": {
-    "fill": "#CCCCCC",
+    "fill": "#DCDCE3",
     "stroke": "none"
   },
   "theaim": {

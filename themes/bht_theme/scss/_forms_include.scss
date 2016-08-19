@@ -58,7 +58,7 @@ input[type="number"],
 input[type="submit"],
 textarea,
 select {
-  border: 1px solid $grey;
+  border: 1px solid $grey-medium;
   font-size: $font-size;
 
   &:focus {
@@ -122,11 +122,11 @@ input[type="submit"] {
   display: block;
   width: 100%;
   padding: em(10px) em(25px);
-  background: $grey;
+  background: $grey-medium;
   cursor: pointer;
 
   &:hover {
-    background: $grey-light;
+    background: $grey;
   }
 }
 

@@ -21,7 +21,7 @@
   float: left;
   position: relative;
   min-width: em(185px);
-  border: 1px solid $grey;
+  border: 1px solid $grey-medium;
   cursor: pointer;
 }
 
@@ -53,9 +53,9 @@
   right: em(-1px);
   left: em(-1px);
   background: $white;
-  border-left: 1px solid $grey;
-  border-bottom: 1px solid $grey;
-  border-right: 1px solid $grey;
+  border-left: 1px solid $grey-medium;
+  border-bottom: 1px solid $grey-medium;
+  border-right: 1px solid $grey-medium;
   z-index: 1;
 }
 

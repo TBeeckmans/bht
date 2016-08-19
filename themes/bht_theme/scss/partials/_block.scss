@@ -13,7 +13,7 @@
   padding: em(15px);
   border: 1px solid $grey-dark;
   text-align: center;
-  background: $grey-light;
+  background: $grey;
 
   *:last-child {
     margin-bottom: 0;
@@ -21,7 +21,7 @@
 }
 
 .block--cta {
-  background: $grey;
+  background: $grey-medium;
 }
 
 

@@ -29,7 +29,7 @@ function bht_theme_preprocess_html(&$variables) {
   }
 
   // Add critical css inline #perfmatters.
-  if ((bool) variable_get('bht_production', FALSE)) {
+  if (!(bool) variable_get('bht_production', FALSE)) {
     // Read critical css file contents.
     $critical_css = file_get_contents(path_to_theme() . '/css/critical.min.css');
     // Replace css folder relative paths to site related relative paths.
@@ -45,7 +45,7 @@ function bht_theme_preprocess_html(&$variables) {
   }
 
   // Add the production or development javascript files #perfmatters.
-  if ((bool) variable_get('bht_production', FALSE)) {
+  if (!(bool) variable_get('bht_production', FALSE)) {
     drupal_add_js(path_to_theme() . '/js/production.min.js', 'file');
   }
   else {
@@ -489,6 +489,20 @@ function bht_theme_css_alter(&$css) {
  * Implements hook_js_alter().
  */
 function bht_theme_js_alter(&$js) {
+  // Add live reloading during development.
+  if ((bool) variable_get('bht_production', FALSE)) {
+    drupal_add_js(
+      '//' . $_SERVER['HTTP_HOST'] . ':35729/livereload.js?snipver=1',
+      array(
+        'type' => 'external',
+        'scope' => 'header',
+        'weight' => 20,
+        'group' => '-200',
+        'preprocess' => FALSE,
+      )
+    );
+  }
+
   // Strip the JS we defined in our settings.
   if (!theme_get_setting('js_to_strip')) {
     return;
@@ -511,20 +525,6 @@ function bht_theme_js_alter(&$js) {
     if (isset($js_to_strip[$filename]) && $theme_key != $path) {
       unset($js[$key]);
     }
-  }
-
-  // Add live reloading during development.
-  if (!(bool) variable_get('bht_production', FALSE)) {
-    drupal_add_js(
-      '//' . $_SERVER['HTTP_HOST'] . ':35729/livereload.js?snipver=1',
-      array(
-        'type' => 'external',
-        'scope' => 'header',
-        'weight' => 20,
-        'group' => '-200',
-        'preprocess' => FALSE,
-      )
-    );
   }
 }
 
@@ -909,6 +909,7 @@ function bht_theme_form($variables) {
  */
 function bht_theme_form_element($variables) {
   $element = &$variables['element'];
+  kpr($element);
 
   // This function is invoked as theme wrapper, but the rendered form element
   // may not necessarily have been processed by form_builder().

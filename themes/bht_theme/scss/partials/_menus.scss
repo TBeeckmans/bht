@@ -19,9 +19,8 @@
 
 //*** MOBILE MENU ***
 .nav__mobile {
-  float: right;
-  position: static !important; // logged in fix
-  width: 100%;
+  clear: both;
+  background-color: $highlight-light;
 
   .nav__title {
     position: absolute;
@@ -31,6 +30,7 @@
     height: em(50px);
     text-indent: em(-10000px);
     cursor: pointer;
+    background-color: $highlight-light;
 
     &:after {
       content: "";
@@ -93,13 +93,13 @@
     padding: em(5px) em(10px);
     margin-bottom: em(5px);
     color: inherit;
-    background: $grey-light;
+    background: $grey;
   }
 
   .nav__item.active .nav__link,
   .nav__item.active-trail .nav__link,
   .nav__link:hover {
-    background: $grey;
+    background: $grey-medium;
   }
 }
 
@@ -236,7 +236,7 @@
     .nav__item.active .nav__link,
     .nav__item.active-trail .nav__link,
     .nav__link:hover {
-      background: $grey;
+      background: $grey-medium;
     }
   }
 
@@ -260,7 +260,7 @@
     .nav__item.active .nav__link,
     .nav__item.active-trail .nav__link,
     .nav__link:hover {
-      background: $grey;
+      background: $grey-medium;
     }
   }
 

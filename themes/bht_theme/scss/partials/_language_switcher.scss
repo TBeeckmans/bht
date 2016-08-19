@@ -42,7 +42,7 @@
   position: absolute;
   @include reset-list;
   width: 100%;
-  background: $grey-light;
+  background: $grey;
   z-index: 1;
 }
 
@@ -56,7 +56,7 @@
 
   &:hover,
   &.active {
-    background: $grey;
+    background: $grey-medium;
   }
   &.active {
     font-weight: 600;

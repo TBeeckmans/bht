@@ -11,12 +11,12 @@ module.exports = function(grunt) {
       dist: {
         src: [
           // All JS in the libs folder
-          'js/jquery.flexslider-min.js',
+          // 'js/jquery.flexslider-min.js',
           // 'js/jquery.fitvids-min.js',
-          'js/jquery.colorbox-min.js',
+          // 'js/jquery.colorbox-min.js',
           'js/jquery.scrollto.min.js',
           'js/scripts.js',
-          'js/respond.js',
+          // 'js/respond.js',
         ],
         dest: 'js/production.js',
       }
@@ -321,7 +321,7 @@ module.exports = function(grunt) {
         files: {
           'css/critical.min.css': 'css/critical.css',
           'css/style.min.css': 'css/style.css',
-          'css/fonts.min.css': 'css/fonts.css',
+          // 'css/fonts.min.css': 'css/fonts.css',
           // 'path/to/output.css': ['path/to/input_one.css', 'path/to/input_two.css']
         }
       }
@@ -372,7 +372,8 @@ module.exports = function(grunt) {
     // 'iconizr:separates',
     'imagemin',
     // 'clean:iconizr',
-    'sass:dist'
+    'sass:dist',
+    'cssmin'
   ]);
 
   // > grunt sprites
