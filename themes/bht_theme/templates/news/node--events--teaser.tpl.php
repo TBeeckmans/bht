@@ -85,30 +85,21 @@
 <?php
 hide($content['comments']);
 hide($content['links']);
-if (isset($content['language'])) {
-  hide($content['language']);
-}
-if (isset($content['cover_image'])) {
-  hide($content['cover_image']);
-}
 ?>
 
-
 <?php
-
-$date = $created;
-if (isset($news_date[LANGUAGE_NONE][0]['value'])) {
-  $date = $news_date[LANGUAGE_NONE][0]['value'];
+if (isset($field_date[LANGUAGE_NONE][0]['value'])) {
+  $start_date = $field_date[LANGUAGE_NONE][0]['value'];
+}
+if (isset($field_date[LANGUAGE_NONE][0]['value2'])) {
+  $end_date = $field_date[LANGUAGE_NONE][0]['value2'];
 }
 
 // Determine the BEM block
 $css_block = drupal_clean_css_identifier($type);
 
 // Determine the BEM modifier
-$css_modifier = '';
-if (!$page) {
-  $css_modifier = drupal_clean_css_identifier($view_mode);
-}
+$css_modifier = drupal_clean_css_identifier($view_mode);
 
 // The attributes_array contains classes defined in overviews
 if (!isset($attributes_array['class'])) {
@@ -116,81 +107,90 @@ if (!isset($attributes_array['class'])) {
 }
 
 // Add the wrapper classes to the attributes_array
-if ($page) {
-  $attributes_array['class'][] = 'article';
-  $attributes_array['class'][] = $css_block . '__article';
-}
-else {
-  $attributes_array['class'][] = $css_block . '__item';
-  $attributes_array['class'][] = $css_block . '__item--' . $css_modifier;
-}
+$attributes_array['class'][] = $css_block . '__item';
+$attributes_array['class'][] = $css_block . '__item--' . $css_modifier;
 
 // Add the title classes to the title_attributes_array
-if ($page) {
-  $title_attributes_array['class'][] = $css_block . '__page-title';
-}
-else {
-  $title_attributes_array['class'][] = 'item-title';
-  $title_attributes_array['class'][] = $css_block . '__item-title';
-  $title_attributes_array['class'][] = $css_block . '__item-title--' . $css_modifier;
-}
+$title_attributes_array['class'][] = 'item-title';
+$title_attributes_array['class'][] = $css_block . '__item-title';
+$title_attributes_array['class'][] = $css_block . '__item-title--' . $css_modifier;
+
+// Add the title link classes to the link_attributes_array
+$link_attributes_array = array();
+$link_attributes_array['class'][] = 'item-link';
+$link_attributes_array['class'][] = $css_block . '__item-link';
+$link_attributes_array['class'][] = $css_block . '__item-link--' . $css_modifier;
+$link_attributes_array['itemprop'][] = 'url';
+
+// Add the read more link classes to the readmore_attributes_array
+$readmore_attributes_array['class'][] = 'btn';
+$readmore_attributes_array['class'][] = 'btn--more';
+$readmore_attributes_array['class'][] = 'btn--small';
+$readmore_attributes_array['itemprop'][] = 'url';
 ?>
 
+<article role="article" itemscope
+         itemtype="http://schema.org/EducationEvent"
+  <?php print drupal_attributes($attributes_array); ?>>
 
-<?php if ($page): ?>
 
-  <article role="article" itemscope
-           itemtype="http://schema.org/NewsArticle"
-    <?php print drupal_attributes($attributes_array); ?>>
+  <div class="events__tags">
+    <?php print render($content['field_tags']); ?>
+  </div>
 
-    <h1 itemprop="name"
-      <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </h1>
+  <div itemprop="name"
+    <?php print drupal_attributes($title_attributes_array); ?>>
+    <?php print l(
+      $title,
+      'node/' . $nid, array(
+        'attributes' => $link_attributes_array,
+        'html' => TRUE,
+      )
+    ); ?>
+  </div>
 
-    <div class="news__date news__date--page">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
+  <div class="events__date events__date--<?php print $css_modifier; ?>">
+    <span class="events__date--start" itemprop="startDate"
+          content="<?php print format_date($start_date, 'custom', 'c'); ?>">
+      <span class="events__day">
+        <?php print format_date($start_date, 'custom', 'j'); ?>
       </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
+      <span class="events__month">
+        <?php print format_date($start_date, 'custom', 'M'); ?>
       </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
+      <span class="events__year">
+        <?php print format_date($start_date, 'custom', 'Y'); ?>
       </span>
-    </div>
-
-    <?php print render($content); ?>
-
-  </article>
-
-<?php else: ?>
-
-  <a href="<?php print url('node/' . $nid); ?>" <?php print drupal_attributes($attributes_array); ?>>
-
-    <div class="news__date news__date--<?php print $css_modifier; ?>">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
+    </span>
+    <?php if (format_date($start_date, 'custom', 'Ymd') !== format_date($end_date, 'custom', 'Ymd')): ?>
+      -
+      <span class="events__date--end" itemprop="endDate"
+            content="<?php print format_date($end_date, 'custom', 'c'); ?>">
+        <span class="events__day">
+          <?php print format_date($end_date, 'custom', 'j'); ?>
+        </span>
+        <span class="events__month">
+          <?php print format_date($end_date, 'custom', 'M'); ?>
+        </span>
+        <span class="events__year">
+          <?php print format_date($end_date, 'custom', 'Y'); ?>
+        </span>
       </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
-      </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
-      </span>
-    </div>
-
-    <div itemprop="name" <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </div>
-
-    <?php if (isset($content['cover_image'])): ?>
-      <div class="news__image">
-        <?php print theme_strip_links(render($content['cover_image'])); ?>
-      </div>
     <?php endif; ?>
+  </div>
 
-  </a>
+  <div class="layout__btn">
+    <?php print l(
+      t(
+        'Read more<span class="element-invisible"> about @title</span>',
+        array('@title' => $title)
+      ),
+      'node/' . $nid,
+      array(
+        'attributes' => $readmore_attributes_array,
+        'html' => TRUE,
+      )
+    ); ?>
+  </div>
 
-<?php endif; ?>
-
+</article>

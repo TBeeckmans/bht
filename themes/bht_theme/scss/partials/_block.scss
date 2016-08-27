@@ -4,43 +4,307 @@
 // like search block, language switcher, social media,... are styled in this file.
 //--------------------------------------------------------------------------------
 
-
 //*** BLOCK ***
-.block {
+.block, .pane--bean {
   float: left;
   width: 100%;
-  margin-bottom: em(15px);
   padding: em(15px);
-  border: 1px solid $grey-dark;
   text-align: center;
-  background: $grey;
 
   *:last-child {
     margin-bottom: 0;
   }
 }
 
-.block--cta {
-  background: $grey-medium;
+.block--cta,
+.pane--cta {
+  background-color: $white-medium;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  li {
+    margin-bottom: 1em;
+  }
 }
 
+.pane--info {
+  background-color: transparent;
+}
+
+.pane--page {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+}
 
 //*** BEANS WITH LINK WRAPPER ***
-.block--has-link {
+.block--has-link, .pane--bean-has-link {
   padding: 0;
 }
 
-.block__link {
+.block__link, .pane__link {
   display: block;
-  padding: em(15px);
+  padding: 3em 1em;
   color: inherit;
 }
 
-.block__title {
+.block__title, .pane__title {
   @extend h3;
+  margin-bottom: 1em;
   font-weight: 700;
 }
 
+h2.pane__title {
+  @extend h1;
+  font-weight: normal;
+}
+
+.block__cta {
+  margin: 0 auto;
+  max-width: em(480px);
+}
+
+.pane__event--promoted {
+  @include flex(1 0 auto);
+  @include order(-1);
+  width: 100%;
+  padding: 2em 0 0;
+  @include break-out(100%);
+  background-color: $white;
+}
+
+.pane__become-member {
+  @include flex(1 0 auto);
+  @include order(0);
+  margin-bottom: 3em;
+  padding-top: 3em;
+}
+
+.block__cta--become-a-member-intro {
+  max-width: em(640px);
+}
+
+.pane--registration {
+  @include flex(1 0 auto);
+  @include order(1);
+  margin-bottom: $gutter/2;
+  background-color: $white-dark;
+
+  .pane__title {
+    @include font(20);
+  }
+
+  .btn--more {
+    background-color: shade($white-dark, 20%);
+    border-color: shade($white-dark, 25%);
+
+    &:hover {
+      background-color: shade($white-dark, 25%);
+      border-color: shade($white-dark, 30%);
+    }
+  }
+
+  li::before {
+    content: '';
+    display: inline-block;
+    margin-right: .7em;
+    width: em(18px);
+    height: em(18px);
+    vertical-align: sub;
+    background-image: url("../img/list-checked.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/list-checked.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/list-checked.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/list-checked.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/list-checked.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+
+  &:hover {
+    background-color: shade($white-dark, 5%);
+  }
+}
+
+.pane__journal-member {
+  background-color: $highlight-dark;
+  color: $white;
+
+  .btn--more {
+    background-color: shade($highlight-dark, 20%);
+    border-color: shade($highlight-dark, 25%);
+
+    &:hover {
+      background-color: shade($highlight-dark, 25%);
+      border-color: shade($highlight-dark, 30%);
+    }
+  }
+
+  li::before {
+    background-image: url("../img/list-checked-neg.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+
+  &:hover {
+    background-color: shade($highlight-dark, 5%);
+  }
+}
+
+.pane__standard-member {
+  background-color: $highlight-medium;
+  color: $white;
+
+  .btn--more {
+    background-color: shade($highlight-medium, 20%);
+    border-color: shade($highlight-medium, 25%);
+
+    &:hover {
+      background-color: shade($highlight-medium, 25%);
+      border-color: shade($highlight-medium, 30%);
+    }
+  }
+
+  li::before {
+    background-image: url("../img/list-checked-neg.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+
+  &:hover {
+    background-color: shade($highlight-medium, 5%);
+  }
+}
+
+.pane__full-member {
+  background-color: $blue-medium;
+  color: $white;
+
+  .btn--more {
+    background-color: shade($blue-medium, 20%);
+    border-color: shade($blue-medium, 25%);
+
+    &:hover {
+      background-color: shade($blue-medium, 25%);
+      border-color: shade($blue-medium, 30%);
+    }
+  }
+
+  li::before {
+    background-image: url("../img/list-checked-neg.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+
+  &:hover {
+    background-color: shade($blue-medium, 5%);
+  }
+}
+
+.pane--bean-has-link > .pane__link {
+  text-decoration: none;
+}
+
+.pane__find-therapist {
+  @include break-out(100%);
+  background-color: $blue-medium;
+  color: $white;
+
+  .pane__link {
+    padding: 3em;
+  }
+
+  .btn--more {
+    background-color: shade($highlight-dark, 5%);
+    border-color: shade($highlight-dark, 10%);
+
+    &:hover {
+      background-color: shade($highlight-dark, 10%);
+      border-color: shade($highlight-dark, 15%);
+    }
+  }
+
+  .pane__title {
+    margin: 0 0 0.7em;
+    font-family: $notoserif;
+    font-weight: normal;
+    @include font(22, 1.2, 16);
+  }
+
+  &:hover {
+    background-color: shade($blue-medium, 5%);
+  }
+}
+
+.pane__contact-us {
+  @include break-out(100%);
+  background-color: $white-dark;
+  color: $black;
+
+  .pane__link {
+    padding: 3em;
+  }
+
+  .btn--more {
+    background-color: shade($highlight-dark, 5%);
+    border-color: shade($highlight-dark, 10%);
+
+    &:hover {
+      background-color: shade($highlight-dark, 10%);
+      border-color: shade($highlight-dark, 15%);
+    }
+  }
+
+  .pane__title {
+    margin: 0 0 0.7em;
+    font-family: $notoserif;
+    font-weight: normal;
+    @include font(22, 1.2, 16);
+  }
+
+  &:hover {
+    background-color: shade($white-dark, 5%);
+  }
+}
+
+.pane__sponsor-banner {
+  float: left;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  padding: 2em 0;
+  @include break-out();
+  background-color: $grey-medium;
+
+  .node-sponsor {
+    text-align: center;
+    padding: $gutter/2;
+  }
+  .odd {
+    @include span-columns($grid-columns/2);
+  }
+  .even {
+    @include span-columns($grid-columns/2 omega);
+  }
+  .third {
+    clear: left;
+  }
+  img {
+    width: auto;
+    vertical-align: bottom;
+  }
+}
 
 //*************************
 //***** MEDIA QUERIES *****
@@ -53,22 +317,120 @@
 
 }
 
-
 //-------------
 //-- BREAK 2 --
 //-------------
 @include media($break-2) {
 
-}
+  .pane__event--promoted {
+    padding-bottom: 3em;
+  }
 
+  .pane__become-member {
+    @include display(flex);
+    @include flex-direction(column);
+    width: 50%;
+    padding-top: 1em;
+
+    .pane__title {
+      margin-top: 0.9em;
+    }
+
+    .block__cta {
+      margin-bottom: auto;
+    }
+  }
+
+  .pane--registration {
+    @include display(flex);
+    @include flex-direction(column);
+
+    .pane__link {
+      @include display(flex);
+      @include flex-direction(column);
+      @include flex(1 0 auto);
+    }
+    .layout__pane {
+      @include display(flex);
+      @include flex-direction(column);
+      @include flex(1 0 auto);
+      //height: 100%;
+    }
+    .block__cta {
+      @include display(flex);
+      @include flex-direction(column);
+      @include flex(1 0 auto);
+    }
+    .cta {
+      @include display(flex);
+      @include flex-direction(column);
+      @include flex(1 0 auto);
+    }
+    .layout__text {
+      margin-bottom: 1.5em;
+    }
+    .btn--more {
+      margin: auto auto 0 auto;
+    }
+  }
+
+  .pane__journal-member {
+    width: 50%;
+    margin-bottom: 0;
+  }
+
+  .pane__standard-member {
+    width: 50%;
+  }
+
+  .pane__full-member {
+    width: 50%;
+  }
+
+  .pane__find-therapist {
+    margin-left: 0;
+    padding-left: 0;
+
+    .pane__link {
+      padding-bottom: 4em;
+    }
+
+    .pane__title {
+      margin-top: 1em;
+    }
+  }
+
+  .pane__sponsor-banner {
+    .odd,
+    .even,
+    .third{
+      @include span-columns($grid-columns/4);
+    }
+    .fourth {
+      @include span-columns($grid-columns/4 omega);
+    }
+    .third {
+      clear: none;
+    }
+  }
+}
 
 //-------------
 //-- BREAK 3 --
 //-------------
 @include media($break-3) {
+  .pane__become-member {
+    width: 100%;
+  }
 
+  .pane--registration {
+    width: 33%;
+  }
+
+  .pane__journal-member {
+    margin-bottom: $gutter/2;
+  }
 }
-
 
 //-------------
 //-- BREAK 4 --

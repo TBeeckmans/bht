@@ -35,18 +35,18 @@
   <?php endif; ?>
 
   <?php if ($content['left_above'] || $content['right_above']): ?>
-  <div class="panel__item panel__item--above">
-    <?php if ($content['left_above']): ?>
-      <div class="panel__item panel__item--col-first">
-        <?php print $content['left_above']; ?>
-      </div>
-    <?php endif; ?>
+    <div class="panel__item panel__item--above">
+      <?php if ($content['left_above']): ?>
+        <div class="panel__item panel__item--col-first">
+          <?php print $content['left_above']; ?>
+        </div>
+      <?php endif; ?>
 
-    <?php if ($content['right_above']): ?>
-      <div class="panel__item panel__item--col-last">
-        <?php print $content['right_above']; ?>
-      </div>
-    <?php endif; ?>
+      <?php if ($content['right_above']): ?>
+        <div class="panel__item panel__item--col-last">
+          <?php print $content['right_above']; ?>
+      <?php endif; ?>
+    </div>
   <?php endif; ?>
 
   <?php if ($content['middle']): ?>
@@ -56,18 +56,19 @@
   <?php endif; ?>
 
   <?php if ($content['left_below'] || $content['right_below']): ?>
-  <div class="panel__item panel__item--below">
-    <?php if ($content['left_below']): ?>
-      <div class="panel__item panel__item--col-first">
-        <?php print $content['left_below']; ?>
-      </div>
-    <?php endif; ?>
+    <div class="panel__item panel__item--below">
+      <?php if ($content['left_below']): ?>
+        <div class="panel__item panel__item--col-first">
+          <?php print $content['left_below']; ?>
+        </div>
+      <?php endif; ?>
 
-    <?php if ($content['right_below']): ?>
-      <div class="panel__item panel__item--col-last">
-        <?php print $content['right_below']; ?>
-      </div>
-    <?php endif; ?>
+      <?php if ($content['right_below']): ?>
+        <div class="panel__item panel__item--col-last">
+          <?php print $content['right_below']; ?>
+        </div>
+      <?php endif; ?>
+    </div>
   <?php endif; ?>
 
   <?php if ($content['bottom']): ?>

@@ -50,8 +50,8 @@ function bht_custom_theme() {
     ),
   );
 
-  $theme['action_current'] = array(
-    'template' => 'templates/action-current',
+  $theme['sponsor_banner'] = array(
+    'template' => 'templates/sponsor-banner',
     'variables' => array(
       'items' => NULL,
     ),

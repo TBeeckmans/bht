@@ -101,7 +101,7 @@ function bht_theme_preprocess_node(&$variables) {
   if (isset($variables['node']->attributes_array)
     && is_array($variables['node']->attributes_array)
   ) {
-    $variables['attributes_array'] += $variables['node']->attributes_array;
+    $variables['attributes_array'] = drupal_array_merge_deep($variables['attributes_array'], $variables['node']->attributes_array);
   }
 
   // Replace || with <wbr> tag.
@@ -302,6 +302,21 @@ function bht_theme_preprocess_panels_pane(&$variables) {
     }
   }
 }
+
+/**
+ * Render callback.
+ *
+ * @ingroup themeable
+ */
+function bht_theme_panels_default_style_render_region($vars) {
+  $output = '';
+//  $output .= '<div class="region region-' . $vars['region_id'] . '">';
+//  $output .= implode('<div class="panel-separator"></div>', $vars['panes']);
+//  $output .= '</div>';
+  $output .= implode('', $vars['panes']);
+  return $output;
+}
+
 
 /**
  * Implements template_preprocess_block().
@@ -558,60 +573,87 @@ function bht_theme_menu_tree($variables) {
  * Overwrite theme_menu_link().
  */
 function bht_theme_menu_link(&$variables) {
-  // Add BEM menu classes.
-  $variables['element']['#attributes']['class'][] = 'nav__item';
-  $variables['element']['#localized_options']['attributes']['class'][] = 'nav__link';
-
-  // Classes to keep.
-  $classes_to_keep = array(
-    'first',
-    'last',
-    'odd',
-    'even',
-    'third',
-    'active',
-    'active-trail',
-    'nav__item',
-  );
-
-  // Strip classes.
-  if ($variables['element']['#attributes']['class']) {
-    foreach ($variables['element']['#attributes']['class'] as $key => $class) {
-      if (in_array($class, $classes_to_keep)) {
-        unset($variables['element']['#attributes']['class'][$key]);
-      }
-    }
-  }
-
-  // Check if we even have classes defined.
-  if (isset($variables['element']['#attributes']['class'])
-    && empty($variables['element']['#attributes']['class'])
-  ) {
-    unset($variables['element']['#attributes']['class']);
-  }
-
-  $element = $variables['element'];
+  $element = &$variables['element'];
   $sub_menu = '';
 
-  // Check if the element has classes defined.
-  if (isset($element['#localized_options']['attributes']['class'])
-    && !empty($element['#localized_options']['attributes']['class'])
-  ) {
-    // Remove active trail class.
-    foreach ($element['#localized_options']['attributes']['class'] as
-             $key => $class
-    ) {
-      if ($class == 'active-trail') {
-        unset($element['#localized_options']['attributes']['class'][$key]);
-      }
+  // Remove the has-children class from the nav item
+  // if it has no renderable child items below
+  if (!isset($element['#below']) || empty($element['#below'])) {
+    $key = array_search('has-children', $element['#attributes']['class']);
+    if ($key) {
+      unset($element['#attributes']['class'][$key]);
     }
   }
 
+  // Define the default classes we want to strip from the nav item
+  $strip_classes = array(
+    'leaf',
+    'menu-mlid-[0-9]',
+  );
+
+  // Strip some default classes from the nav item
+  _strip_classes($element['#attributes']['class'], $strip_classes);
+
+  // Add BEM classes to the nav item
+  _bemify_classes($element['#attributes']['class'], 'nav__item');
+
+  // Add the attributes array for the nav link
+  if (!isset($element['#localized_options']['attributes']['class'])) {
+    $element['#localized_options']['attributes']['class'] = array();
+  }
+
+  // Add BEM classes to the nav link
+  _bemify_classes($element['#localized_options']['attributes']['class'], 'nav__link');
+
+  // Render the child items
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
+
+  // Render the nav link
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+
+  // Return the nav item
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * @param array $source the referenced class array you are about to alter
+ * @param array $strip the classes that you are about to remove
+ */
+function _strip_classes(&$source, $strip) {
+  foreach ($strip as $class) {
+    if (strpos($class, '[') !== FALSE && strpos($class, ']') !== FALSE) {
+      $matches = preg_grep('/^' . $class . '/i', $source);
+      if (!empty($matches)) {
+        foreach ($matches as $key => $matched) {
+          unset($source[$key]);
+        }
+      }
+    }
+    elseif (($key = array_search($class, $source)) !== FALSE) {
+      unset($source[$key]);
+    }
+  }
+}
+
+/**
+ * @param array $source the referenced class array you are about to alter
+ * @param string $prefix the block__element class
+ * @param array $decline the classes that should be left as they are
+ */
+function _bemify_classes(&$source, $prefix = '', $decline = array(
+  'first',
+  'last',
+  'active-trail',
+  'active'
+)) {
+  foreach ($source as $key => $class) {
+    if (!in_array($class, $decline)) {
+      $source[$key] = strtolower($prefix) . '--' . $class;
+    }
+  }
+  array_unshift($source, strtolower($prefix));
 }
 
 /**

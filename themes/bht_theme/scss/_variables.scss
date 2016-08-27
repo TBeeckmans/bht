@@ -56,8 +56,8 @@ $max-width: em($break-4-w);
 }
 
 //*** GRID BACKGROUND ***
-$show-breakpoint-label: false; // Set this value to false before going live
-$show-grid-background: true; // Set this value to false before going live
+$show-breakpoint-label: true; // Set this value to false before going live
+$show-grid-background: false; // Set this value to false before going live
 $visual-grid: $show-grid-background;
 $visual-grid-color: navy;
 $visual-grid-index: back; // Set this value to either front or back

@@ -3,10 +3,34 @@
 // Default article styling
 //------------------------------------------------------------------------------
 
-
 article {
   float: left;
+  margin-bottom: 1em;
   width: 100%;
+
+  p {
+    max-width: em($break-2-w, $em-base-grid);
+  }
+
+  p.rtecenter {
+    margin: 0 auto;
+  }
+}
+
+
+.layout__item {
+  float: left;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.nested-paragraphs {
+  float: left;
+  width: 100%;
+}
+
+.page__text {
+  margin-bottom: em(30px);
 }
 
 
@@ -19,25 +43,52 @@ article {
 //-------------
 @include media($break-1) {
 
-}
+} //End break-1
 
 //-------------
 //-- BREAK 2 --
 //-------------
 @include media($break-2) {
 
-}
+  //*** LAYOUT ITEM ***
+  .layout__item--left {
+    @include span-columns(3);
+  }
+
+  .layout__item--right {
+    @include span-columns(6 omega);
+  }
+
+} //End break-2
 
 //-------------
 //-- BREAK 3 --
 //-------------
 @include media($break-3) {
 
-}
+  //*** LAYOUT ITEM ***
+  .layout__item--left {
+    @include span-columns(4);
+  }
+
+  .layout__item--right {
+    @include span-columns(8 omega);
+  }
+
+} //End break-3
 
 //-------------
 //-- BREAK 4 --
 //-------------
 @include media($break-4) {
 
-}
+  //*** LAYOUT ITEM ***
+  .layout__item--left {
+    @include span-columns(5);
+  }
+
+  .layout__item--right {
+    @include span-columns(10 omega);
+  }
+
+} //End break-4

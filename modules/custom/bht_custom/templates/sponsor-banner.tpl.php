@@ -8,7 +8,7 @@
     <?php $item_attributes['class'][] = (++$i % 2 !== 0) ? 'odd' : 'even'; ?>
     <?php if ($i % 3 === 0) $item_attributes['class'][] = 'third'; ?>
     <?php if ($i % 4 === 0) $item_attributes['class'][] = 'fourth'; ?>
-    <?php $items[$child]['#term']->attributes_array = $item_attributes; ?>
+    <?php $items[$child]['#node']->attributes_array = $item_attributes; ?>
     <?php print render($items[$child]); ?>
   <?php endforeach; ?>
 <?php endif; ?>

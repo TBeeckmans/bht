@@ -83,7 +83,7 @@
     </div>
   <?php endif; ?>
 
-  <header>
+  <header id="header" class="js-fixed-header">
     <div class="container">
       <?php if ($logo): ?>
         <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">

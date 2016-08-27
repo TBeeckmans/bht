@@ -198,7 +198,7 @@ function _content_news_latest() {
 
     // Load the nodes.
     $nodes = node_load_multiple($nids);
-    $nodes = node_view_multiple($nodes);
+    $nodes = node_view_multiple($nodes, 'teaser');
 
     $output[] = array(
       '#theme' => 'news_latest',
@@ -224,11 +224,13 @@ function _content_event_promoted() {
   // Pick the fields.
   $query->fields('n', array('nid'));
   // Add conditions.
-  $query->condition('n.type', 'event')
+  $query->condition('n.type', 'events')
         ->condition('n.status', '1')
         ->condition('n.promote', '1');
   // Limit the results.
   $query->range(0, 1);
+  // Order by latest changes.
+  $query->orderBy('n.changed', 'DESC');
   // Process query.
   $nids = $query->execute()->fetchCol();
 
@@ -262,11 +264,13 @@ function _content_event_promoted_cta() {
   // Pick the fields.
   $query->fields('n', array('nid'));
   // Add conditions.
-  $query->condition('n.type', 'event')
+  $query->condition('n.type', 'events')
         ->condition('n.status', '1')
         ->condition('n.promote', '1');
   // Limit the results.
   $query->range(0, 1);
+  // Order by latest changes.
+  $query->orderBy('n.changed', 'DESC');
   // Process query.
   $nids = $query->execute()->fetchCol();
 
@@ -280,8 +284,6 @@ function _content_event_promoted_cta() {
       '#items' => $nodes['nodes'],
     );
   }
-
-  return $output;
 
   return $output;
 }
@@ -328,40 +330,35 @@ function _content_event_sponsors() {
  * @return array $output
  *    Renderable array of sponsor nodes.
  */
-function sponsor_banner() {
+function content_sponsor_banner() {
   $output = array();
 
-  //// BUILD QUERY
-  ////////////////
-  //// Select the table
-  //$query = db_select('taxonomy_term_data', 'td');
-  //// Pick the fields
-  //$query->fields('td', array('tid'));
-  //// Add conditions
-  //$query->condition('td.vid', BRAND_VID);
-  //// Filtered by language
-  //if (module_exists('i18n_taxonomy')) {
-  //  global $language;
-  //  $query->condition('td.language', $language->language);
-  //}
-  //// Add sorting
-  //$query->orderBy('td.weight', 'ASC');
-  //// Limit the results
-  //$query->range(0,8);
-  //// Process query
-  //$tids = $query->execute()->fetchCol();
-  //
-  //// Process the terms
-  //if (!empty($tids)) {
-  //  // Load the terms
-  //  $terms = taxonomy_term_load_multiple($tids);
-  //  $terms = taxonomy_term_view_multiple($terms, variable_get('brand_banner_view_mode', 'logo'));
-  //
-  //  $output = array(
-  //    '#theme' => 'brand_banner',
-  //    '#items' => $terms['taxonomy_terms'],
-  //  );
-  //}
+  // BUILD QUERY.
+  // Select the table.
+  $query = db_select('node', 'n');
+  // Pick the fields.
+  $query->fields('n', array('nid'));
+  // Add conditions.
+  $query->condition('n.type', 'sponsor')
+        ->condition('n.status', '1');
+  // Limit the results.
+  $query->range(0, 4);
+  // Order by latest changes.
+  $query->orderBy('n.sticky', 'DESC');
+  $query->orderRandom();
+  // Process query.
+  $nids = $query->execute()->fetchCol();
+
+  if (!empty($nids)) {
+    // Load the nodes.
+    $nodes = node_load_multiple($nids);
+    $nodes = node_view_multiple($nodes, 'logo');
+
+    $output = array(
+      '#theme' => 'sponsor_banner',
+      '#items' => $nodes['nodes'],
+    );
+  }
 
   return $output;
 }

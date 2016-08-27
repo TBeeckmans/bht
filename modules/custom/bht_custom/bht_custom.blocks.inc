@@ -65,7 +65,7 @@ function bht_custom_block_info() {
   );
 
   $block['sponsor_banner'] = array(
-    'info' => t('Rel'),
+    'info' => t('Sponsor banner'),
     'cache' => DRUPAL_CACHE_GLOBAL,
     'visibility' => BLOCK_VISIBILITY_NOTLISTED,
     'pages' => '',
@@ -120,8 +120,8 @@ function bht_custom_block_view($delta='') {
       break;
 
     case 'sponsor_banner':
-      $block['subject'] = t('Location and venue');
-      $block['content'] = _content_event_venue();
+      $block['subject'] = t('Sponsor banner');
+      $block['content'] = content_sponsor_banner();
       break;
 
     default:

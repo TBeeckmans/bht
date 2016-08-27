@@ -26,10 +26,12 @@ h3 {
 
 h1 {
   @include font(28);
+  font-family: $notoserif;
 }
 
 h2 {
   @include font(22, 1.2);
+  font-family: $notoserif;
 }
 
 h3 {
@@ -52,7 +54,7 @@ h6 {
 .page-title--pseudo { }
 
 .item-title {
-  @extend h4;
+  @include font(18);
 }
 
 
@@ -147,29 +149,37 @@ a[href^="fax:"] {
 
 //*** BUTTONS - BUTTON DEFAULT ***
 .btn--default {
-  color: $black;
-  background: $white;
-  border-color: $grey-medium;
+  color: $white;
+  background: $highlight-dark;
+  border-color: $highlight-medium;
 
   &:hover {
-    background: $grey;
+    background: $highlight;
   }
 }
 
 
 //*** BUTTONS - BUTTON MORE ***
 .btn--more {
-  color: $black;
-  background: $white;
-  border-color: $grey-medium;
+  margin-top: 1.5em;
+  color: $white;
+  background-color: shade($highlight-dark, 5%);
+  border-color: shade($highlight-dark, 10%);
+  font-weight: 800;
 
   &:hover {
-    background: $grey;
+    background-color: shade($highlight-dark, 10%);
+    border-color: shade($highlight-dark, 15%);
   }
 
   &:after {
     content: " \003E";
   }
+}
+
+.btn--small {
+  padding: 0.2em 0.4em;
+  font-size: 0.8em;
 }
 
 
@@ -243,6 +253,7 @@ img.right {
 
 //*** LIST ITEMS ***
 article,
+[itemprop="articleBody"],
 body.cke_show_borders {
   ul,
   ol {

@@ -96,22 +96,16 @@
   }
 }
 
-
-.contact__main--contact-form {
-  float: left;
-  width: 100%;
-  margin-bottom: em(15px);
-}
-
-
-.contact__main--footer {
+.address--footer {
   float: left;
   width: 100%;
   margin-bottom: em(15px);
   text-align: center;
 
-  .label--inline {
-    float: none;
+  [itemprop="name"] {
+    display: block;
+    @extend h3;
+    font-weight: 800;
   }
 }
 
@@ -132,6 +126,11 @@
     }
   }
 
+  .address--footer {
+    @include span-columns($grid-columns/2);
+    text-align: left;
+  }
+
 }
 
 
@@ -145,11 +144,9 @@
     @include span-columns(4 omega);
   }
 
-  .contact__main--footer {
-    @include span-columns(4);
-    text-align: left;
+  .address--footer {
+    @include span-columns(3);
   }
-
 }
 
 
@@ -170,10 +167,9 @@
     @include span-columns(6 omega);
   }
 
-  .contact__main--footer {
+  .address--footer {
     @include span-columns(4);
   }
-
 }
 
 
@@ -192,6 +188,10 @@
   //*** CONTACT MAIN ***
   .contact__main--contact-form {
     @include span-columns(10 omega);
+  }
+
+  .address--footer {
+    @include span-columns(5);
   }
 
 }

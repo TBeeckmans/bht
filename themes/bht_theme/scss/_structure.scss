@@ -62,10 +62,9 @@ body.cke_editable {
 
 //*** LOGO ***
 #logo {
-  float: left;
+  width: auto;
 
   img {
-    display: block;
     height: em(50px);
   }
 }
@@ -120,7 +119,7 @@ body.cke_editable {
 
 //*** REGIONS ***
 #top,
-.wrapper > header,
+#header,
 #slider,
 #main,
 #sidebar-left,
@@ -132,26 +131,44 @@ body.cke_editable {
   width: 100%;
 }
 
+#top {
+  background-color: $white-medium;
+}
 
 //*** HEADER ***
-.wrapper > header {
+#header {
   background-color: $white;
-  padding: 1.25em 0;
+  padding: 1.25em 0 1.25em 0;
   z-index: 2;
   color: $black;
 }
 
+.is-fixed-header #header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  @include transform(translateY(-100%));
+}
+
+.show-fixed-header #header {
+  @include transform(translateY(0));
+  @include transition(transform 0.3s cubic-bezier(0.35, 0, 0.25, 1), -webkit-transform 0.3s cubic-bezier(0.35, 0, 0.25, 1));
+}
+
+#main {
+  background-color: $white-medium;
+}
 
 //*** CONTENT ***
-#content {
-  margin-bottom: em(25px);
-}
 
 
 //*** FOOTER ***
 .wrapper > footer {
   padding: em(25px) 0;
-  background: $grey;
+  background: shade($blue-medium, 20%);
+  color: $white;
 }
 
 
@@ -209,22 +226,24 @@ body.cke_editable {
   }
 
 
+  //*** LOGO ***
+  #logo {
+    display: inline-block;
+    line-height: em(56px);
+
+    img {
+      height: em(56px);
+      vertical-align: bottom;
+    }
+  }
+
+
   //*** MAIN WRAPPER ***
   .wrapper {
     .overlay-open & {
       &:before {
         content: none;
       }
-    }
-  }
-  
-
-  //*** LOGO ***
-  #logo {
-    @include span-columns(2);
-
-    img {
-      height: auto;
     }
   }
 
@@ -243,26 +262,6 @@ body.cke_editable {
     margin-bottom: em(25px, 20px);
     @include font(20, 1);
     font-weight: 600;
-  }
-
-
-  //*** CONTENT ***
-  #content {
-    @include span-columns(5);
-  }
-
-  body.no-left-sidebar.no-right-sidebar #content,
-  body.maintenance-page #content {
-    float: left;
-    width: 100%;
-  }
-
-  body.no-left-sidebar #content {
-    @include span-columns(7);
-  }
-
-  body.no-right-sidebar #content {
-    @include span-columns(7 omega);
   }
 
 
@@ -305,21 +304,18 @@ body.cke_editable {
   //*** LOGO ***
   #logo {
     width: auto;
-    margin: 0;
+    height: em(75);
+    display: inline-block;
   }
 
 
-  //*** CONTENT ***
-  #content {
-    @include span-columns(6);
-  }
+  //*** LOGO ***
+  #logo {
+    line-height: em(75px);
 
-  body.no-left-sidebar #content {
-    @include span-columns(9);
-  }
-
-  body.no-right-sidebar #content {
-    @include span-columns(9 omega);
+    img {
+      height: em(75px);
+    }
   }
 
 
@@ -356,20 +352,6 @@ body.cke_editable {
   body.cke_editable {
     margin: 0 auto;
     max-width: em($break-4-w);
-  }
-
-
-  //*** CONTENT ***
-  #content {
-    @include span-columns(7);
-  }
-
-  body.no-left-sidebar #content {
-    @include span-columns(11);
-  }
-
-  body.no-right-sidebar #content {
-    @include span-columns(11 omega);
   }
 
 

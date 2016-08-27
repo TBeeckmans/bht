@@ -88,19 +88,30 @@
   });
 
   // (HEADER) TOGGLE
-  $('.js-header-toggle .nav__title, .js-header-toggle .block__title').click(function() {
-    var element = $(this);
-    var timeout = 0;
-    if($('.js-header-toggle.open')) {
-      var timeout = 200;
-      $('.js-header-toggle.open .nav__title, .js-header-toggle.open .block__title').not($(this)).siblings('*').slideToggle('fast');
-      $('.js-header-toggle.open').not($(this).parent()).removeClass('open');
+  updatePage = function () {
+    scrollTop = $(window).scrollTop();
+    if (scrollTop > giInitiateFixedPosition) {
+      $('body').addClass('is-fixed-header');
+      $('#main').css('padding-top', giInitiateFixedPosition+'px');
+      if (prevTop - 4 > scrollTop) {
+        $('body').addClass('show-fixed-header');
+      }
+      if (prevTop+2 < scrollTop) {
+        $('body').removeClass('show-fixed-header');
+      }
+    } else if (scrollTop <= giInitiateFixedPosition) {
+      $('body').removeClass('is-fixed-header').removeClass('show-fixed-header');
+      $('#main').css('padding-top', '0');
     }
-    setTimeout( function() {
-      element.parent().toggleClass('open');
-      element.siblings('*').slideToggle(300);
-    }, timeout)
-  });
+    prevTop = $(window).scrollTop();
+  }
+
+  var oTargetElement = $('.js-fixed-header');
+  var scrollTop = 0;
+  var prevTop = 0;
+  var giInitiateFixedPosition = oTargetElement.height() + oTargetElement.offset().top;
+  //check scrolling from user
+  var scrollIntervalID = setInterval(updatePage, 10);
 
   // Everything that needs to be executed when all our images/files/... are
   // loaded, not only when DOM is ready
