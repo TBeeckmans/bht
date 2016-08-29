@@ -297,6 +297,19 @@ function _content_event_promoted_cta() {
 function _content_event_program() {
   $output = array();
 
+  $object = menu_get_object();
+
+  if (is_null($object)) {
+    return $output;
+  }
+
+  if ($object->type !== 'events' && !$object->promote) {
+    return $output;
+  }
+
+  $node = node_load($object->nid);
+  $output = node_view($node, 'program');
+
   return $output;
 }
 
@@ -309,6 +322,30 @@ function _content_event_program() {
 function _content_event_venue() {
   $output = array();
 
+  $object = menu_get_object();
+
+  if (is_null($object)) {
+    return $output;
+  }
+
+  if ($object->type !== 'events' && !$object->promote) {
+    return $output;
+  }
+
+  $node = node_load($object->nid);
+  $venue_items = field_get_items('node', $node, 'field_venue');
+
+  $venue_items = reset($venue_items);
+  while (gettype($venue_items) == 'array' && !isset($venue_items['target_id'])) {
+    $venue_items = reset($venue_items);
+  }
+  if (isset($venue_items['target_id'])) {
+    $venue_id = $venue_items['target_id'];
+
+    $venue = node_load($venue_id);
+    $output = node_view($venue, 'full');
+  }
+
   return $output;
 }
 
@@ -320,6 +357,19 @@ function _content_event_venue() {
  */
 function _content_event_sponsors() {
   $output = array();
+
+  $object = menu_get_object();
+
+  if (is_null($object)) {
+    return $output;
+  }
+
+  if ($object->type !== 'events' && !$object->promote) {
+    return $output;
+  }
+
+  $node = node_load($object->nid);
+  $output = node_view($node, 'logo');
 
   return $output;
 }

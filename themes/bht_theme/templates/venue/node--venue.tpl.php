@@ -88,114 +88,12 @@ hide($content['links']);
 if (isset($content['language'])) {
   hide($content['language']);
 }
-if (isset($content['cover_image'])) {
-  hide($content['cover_image']);
-}
 ?>
 
+<div class="venue">
+  <div class="item__title">
+    <?php print $title; ?>
+  </div>
 
-<?php
-
-$paragraph_title = FALSE;
-if (isset($content['field_body']) && !empty($content['field_body'])) {
-  $paragraph_title = _bht_paragraphs_title_set($content['field_body']);
-}
-
-$date = $created;
-if (isset($news_date[LANGUAGE_NONE][0]['value'])) {
-  $date = $news_date[LANGUAGE_NONE][0]['value'];
-}
-
-// Determine the BEM block
-$css_block = drupal_clean_css_identifier($type);
-
-// Determine the BEM modifier
-$css_modifier = '';
-if (!$page) {
-  $css_modifier = drupal_clean_css_identifier($view_mode);
-}
-
-// The attributes_array contains classes defined in overviews
-if (!isset($attributes_array['class'])) {
-  $attributes_array['class'] = array();
-}
-
-// Add the wrapper classes to the attributes_array
-if ($page) {
-  $attributes_array['class'][] = 'article';
-  $attributes_array['class'][] = $css_block . '__article';
-}
-else {
-  $attributes_array['class'][] = $css_block . '__item';
-  $attributes_array['class'][] = $css_block . '__item--' . $css_modifier;
-}
-
-// Add the title classes to the title_attributes_array
-if ($page) {
-  $title_attributes_array['class'][] = $css_block . '__page-title';
-}
-else {
-  $title_attributes_array['class'][] = 'item-title';
-  $title_attributes_array['class'][] = $css_block . '__item-title';
-  $title_attributes_array['class'][] = $css_block . '__item-title--' . $css_modifier;
-}
-?>
-
-
-<?php if ($page): ?>
-
-  <article role="article" itemscope
-           itemtype="http://schema.org/NewsArticle"
-    <?php print drupal_attributes($attributes_array); ?>>
-
-    <h1 itemprop="name"
-      <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </h1>
-
-    <div class="news__date news__date--page">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
-      </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
-      </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
-      </span>
-    </div>
-
-    <?php print render($content); ?>
-
-  </article>
-
-<?php else: ?>
-
-  <a href="<?php print url('node/' . $nid); ?>" <?php print drupal_attributes($attributes_array); ?>>
-
-    <div class="news__date news__date--<?php print $css_modifier; ?>">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
-      </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
-      </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
-      </span>
-    </div>
-
-    <div itemprop="name" <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </div>
-
-    <?php if (isset($content['cover_image'])): ?>
-      <div class="news__image">
-        <?php print theme_strip_links(render($content['cover_image'])); ?>
-      </div>
-    <?php endif; ?>
-
-  </a>
-
-<?php endif; ?>
-
+  <?php print render($content); ?>
+</div>

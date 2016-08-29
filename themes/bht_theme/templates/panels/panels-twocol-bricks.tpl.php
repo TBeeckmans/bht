@@ -45,6 +45,7 @@
       <?php if ($content['right_above']): ?>
         <div class="panel__item panel__item--col-last">
           <?php print $content['right_above']; ?>
+        </div>
       <?php endif; ?>
     </div>
   <?php endif; ?>

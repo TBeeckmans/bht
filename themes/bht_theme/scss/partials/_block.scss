@@ -306,6 +306,49 @@ h2.pane__title {
   }
 }
 
+.pane__symposium-cta {
+  width: 100%;
+  @include break-out();
+  background-color: $white;
+}
+
+.pane__member-advantages {
+  background-color: $highlight-dark;
+  color: $white;
+
+  .pane__title {
+    font-family: $notoserif;
+  }
+
+  .btn--more {
+    background-color: shade($highlight-dark, 20%);
+    border-color: shade($highlight-dark, 25%);
+
+    &:hover {
+      background-color: shade($highlight-dark, 25%);
+      border-color: shade($highlight-dark, 30%);
+    }
+  }
+
+  li::before {
+    content: '';
+    display: inline-block;
+    margin-right: .7em;
+    width: em(18px);
+    height: em(18px);
+    vertical-align: sub;
+    background-image: url("../img/list-checked-neg.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/list-checked-neg.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+
+  &:hover {
+    background-color: shade($highlight-dark, 5%);
+  }
+}
 //*************************
 //***** MEDIA QUERIES *****
 //*************************
@@ -412,6 +455,24 @@ h2.pane__title {
     .third {
       clear: none;
     }
+  }
+
+  .pane__member-advantages {
+    margin-left: 0;
+    padding-left: 0;
+    @include display(flex);
+    @include flex-direction(column);
+
+    .pane__link {
+      @include display(flex);
+      @include flex(1 0 auto);
+      margin-top: auto;
+    }
+  }
+
+  .pane__symposium-cta {
+    margin-right: 0;
+    padding-right: 0;
   }
 }
 

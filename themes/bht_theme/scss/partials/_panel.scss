@@ -28,6 +28,11 @@
     margin-bottom: 3em;
   }
 
+  .panel__item--above {
+    @include display(flex);
+    @include flex-wrap(wrap);
+  }
+
   .panel__item--below {
     @include display(flex);
     @include flex-wrap(wrap);
@@ -39,14 +44,15 @@
   }
 
   .panel__item--col-first {
-    @include flex(0 0 auto);
     @include display(flex);
-    width: 55%;
+    @include flex(0 0 auto);
+    width: flex-grid(5,9) + flex-gutter(9);
   }
 
   .panel__item--col-last {
+    @include display(flex);
     @include flex(1 0 auto);
-    width: 45%;
+    width: flex-grid(4,9);
   }
 }
 

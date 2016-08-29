@@ -35,6 +35,11 @@ function bht_custom_entity_info_alter(&$entity_info) {
     'custom settings' => TRUE,
   );
 
+  $entity_info['node']['view modes']['program'] = array(
+    'label' => t('Scientific program'),
+    'custom settings' => TRUE,
+  );
+
 }
 
 

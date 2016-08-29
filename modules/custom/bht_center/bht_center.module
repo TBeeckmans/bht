@@ -268,7 +268,6 @@ function _bht_center_map() {
     'data' => $module_path . '/js/markerclusterer.js',
     'type' => 'external',
   );
-
   // Add the BHT center javascript data.
   $output['#attached']['js'][] = array(
     'data' => array(

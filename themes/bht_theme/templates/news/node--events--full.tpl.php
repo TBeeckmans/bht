@@ -85,25 +85,14 @@
 <?php
 hide($content['comments']);
 hide($content['links']);
-if (isset($content['language'])) {
-  hide($content['language']);
-}
-if (isset($content['cover_image'])) {
-  hide($content['cover_image']);
-}
 ?>
 
-
 <?php
-
-$paragraph_title = FALSE;
-if (isset($content['field_body']) && !empty($content['field_body'])) {
-  $paragraph_title = _bht_paragraphs_title_set($content['field_body']);
+if (isset($node->field_date[LANGUAGE_NONE][0]['value'])) {
+  $start_date = $node->field_date[LANGUAGE_NONE][0]['value'];
 }
-
-$date = $created;
-if (isset($news_date[LANGUAGE_NONE][0]['value'])) {
-  $date = $news_date[LANGUAGE_NONE][0]['value'];
+if (isset($node->field_date[LANGUAGE_NONE][0]['value2'])) {
+  $end_date = $node->field_date[LANGUAGE_NONE][0]['value2'];
 }
 
 // Determine the BEM block
@@ -111,91 +100,73 @@ $css_block = drupal_clean_css_identifier($type);
 
 // Determine the BEM modifier
 $css_modifier = '';
-if (!$page) {
-  $css_modifier = drupal_clean_css_identifier($view_mode);
-}
-
-// The attributes_array contains classes defined in overviews
-if (!isset($attributes_array['class'])) {
-  $attributes_array['class'] = array();
-}
 
 // Add the wrapper classes to the attributes_array
-if ($page) {
-  $attributes_array['class'][] = 'article';
-  $attributes_array['class'][] = $css_block . '__article';
-}
-else {
-  $attributes_array['class'][] = $css_block . '__item';
-  $attributes_array['class'][] = $css_block . '__item--' . $css_modifier;
-}
+$attributes_array['class'][] = 'article';
+$attributes_array['class'][] = $css_block . '__article';
 
 // Add the title classes to the title_attributes_array
-if ($page) {
-  $title_attributes_array['class'][] = $css_block . '__page-title';
-}
-else {
-  $title_attributes_array['class'][] = 'item-title';
-  $title_attributes_array['class'][] = $css_block . '__item-title';
-  $title_attributes_array['class'][] = $css_block . '__item-title--' . $css_modifier;
-}
+$title_attributes_array['class'][] = 'page-title';
+$title_attributes_array['class'][] = $css_block . '__page-title';
+
+// Add the link classes to the link_attributes_array
+$link_attributes_array = array();
+$link_attributes_array['class'][] = 'link';
+$link_attributes_array['class'][] = $css_block . '__link';
+$link_attributes_array['itemprop'][] = 'url';
 ?>
 
+<article role="article" itemscope
+         itemtype="http://schema.org/EducationEvent"
+  <?php print drupal_attributes($attributes_array); ?>>
 
-<?php if ($page): ?>
+  <h1 itemprop="name"
+    <?php print drupal_attributes($title_attributes_array); ?>>
+    <?php print $title; ?>
+  </h1>
 
-  <article role="article" itemscope
-           itemtype="http://schema.org/NewsArticle"
-    <?php print drupal_attributes($attributes_array); ?>>
-
-    <h1 itemprop="name"
-      <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </h1>
-
-    <div class="news__date news__date--page">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
+  <div class="events__date events__date--<?php print $css_modifier; ?>">
+    <span class="events__date--start" itemprop="startDate"
+          content="<?php print format_date($start_date, 'custom', 'c'); ?>">
+      <span class="events__day">
+        <?php print format_date($start_date, 'custom', 'j'); ?>
       </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
+      <span class="events__month">
+        <?php print strtolower(format_date($start_date, 'custom', 'F')); ?>
       </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
+      <span class="events__year">
+        <?php print format_date($start_date, 'custom', 'Y'); ?>
       </span>
-    </div>
-
-    <?php print render($content); ?>
-
-  </article>
-
-<?php else: ?>
-
-  <a href="<?php print url('node/' . $nid); ?>" <?php print drupal_attributes($attributes_array); ?>>
-
-    <div class="news__date news__date--<?php print $css_modifier; ?>">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
+    </span>
+    <?php if (format_date($start_date, 'custom', 'Ymd') !== format_date($end_date, 'custom', 'Ymd')): ?>
+      -
+      <span class="events__date--end" itemprop="endDate"
+              content="<?php print format_date($end_date, 'custom', 'c'); ?>">
+      <span class="events__day">
+        <?php print format_date($end_date, 'custom', 'j'); ?>
       </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
+      <span class="events__month">
+        <?php print strtolower(format_date($end_date, 'custom', 'F')); ?>
       </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
+      <span class="events__year">
+        <?php print format_date($end_date, 'custom', 'Y'); ?>
       </span>
-    </div>
-
-    <div itemprop="name" <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </div>
-
-    <?php if (isset($content['cover_image'])): ?>
-      <div class="news__image">
-        <?php print theme_strip_links(render($content['cover_image'])); ?>
-      </div>
+    </span>
     <?php endif; ?>
+  </div>
 
-  </a>
+  <?php if (isset($content['field_tags'])): ?>
+    <div itemprop="articleSection" class="events__tags">
+      <?php print render($content['field_tags']); ?>
+    </div>
+  <?php endif; ?>
 
-<?php endif; ?>
+  <?php if (isset($content['field_body'])): ?>
+    <div class="events__description" itemprop="description">
+      <?php print render($content['field_body']); ?>
+    </div>
+  <?php endif; ?>
 
+  <?php print render($content); ?>
+
+</article>

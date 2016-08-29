@@ -13,6 +13,7 @@
    * @param {Number} zoom
    */
   function initializeMap(lat, lng, zoom, callback) {
+    console.log('test');
     var latLng = new google.maps.LatLng(lat, lng);
 
     var defaultMapOptions = Drupal.settings.bht_center_map_options;

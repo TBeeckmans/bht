@@ -28,6 +28,13 @@ function bht_theme_preprocess_html(&$variables) {
     }
   }
 
+  if (isset($type) && $type == 'node-type-events') {
+    $node = menu_get_object();
+    if ($node->promote) {
+      $variables['classes_array'][] = 'node-type-events-promote';
+    }
+  }
+
   // Add critical css inline #perfmatters.
   if (!(bool) variable_get('bht_production', FALSE)) {
     // Read critical css file contents.
@@ -94,6 +101,10 @@ function bht_theme_preprocess_node(&$variables) {
   $variables['theme_hook_suggestions'][] = "node__" . $variables['type'];
   // Set node--{node_type}--{view_mode}.tpl.php.
   $variables['theme_hook_suggestions'][] = "node__" . $variables['type'] . "__" . $variables['view_mode'];
+  if ($variables['type'] == 'events' && $variables['view_mode'] == 'full' && $variables['promote']) {
+    // Set node--{node_type}--{view_mode}.tpl.php.
+    $variables['theme_hook_suggestions'][] = "node__" . $variables['type'] . "__" . $variables['view_mode'] . "_promoted";
+  }
   // Set node--{nid}.tpl.php.
   $variables['theme_hook_suggestions'][] = "node__" . $variables['nid'];
 
@@ -951,7 +962,6 @@ function bht_theme_form($variables) {
  */
 function bht_theme_form_element($variables) {
   $element = &$variables['element'];
-  kpr($element);
 
   // This function is invoked as theme wrapper, but the rendered form element
   // may not necessarily have been processed by form_builder().

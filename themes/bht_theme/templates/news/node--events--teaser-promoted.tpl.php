@@ -85,35 +85,22 @@
 <?php
 hide($content['comments']);
 hide($content['links']);
-if (isset($content['language'])) {
-  hide($content['language']);
-}
-if (isset($content['cover_image'])) {
-  hide($content['cover_image']);
-}
+hide($content['field_sponsor']);
 ?>
 
-
 <?php
-
-$paragraph_title = FALSE;
-if (isset($content['field_body']) && !empty($content['field_body'])) {
-  $paragraph_title = _bht_paragraphs_title_set($content['field_body']);
+if (isset($field_date[LANGUAGE_NONE][0]['value'])) {
+  $start_date = $field_date[LANGUAGE_NONE][0]['value'];
 }
-
-$date = $created;
-if (isset($news_date[LANGUAGE_NONE][0]['value'])) {
-  $date = $news_date[LANGUAGE_NONE][0]['value'];
+if (isset($field_date[LANGUAGE_NONE][0]['value2'])) {
+  $end_date = $field_date[LANGUAGE_NONE][0]['value2'];
 }
 
 // Determine the BEM block
 $css_block = drupal_clean_css_identifier($type);
 
 // Determine the BEM modifier
-$css_modifier = '';
-if (!$page) {
-  $css_modifier = drupal_clean_css_identifier($view_mode);
-}
+$css_modifier = drupal_clean_css_identifier($view_mode);
 
 // The attributes_array contains classes defined in overviews
 if (!isset($attributes_array['class'])) {
@@ -121,81 +108,129 @@ if (!isset($attributes_array['class'])) {
 }
 
 // Add the wrapper classes to the attributes_array
-if ($page) {
-  $attributes_array['class'][] = 'article';
-  $attributes_array['class'][] = $css_block . '__article';
-}
-else {
-  $attributes_array['class'][] = $css_block . '__item';
-  $attributes_array['class'][] = $css_block . '__item--' . $css_modifier;
-}
+$attributes_array['class'][] = $css_block . '__item';
+$attributes_array['class'][] = $css_block . '__item--' . $css_modifier;
 
 // Add the title classes to the title_attributes_array
-if ($page) {
-  $title_attributes_array['class'][] = $css_block . '__page-title';
-}
-else {
-  $title_attributes_array['class'][] = 'item-title';
-  $title_attributes_array['class'][] = $css_block . '__item-title';
-  $title_attributes_array['class'][] = $css_block . '__item-title--' . $css_modifier;
-}
+$title_attributes_array['class'][] = 'item-title';
+$title_attributes_array['class'][] = $css_block . '__item-title';
+$title_attributes_array['class'][] = $css_block . '__item-title--' . $css_modifier;
+
+// Add the title link classes to the link_attributes_array
+$link_attributes_array = array();
+$link_attributes_array['class'][] = 'item-link';
+$link_attributes_array['class'][] = $css_block . '__item-link';
+$link_attributes_array['class'][] = $css_block . '__item-link--' . $css_modifier;
+$link_attributes_array['itemprop'][] = 'url';
+
+// Add the read more link classes to the readmore_attributes_array
+$readmore_attributes_array['class'][] = 'btn';
+$readmore_attributes_array['class'][] = 'btn--link';
+$readmore_attributes_array['itemprop'][] = 'url';
+
+// Add the classes to the $register_attributes_array
+$register_attributes_array['class'][] = 'btn';
+$register_attributes_array['class'][] = 'btn--more';
+$register_attributes_array['class'][] = 'btn--registration';
+$register_attributes_array['itemprop'][] = 'url';
+
+// Add the classes to the $program_attributes_array
+$program_attributes_array['class'][] = 'btn';
+$program_attributes_array['class'][] = 'btn--more';
+$program_attributes_array['class'][] = 'btn--program';
+$program_attributes_array['itemprop'][] = 'url';
 ?>
 
+<div itemscope
+         itemtype="http://schema.org/EducationEvent"
+  <?php print drupal_attributes($attributes_array); ?>>
 
-<?php if ($page): ?>
+  <div class="layout__event-info">
 
-  <article role="article" itemscope
-           itemtype="http://schema.org/NewsArticle"
-    <?php print drupal_attributes($attributes_array); ?>>
-
-    <h1 itemprop="name"
+    <div itemprop="name"
       <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </h1>
+      <?php print l(
+        $title,
+        'node/' . $nid, array(
+          'attributes' => $link_attributes_array,
+          'html' => TRUE,
+        )
+      ); ?>
+    </div>
 
-    <div class="news__date news__date--page">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
-      </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
-      </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
+    <div class="events__date events__date--<?php print $css_modifier; ?>">
+      <span class="events__date--start" itemprop="startDate"
+            content="<?php print format_date($start_date, 'custom', 'c'); ?>">
+        <span class="events__day">
+          <?php print format_date($start_date, 'custom', 'j'); ?>
+        </span>
+        <span class="events__month">
+          <?php print strtolower(format_date($start_date, 'custom', 'F')); ?>
+        </span>
+        <span class="events__year">
+          <?php print format_date($start_date, 'custom', 'Y'); ?>
+        </span>
       </span>
     </div>
 
-    <?php print render($content); ?>
-
-  </article>
-
-<?php else: ?>
-
-  <a href="<?php print url('node/' . $nid); ?>" <?php print drupal_attributes($attributes_array); ?>>
-
-    <div class="news__date news__date--<?php print $css_modifier; ?>">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
-      </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
-      </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
-      </span>
+    <div class="layout__btn">
+      <?php print l(
+        t(
+          'Find out more<span class="element-invisible"> about @title</span>',
+          array('@title' => $title)
+        ),
+        'node/' . $nid,
+        array(
+          'attributes' => $readmore_attributes_array,
+          'html' => TRUE,
+        )
+      ); ?>
     </div>
 
-    <div itemprop="name" <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </div>
+  </div>
 
-    <?php if (isset($content['cover_image'])): ?>
-      <div class="news__image">
-        <?php print theme_strip_links(render($content['cover_image'])); ?>
-      </div>
+  <div class="layout__event-links">
+
+    <?php
+    // Generate link to registration path.
+    $registration_url = NULL;
+    if (!empty($node->field_register)) {
+      $register_ref = field_get_items('node', $node, 'field_register');
+      reset($register_ref);
+      while (gettype($register_ref) == 'array' && !isset($register_ref['target_id'])) {
+        $register_ref = reset($register_ref);
+      }
+
+      if (!empty($register_ref['target_id'])) {
+        if ($entityform_type = entity_load('entityform_type', array($register_ref['target_id']))) {
+          if (isset($entityform_type[$register_ref['target_id']]->paths['submit'])) {
+            $registration_url = (strlen($entityform_type[$register_ref['target_id']]->paths['submit']['alias']) > 0) ? $entityform_type[$register_ref['target_id']]->paths['submit']['alias'] : $entityform_type[$register_ref['target_id']]->paths['submit']['source'];
+          }
+        }
+      }
+    }
+    ?>
+    <?php if (!is_null($registration_url)): ?>
+      <?php print l(
+        t('Reserve your seat'),
+        $registration_url,
+        array(
+          'attributes' => $register_attributes_array,
+        )
+      ); ?>
     <?php endif; ?>
 
-  </a>
+    <?php if (!empty($node->field_program)): ?>
+      <?php print l(
+        t('Scientific program'),
+        'node/' . $nid,
+        array(
+          'attributes' => $program_attributes_array,
+          'fragment' => 'program'
+        )
+      ); ?>
+    <?php endif; ?>
 
-<?php endif; ?>
+  </div>
 
+</div>
