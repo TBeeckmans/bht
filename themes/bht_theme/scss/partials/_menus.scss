@@ -20,6 +20,11 @@
 //*** MOBILE MENU ***
 .nav__mobile {
   background-color: $highlight-medium;
+  overflow: visible;
+
+  &.contextual-links-region {
+    position: static !important;
+  }
 
   .nav__title {
     position: absolute;
@@ -91,9 +96,8 @@
     color: $white;
   }
 
-  .nav__list {
-    //float: left;
-    //width: 50%;
+  &.open .nav__layout {
+    display: block;
   }
 
   .nav__item {
@@ -115,6 +119,10 @@
   .nav__item.active-trail .nav__link,
   .nav__link:hover {
     background-color: $highlight-dark;
+  }
+
+  .nav__list .nav__list {
+    display: none;
   }
 }
 
@@ -286,6 +294,10 @@
     float: right;
     display: block;
     font-size: em(14px);
+
+    .nav__list .nav__list {
+      display: none;
+    }
 
     .nav__item {
       float: left;

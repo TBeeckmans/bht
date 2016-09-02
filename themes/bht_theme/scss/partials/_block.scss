@@ -128,7 +128,7 @@ h2.pane__title {
   }
 }
 
-.pane__journal-member {
+.pane__full-member {
   background-color: $highlight-dark;
   color: $white;
 
@@ -181,34 +181,6 @@ h2.pane__title {
 
   &:hover {
     background-color: shade($highlight-medium, 5%);
-  }
-}
-
-.pane__full-member {
-  background-color: $blue-medium;
-  color: $white;
-
-  .btn--more {
-    background-color: shade($blue-medium, 20%);
-    border-color: shade($blue-medium, 25%);
-
-    &:hover {
-      background-color: shade($blue-medium, 25%);
-      border-color: shade($blue-medium, 30%);
-    }
-  }
-
-  li::before {
-    background-image: url("../img/list-checked-neg.png") no-repeat 0 0;
-    background: -webkit-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
-    background: -moz-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
-    background: -o-linear-gradient(transparent, transparent), url("../img/list-checked-neg.svg") no-repeat 0 0;
-    background: linear, false, transparent, transparent, url("../img/list-checked-neg.svg") no-repeat 0 0;
-    background-size: contain;
-  }
-
-  &:hover {
-    background-color: shade($blue-medium, 5%);
   }
 }
 
@@ -372,7 +344,6 @@ h2.pane__title {
   .pane__become-member {
     @include display(flex);
     @include flex-direction(column);
-    width: 50%;
     padding-top: 1em;
 
     .pane__title {
@@ -387,6 +358,8 @@ h2.pane__title {
   .pane--registration {
     @include display(flex);
     @include flex-direction(column);
+    @include flex(0 1 auto);
+    width: 40%;
 
     .pane__link {
       @include display(flex);
@@ -417,17 +390,8 @@ h2.pane__title {
     }
   }
 
-  .pane__journal-member {
-    width: 50%;
-    margin-bottom: 0;
-  }
-
-  .pane__standard-member {
-    width: 50%;
-  }
-
   .pane__full-member {
-    width: 50%;
+    @include transform(scale(1.1));
   }
 
   .pane__find-therapist {
@@ -484,18 +448,14 @@ h2.pane__title {
     width: 100%;
   }
 
-  .pane--registration {
-    width: 33%;
-  }
-
-  .pane__journal-member {
-    margin-bottom: $gutter/2;
-  }
 }
 
 //-------------
 //-- BREAK 4 --
 //-------------
 @include media($break-4) {
+  .pane--registration {
+    width: 35%;
+  }
 
 }

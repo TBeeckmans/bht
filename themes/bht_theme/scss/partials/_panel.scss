@@ -6,6 +6,7 @@
 .panel__item--top {
   @include display(flex);
   @include flex-direction(column);
+  @include justify-content(space-around);
   margin-bottom: 2em;
 }
 

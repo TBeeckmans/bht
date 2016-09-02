@@ -77,14 +77,9 @@
   // FUNCTIONALITY *
   // ***************
 
-  // (LANGUAGE) TOGGLE
-  $('.js-language-toggle .nav__title').click(function() {
-    $(this).siblings('*').slideToggle('fast').parent().toggleClass('open');
-  });
-
   // (MENU) TOGGLE
   $('.js-nav-toggle .nav__title').click(function() {
-    $(this).siblings('*').slideToggle('fast').parent().toggleClass('open');
+    $(this).parent().toggleClass('open');
   });
 
   // (HEADER) TOGGLE
