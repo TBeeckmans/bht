@@ -1,0 +1,8 @@
+name = BHT submenu block
+description = "Creates a block to shows it's subpages."
+
+package = BHT
+core = 7.x
+
+;version
+version = 7.x-1.0

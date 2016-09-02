@@ -1,0 +1,105 @@
+<?php
+define('VIEW_MODE', 'submenu_overview');
+define('ENTITY_TYPES', serialize(array('node', 'taxonomy_term')));
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function bht_submenu_block_entity_info_alter(&$entity_info) {
+  // Create a view mode for every type.
+  $types = unserialize(ENTITY_TYPES);
+
+  foreach ($types as $type) {
+    $entity_info[$type]['view modes'][VIEW_MODE] = array(
+      'label' => t('Submenu overview'),
+      'custom settings' => TRUE,
+    );
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function bht_submenu_block_block_info() {
+  $blocks['submenu_block'] = array(
+    'info' => 'CB - ' . t('Submenu'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function bht_submenu_block_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'submenu_block':
+      $block = array(
+        'subject' => NULL,
+        'content' => _submenu_block_content(),
+      );
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Content for submenu_block.
+ */
+function _submenu_block_content() {
+  // Fetch all submenu urls.
+  $current_path = current_path();
+  $query = db_select('menu_links', 'c');
+  $query->leftJoin('menu_links', 'p', 'c.plid = p.mlid');
+  $result = $query->fields('c', array('link_path'))
+                  ->condition('p.link_path', $current_path)
+                  ->execute();
+
+  // Create ids per type array, keyed by type (node, taxonomy_term)
+  // type is created by url prefix => taxonomy/term becomes taxonomy_term
+  // node stays node.
+  $ids_per_type = array();
+  foreach ($result as $record) {
+    $last_slash_pos = strrpos($record->link_path, '/');
+    $type = substr($record->link_path, 0, $last_slash_pos);
+    $type = str_replace('/', '_', $type);
+    $ids_per_type[$type][] = substr($record->link_path, $last_slash_pos + 1);
+  }
+
+  // Load all entities.
+  $all_entities = array();
+  foreach ($ids_per_type as $type => $ids) {
+    $entities = entity_load($type, $ids);
+    $entities = entity_view($type, $entities, VIEW_MODE);
+    array_push($all_entities, $entities[$type]);
+  }
+
+  if (!empty($entities)) {
+    return array(
+      '#theme' => 'submenu_block',
+      '#items' => $all_entities,
+    );
+  }
+  else {
+    return NULL;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function bht_submenu_block_theme() {
+  $themes = array(
+    'submenu_block' => array(
+      'variables' => array(
+        'items' => NULL,
+      ),
+      'template' => 'templates/submenu-block',
+    ),
+  );
+
+  return $themes;
+}
