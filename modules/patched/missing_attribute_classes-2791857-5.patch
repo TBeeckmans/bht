@@ -1,0 +1,16 @@
+diff --git a/ctools.module b/ctools.module
+index 778a220..9902963 100644
+--- a/ctools.module
++++ b/ctools.module
+@@ -744,6 +744,11 @@ function ctools_process(&$variables, $hook) {
+     return;
+   }
+ 
++  // Merge classes with the attribute's classes.
++  if (isset($variables['attributes_array']['class'])) {
++    $variables['classes_array'] = array_unique(array_merge($variables['classes_array'], $variables['attributes_array']['class']));
++  }
++
+   $classes = drupal_static('ctools_process_classes', array());
+ 
+   // Process the classses to add.
