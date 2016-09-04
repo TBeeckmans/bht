@@ -138,23 +138,21 @@
   &::after {
     content: '';
     position: absolute;
+    right: 1em + $gutter;
+    top: 50%;
     display: block;
+    margin-top: em(-25px);
+    width: em(50px);
+    height: em(50px);
     background-image: url("../img/right-chevron.png") no-repeat 0 0;
     background: -webkit-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
     background: -moz-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
     background: -o-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
     background: linear, false, transparent, transparent, url("../img/right-chevron.svg") no-repeat 0 0;
     background-size: contain;
-    width: em(50px);
-    height: em(50px);
-    position: absolute;
-    right: 1em + $gutter;
-    top: 50%;
-    margin-top: em(-25px);
   }
 
   &:hover::after {
-
     animation: start .4s;
   }
 

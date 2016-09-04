@@ -321,6 +321,63 @@ h2.pane__title {
     background-color: shade($highlight-dark, 5%);
   }
 }
+
+.pane__submenu {
+  display: block;
+  width: 100%;
+}
+
+.submenu__item-link {
+  position: relative;
+  display: block;
+  padding: 1.5em 0;
+  text-decoration: none;
+  color: $white;
+  @include break-out($gutter, 'left');
+  margin-top: 1em;
+  margin-right: $gutter * -1;
+  margin-bottom: 1em;
+  padding-top: 1em;
+  padding-right: em(50px) + 2em + $gutter;
+  padding-bottom: 1em;
+  background-color: tint($highlight-light, 30%);
+  text-decoration: none;
+  color: $white;
+
+  &:hover {
+    background-color: tint($highlight-light, 25%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 1em + $gutter;
+    top: 50%;
+    display: block;
+    margin-top: em(-25px);
+    width: em(50px);
+    height: em(50px);
+    background-image: url("../img/right-chevron.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/right-chevron.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+
+  &:hover::after {
+    animation: start .4s;
+  }
+}
+
+.submenu__item-title {
+  margin-bottom: 1.25em;
+  padding-top: 1.25em;
+  @include font(20);
+  font-family: $notoserif;
+  font-weight: 800;
+}
+
 //*************************
 //***** MEDIA QUERIES *****
 //*************************
@@ -410,7 +467,7 @@ h2.pane__title {
   .pane__sponsor-banner {
     .odd,
     .even,
-    .third{
+    .third {
       @include span-columns($grid-columns/4);
     }
     .fourth {
@@ -437,6 +494,24 @@ h2.pane__title {
   .pane__symposium-cta {
     margin-right: 0;
     padding-right: 0;
+  }
+
+  .pane__submenu {
+    @include display(flex);
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+  }
+
+  .submenu__item-link {
+    @include flex(1 1 auto);
+    @include box-sizing(border-box);
+    margin: 1em 0;
+    width: 33%;
+    padding: 1em 4em 1em 1em;
+
+    &::after {
+      right: 0.5em;
+    }
   }
 }
 

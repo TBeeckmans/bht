@@ -2154,7 +2154,7 @@ div.file {
     left: 0;
     right: 0;
     width: auto;
-    height: 100%; }
+    height: 100vh; }
   .nav__mobile.open .nav__title {
     position: relative;
     width: 100%;
@@ -2819,6 +2819,62 @@ h2.pane__title {
   .pane__member-advantages:hover {
     background-color: #42b9a2; }
 
+.pane__submenu {
+  display: block;
+  width: 100%; }
+
+.submenu__item-link {
+  position: relative;
+  display: block;
+  padding: 1.5em 0;
+  text-decoration: none;
+  color: #FFFFFF;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin-left: -1.25em;
+  padding-left: 1.25em;
+  margin-top: 1em;
+  margin-right: -1.25em;
+  margin-bottom: 1em;
+  padding-top: 1em;
+  padding-right: 6.375em;
+  padding-bottom: 1em;
+  background-color: #74cdf2;
+  text-decoration: none;
+  color: #FFFFFF; }
+  .submenu__item-link * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+  .submenu__item-link:hover {
+    background-color: #6acaf1; }
+  .submenu__item-link::after {
+    content: '';
+    position: absolute;
+    right: 2.25em;
+    top: 50%;
+    display: block;
+    margin-top: -1.5625em;
+    width: 3.125em;
+    height: 3.125em;
+    background-image: url("../img/right-chevron.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/right-chevron.svg") no-repeat 0 0;
+    background-size: contain; }
+  .submenu__item-link:hover::after {
+    animation: start .4s; }
+
+.submenu__item-title {
+  margin-bottom: 1.25em;
+  padding-top: 1.25em;
+  font-size: 1.25em;
+  line-height: 1.5em;
+  font-family: "Noto Serif", serif;
+  font-weight: 800; }
+
 @media screen and (min-width: 48em) {
   .pane__event--promoted {
     padding-bottom: 3em; }
@@ -3038,7 +3094,48 @@ h2.pane__title {
       margin-top: auto; }
   .pane__symposium-cta {
     margin-right: 0;
-    padding-right: 0; } }
+    padding-right: 0; }
+  .pane__submenu {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    box-direction: normal;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-direction: row;
+    -webkit-box-lines: multiple;
+    -moz-box-lines: multiple;
+    box-lines: multiple;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+  .submenu__item-link {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -moz-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 1em 0;
+    width: 33%;
+    padding: 1em 4em 1em 1em; }
+    .submenu__item-link::after {
+      right: 0.5em; } }
 
 @media screen and (min-width: 60em) {
   .pane__become-member {
@@ -3325,19 +3422,18 @@ h2.pane__title {
   .event__link::after {
     content: '';
     position: absolute;
+    right: 2.25em;
+    top: 50%;
     display: block;
+    margin-top: -1.5625em;
+    width: 3.125em;
+    height: 3.125em;
     background-image: url("../img/right-chevron.png") no-repeat 0 0;
     background: -webkit-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
     background: -moz-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
     background: -o-linear-gradient(transparent, transparent), url("../img/right-chevron.svg") no-repeat 0 0;
     background: linear, false, transparent, transparent, url("../img/right-chevron.svg") no-repeat 0 0;
-    background-size: contain;
-    width: 3.125em;
-    height: 3.125em;
-    position: absolute;
-    right: 2.25em;
-    top: 50%;
-    margin-top: -1.5625em; }
+    background-size: contain; }
   .event__link:hover::after {
     animation: start .4s; }
 
