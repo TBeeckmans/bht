@@ -13,7 +13,6 @@
    * @param {Number} zoom
    */
   function initializeMap(lat, lng, zoom, callback) {
-    console.log('test');
     var latLng = new google.maps.LatLng(lat, lng);
 
     var defaultMapOptions = Drupal.settings.bht_center_map_options;
@@ -85,12 +84,22 @@
    * @returns {Array.<T>}
    */
   function getSortedKeys(obj) {
-    var keys = [];
-    for (var key in obj) keys.push(key);
-    return keys.sort(function (a, b) {
-      return obj[a] - obj[b]
-    });
-  };
+      var keys = [];
+      for (var key in obj) keys.push(key);
+      return keys.sort(function (a, b) {
+        if(obj[a].weight > obj[b].weight)
+          return 1;
+        if(obj[b].weight > obj[a].weight)
+          return - 1;
+
+        if(obj[a].distance > obj[b].distance)
+          return -1;
+        if(obj[b].distance > obj[a].distance)
+          return 1;
+
+        return 0;
+      });
+  }
 
   /**
    * Act on geolocation success.
@@ -126,6 +135,7 @@
           position: latLng,
           map: map,
           icon: value.icon,
+          weight: parseInt(value.weight),
         });
 
         // Create infoWindow.
@@ -170,7 +180,8 @@
       for (var a in markersArray) {
         var lat = markersArray[a].position.lat();
         var lng = markersArray[a].position.lng();
-        distances[a] = getDistance(lat, lng, lat_center, lng_center);
+        markersArray[a].distance = getDistance(lat, lng, lat_center, lng_center);
+        distances[a] = markersArray[a];
       }
       distances = getSortedKeys(distances);
 
@@ -208,11 +219,24 @@
           });
 
           // Clustering.
-          var mcOptions = {gridSize: 30, maxZoom: 15, minZoom: 1};
+          var mcOptions = {
+            gridSize: 40,
+            maxZoom: 15,
+            minZoom: 2,
+            styles: [
+              {
+                url: Drupal.settings.bht_center_module + '/img/clusterer.png',
+                width: 32,
+                height: 32,
+                anchor: [-8, 0],
+                textColor: '#38B8EC',
+                textSize: 12,
+                iconAnchor: [16, 32]
+              }
+            ]
+          };
 
-          setTimeout(function () {
-            var mc = new MarkerClusterer(map, markersArray, mcOptions);
-          }, 500);
+          var mc = new MarkerClusterer(map, markersArray, mcOptions);
         });
       });
 

@@ -216,7 +216,12 @@ function _bht_center_map() {
   $map_options = variable_get(BHT_CENTER_JS_MAP_OPTIONS, 'a:0:{}');
 
   // Get all BHT centers.
-  $markers = node_load_multiple(_bht_center_nids());
+  $bht_centers = _bht_center_nids();
+  if (empty($bht_centers)) {
+    return $output;
+  }
+  $bht_center_nids = array_keys($bht_centers);
+  $markers = node_load_multiple($bht_center_nids);
   if (empty($markers)) {
     return $output;
   }
@@ -232,8 +237,16 @@ function _bht_center_map() {
     $rendered_markers[$nid]['html'] = drupal_render($marker);
     $rendered_markers[$nid]['lat'] = $marker['#node']->lat[LANGUAGE_NONE][0]['value'];
     $rendered_markers[$nid]['lng'] = $marker['#node']->lng[LANGUAGE_NONE][0]['value'];
-    // TODO: Get the marker, related to the referenced user certification grade.
-    $rendered_markers[$nid]['icon'] = $module_path . '/img/marker.png';
+    $rendered_markers[$nid]['weight'] = $bht_centers[$nid]->weight;
+    // @todo: Replace the marker with the one from the public stream.
+    // @todo: Set the correct vertical centerpoint.
+    $rendered_markers[$nid]['icon'] = array(
+      'url' => $module_path . '/img/marker.png',
+      'scaledSize' => array(
+        'height' => 32,
+        'width' => 32
+      )
+    );
   }
 
   // Define the search field.
@@ -259,18 +272,17 @@ function _bht_center_map() {
     'type' => 'external',
   );
   $output['#attached']['js'][] = array(
-    //'data' => 'https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js',
     'data' => $module_path . '/js/infobox.js',
     'type' => 'external',
   );
   $output['#attached']['js'][] = array(
-    //'data' => 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js',
     'data' => $module_path . '/js/markerclusterer.js',
     'type' => 'external',
   );
   // Add the BHT center javascript data.
   $output['#attached']['js'][] = array(
     'data' => array(
+      'bht_center_module' => $module_path,
       'bht_center_map_options' => $map_options,
       'bht_center_map_geolocation' => (boolean) variable_get(
         BHT_CENTER_MAP_GEOLOCATION, 1
@@ -305,10 +317,15 @@ function _bht_center_list() {
   );
 
   // Get rendered BHT centers.
-  $bht_centers = node_load_multiple(_bht_center_nids());
+  $bht_centers = _bht_center_nids();
   if (empty($bht_centers)) {
-    return array();
+    return $output;
   }
+  $bht_centers = node_load_multiple(array_keys($bht_centers));
+  if (empty($bht_centers)) {
+    return $output;
+  }
+
   $bht_centers = node_view_multiple($bht_centers, BHT_CENTER_LIST_VIEW_MODE);
 
   // Loop over each BHT center and render them, the result will be used by js.
@@ -408,12 +425,45 @@ function bht_center_theme() {
 
 function _bht_center_nids() {
   $nids = array();
-  // TODO: Order by certification grade on the referenced user(s)
-  $resultset = db_select('node', 'n')
-    ->fields('n', array('nid'))
-    ->condition('type', BHT_CENTER_MACHINE_NAME)
-    ->condition('status', 1)
-    ->execute()->fetchCol();
+
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid'));
+  $query->fields('u', array('uri', 'width', 'height', 'weight'));
+  // Add in the linked users.
+  $q_user = db_select('field_data_therapist', 'ut');
+  $q_user->fields('ut', array('entity_id'));
+  $q_user->fields('uc', array('uri', 'width', 'height', 'weight'));
+  // Add in the linked users certification.
+  $q_usercert = db_select('field_data_certification', 'ucc');
+  $q_usercert->addField('ucc', 'entity_id');
+  $q_usercert->addField('uci', 'certification_icon_width', 'width');
+  $q_usercert->addField('uci', 'certification_icon_height', 'height');
+  $q_usercert->addField('ucf', 'uri');
+  $q_usercert->addField('uct', 'weight');
+  $q_usercert->join('taxonomy_term_data', 'uct', 'uct.tid = ucc.certification_tid');
+  $q_usercert->join('field_data_certification_icon', 'uci', 'uci.entity_id = ucc.certification_tid');
+  $q_usercert->join('file_managed', 'ucf', 'ucf.fid = uci.certification_icon_fid');
+  $q_user->join($q_usercert, 'uc', 'uc.entity_id = ut.therapist_target_id');
+  $query->join($q_user, 'u', 'u.entity_id = n.nid');
+  // Add in the certification grade.
+  $q_weight = db_select('field_data_therapist', 'wt');
+  $q_weight->addField('wt', 'entity_id');
+  $q_weight->addExpression('MIN(wc.weight)', 'weight');
+  // Add in the users certification grade by weight.
+  $q_weightcert = db_select('field_data_certification', 'wcc');
+  $q_weightcert->addField('wcc', 'entity_id');
+  $q_weightcert->addField('wct', 'weight');
+  $q_weightcert->join('taxonomy_term_data', 'wct', 'wct.tid = wcc.certification_tid');
+  $q_weight->join($q_weightcert, 'wc', 'wc.entity_id = wt.therapist_target_id');
+  $q_weight->groupBy('wt.entity_id');
+  $query->join($q_weight, 'w', 'w.entity_id = n.nid AND w.weight = u.weight');
+  // Filter on the BHT centers.
+  $query->condition('n.type', BHT_CENTER_MACHINE_NAME)
+    ->condition('n.status', 1);
+  // Order by the certification grade.
+  $query->orderBy('u.weight');
+  // Fetch the necessary information per nid.
+  $resultset = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_OBJ);
 
   if (!empty($resultset)) {
     $nids = $resultset;
