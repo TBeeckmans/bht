@@ -238,15 +238,38 @@ function _bht_center_map() {
     $rendered_markers[$nid]['lat'] = $marker['#node']->lat[LANGUAGE_NONE][0]['value'];
     $rendered_markers[$nid]['lng'] = $marker['#node']->lng[LANGUAGE_NONE][0]['value'];
     $rendered_markers[$nid]['weight'] = $bht_centers[$nid]->weight;
-    // @todo: Replace the marker with the one from the public stream.
-    // @todo: Set the correct vertical centerpoint.
-    $rendered_markers[$nid]['icon'] = array(
-      'url' => $module_path . '/img/marker.png',
-      'scaledSize' => array(
-        'height' => 32,
-        'width' => 32
-      )
-    );
+
+    $icon = array();
+    if (!empty($bht_centers[$nid]->uri)
+      && !empty($bht_centers[$nid]->width)
+      && !empty($bht_centers[$nid]->height)
+    ) {
+      if ($wrapper = file_stream_wrapper_get_instance_by_uri($bht_centers[$nid]->uri)) {
+        $url = $wrapper->getExternalUrl();
+        $width = $bht_centers[$nid]->width;
+        $height = $bht_centers[$nid]->height;
+        $icon = array(
+          'url' => $url,
+          'scaledSize' => array(
+            'width' => $width / 2,
+            'height' => $height / 2,
+          ),
+          // Assume height equal to the widht for the certified icon.
+          'anchor' => array('x' => $width / 4, 'y' => $width / 4),
+        );
+      }
+    }
+    if (empty($icon)) {
+      array(
+        'url' => $module_path . '/img/marker.png',
+        'scaledSize' => array(
+          'height' => 32,
+          'width' => 32,
+        ),
+        'anchor' => array('x' => $width / 4, 'y' => $width / 4),
+      );
+    }
+    $rendered_markers[$nid]['icon'] = $icon;
   }
 
   // Define the search field.
@@ -454,7 +477,7 @@ function _bht_center_nids() {
   $query->join($q_weight, 'w', 'w.entity_id = n.nid AND w.weight = u.weight');
   // Filter on the BHT centers.
   $query->condition('n.type', BHT_CENTER_MACHINE_NAME)
-    ->condition('n.status', 1);
+        ->condition('n.status', 1);
   // Order by the certification grade.
   $query->orderBy('u.weight');
   // Fetch the necessary information per nid.
