@@ -3302,19 +3302,22 @@ h2.pane__title {
   background: linear, false, transparent, transparent, url("../img/navigation.svg") no-repeat 0 0;
   background-size: contain; }
 
-.physician__item--marker .physician--icon {
-  padding-left: 0.7142857143em; }
-  .physician__item--marker .physician--icon::before {
-    top: 0.0714285714em;
-    display: block;
-    margin-right: 1.25em;
-    width: 0.7142857143em;
-    height: 0.7142857143em; }
-
 .physician__employee {
   margin-bottom: 0.5em; }
   .physician__employee .physician--icon {
     margin-left: -2.375em; }
+
+.physician__item--marker .physician__employee .physician--icon {
+  margin-left: 0; }
+
+.physician__item--marker .physician--icon {
+  padding-left: 1.75em; }
+  .physician__item--marker .physician--icon::before {
+    top: 0.3em;
+    display: block;
+    margin-right: 0.75em;
+    width: 1em;
+    height: 1em; }
 
 .physician__item--inline .physician__name, .physician__item--inline .physician__address, .physician__item--inline .physician__email, .physician__item--inline .physician__phone, .physician__item--inline .physician__country, .physician__item--inline .physician__vat {
   display: inline-block;

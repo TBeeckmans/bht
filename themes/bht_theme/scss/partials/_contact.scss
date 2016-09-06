@@ -151,25 +151,32 @@
   }
 }
 
-.physician__item--marker {
-  .physician--icon {
-    padding-left: em(10px, 14px);
-
-    &::before {
-      top: em(1px, 14px);
-      display: block;
-      margin-right: $gutter;
-      width: em(10px, 14px);
-      height: em(10px, 14px);
-    }
-  }
-}
-
 .physician__employee {
   margin-bottom: 0.5em;
 
   .physician--icon {
     margin-left: (em(18px) + $gutter) * -1;
+  }
+}
+
+.physician__item--marker {
+
+  .physician__employee {
+    .physician--icon {
+      margin-left: 0;
+    }
+  }
+
+  .physician--icon {
+    padding-left: 1.75em;
+
+    &::before {
+      top: 0.3em;
+      display: block;
+      margin-right: 0.75em;
+      width: 1em;
+      height: 1em;
+    }
   }
 }
 
