@@ -353,52 +353,86 @@ function _bht_center_list() {
   return $output;
 }
 
+function bht_center_therapist_sort($a, $b) {
+  $a_item = reset($a['user']);
+  $b_item = reset($b['user']);
+  if (empty($a_item['certification'])) {
+    return 1;
+  }
+  if (empty($b_item['certification'])) {
+    return -1;
+  }
+  $a_certification_weight = (int) $a_item['certification']['#items'][0]['taxonomy_term']->weight;
+  $b_certification_weight = (int) $b_item['certification']['#items'][0]['taxonomy_term']->weight;
+  if ($a_certification_weight > $b_certification_weight) {
+    return 1;
+  }
+  if ($a_certification_weight < $b_certification_weight) {
+    return -1;
+  }
+  return 0;
+}
+
 /**
  * Implements hook_node_view_alter().
  */
 function bht_center_node_view_alter(&$build) {
   if ($build['#bundle'] == 'bht_center') {
-    $node = &$build['#node'];
-    $language = &$build['#language'];
+    //$node = &$build['#node'];
+    //$language = &$build['#language'];
 
-    if (isset($node->therapist) && !empty($node->therapist)) {
-      $therapist_items = field_get_items('node', $node, 'therapist', $language);
-      $certification_tids = array();
-      if (!empty($therapist_items)) {
-        foreach ($therapist_items as $therapist) {
-          $entity = NULL;
-          extract($therapist);
-          $certification_items = field_get_items('user', $entity, 'certification');
-          if (!empty($certification_items)) {
-            foreach ($certification_items as $certification) {
-              $certification_tid = reset($certification);
-              $certification_tids[] = $certification_tid;
-            }
-          }
-        }
+    if (!empty($build['therapist'])) {
+      $therapist_children = element_children($build['therapist']);
+      $therapists = array();
+      foreach ($therapist_children as $therapist_id) {
+        $therapists[$therapist_id] = $build['therapist'][$therapist_id];
       }
-
-      if (!empty($certification_tids)) {
-        $query = db_select('taxonomy_term_data', 'td');
-        $query->join('field_data_certification_icon', 'i', 'i.entity_id = td.tid');
-        $query->join('file_managed', 'f', 'f.fid = i.certification_icon_fid');
-        $query->fields('td', array('name', 'weight', 'tid'));
-        $query->fields('f', array('uri'));
-        $query->condition('td.vid', get_bht_certification_vid())
-              ->condition('td.tid', $certification_tids);
-        $query->condition('i.bundle', 'certification')
-              ->condition('i.entity_type', 'taxonomy_term');
-        $query->condition('f.status', '1');
-        $query->orderBy('td.weight', 'DESC');
-        $query->range(0, 1);
-        $certification = $query->execute()
-                               ->fetchAllAssoc('tid', PDO::FETCH_OBJ);
-
-        if (!empty($certification)) {
-          $node->certification = $certification;
-        }
+      uasort($therapists, 'bht_center_therapist_sort');
+      reset($therapists);
+      foreach ($therapist_children as $therapist_id) {
+        $build['therapist'][$therapist_id] = current($therapists);
+        next($therapists);
       }
     }
+
+    //if (isset($node->therapist) && !empty($node->therapist)) {
+    //  $therapist_items = field_get_items('node', $node, 'therapist', $language);
+    //  $certification_tids = array();
+    //  if (!empty($therapist_items)) {
+    //    foreach ($therapist_items as $therapist) {
+    //      $entity = NULL;
+    //      extract($therapist);
+    //      $certification_items = field_get_items('user', $entity, 'certification');
+    //      if (!empty($certification_items)) {
+    //        foreach ($certification_items as $certification) {
+    //          $certification_tid = reset($certification);
+    //          $certification_tids[] = $certification_tid;
+    //        }
+    //      }
+    //    }
+    //  }
+    //
+    //  if (!empty($certification_tids)) {
+    //    $query = db_select('taxonomy_term_data', 'td');
+    //    $query->join('field_data_certification_icon', 'i', 'i.entity_id = td.tid');
+    //    $query->join('file_managed', 'f', 'f.fid = i.certification_icon_fid');
+    //    $query->fields('td', array('name', 'weight', 'tid'));
+    //    $query->fields('f', array('uri'));
+    //    $query->condition('td.vid', get_bht_certification_vid())
+    //          ->condition('td.tid', $certification_tids);
+    //    $query->condition('i.bundle', 'certification')
+    //          ->condition('i.entity_type', 'taxonomy_term');
+    //    $query->condition('f.status', '1');
+    //    $query->orderBy('td.weight', 'DESC');
+    //    $query->range(0, 1);
+    //    $certification = $query->execute()
+    //                           ->fetchAllAssoc('tid', PDO::FETCH_OBJ);
+    //
+    //    if (!empty($certification)) {
+    //      $node->certification = $certification;
+    //    }
+    //  }
+    //}
   }
 }
 

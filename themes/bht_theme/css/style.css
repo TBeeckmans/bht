@@ -638,7 +638,8 @@ ul.contextual-links li a:hover {
       nav ul.primary li a {
         padding: 0.3125em 1.25em; } }
 
-.element-invisible, .breadcrumb__title, .sharelinks {
+.element-invisible, .breadcrumb__title, .physician__memberof,
+.physician__specialty, .sharelinks {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -3128,8 +3129,6 @@ h2.pane__title {
     -moz-flex: 1 1 auto;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin: 1em 0;
     width: 33%;
@@ -3145,54 +3144,211 @@ h2.pane__title {
   .pane--registration {
     width: 35%; } }
 
-.contact__map {
-  float: left;
+.bht-center__map,
+.bht-center__overview {
   width: 100%;
-  max-width: 48em;
-  margin-bottom: 1.25em; }
+  float: left; }
 
 .map__canvas,
-#map__canvas {
-  height: 25em !important;
-  /* Override of module css */
+#map-canvas {
+  float: left;
+  margin-bottom: 1.25em;
   width: 100% !important;
+  /* Override of module css */
+  height: 25em !important;
   /* Override of module css */ }
 
-.contact__overview {
-  float: left;
+.physician__overview {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  box-direction: normal;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-direction: row;
+  -webkit-box-lines: multiple;
+  -moz-box-lines: multiple;
+  box-lines: multiple;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  box-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  -o-justify-content: space-between;
+  justify-content: space-between;
+  -ms-flex-pack: justify;
   width: 100%; }
 
-.contact__item {
-  float: left;
+.physician__item {
+  margin-bottom: 1.25em;
   width: 100%;
-  padding: 0.625em; }
+  padding: 0.625em;
+  background-color: #FFFFFF;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -o-hyphens: auto;
+  hyphens: auto;
+  -webkit-hyphenate-character: "-";
+  -moz-hyphenate-character: "-";
+  -ms-hyphenate-character: "-";
+  -o-hyphenate-character: "-";
+  hyphenate-character: "-";
+  -ms-word-break: normal;
+  word-break: normal;
+  word-wrap: break-word; }
 
-.contact__item--inline .contact__name, .contact__item--inline .contact__address, .contact__item--inline .contact__email, .contact__item--inline .contact__phone, .contact__item--inline .contact__country, .contact__item--inline .contact__vat {
+.physician__item--marker {
+  margin-bottom: 0;
+  font-size: 0.875em;
+  line-height: 1.7142857143em; }
+  .physician__item--marker .physician__name {
+    margin-bottom: 0; }
+
+.physician__name {
+  font-size: 1.125em;
+  line-height: 1.6em;
+  font-family: "Noto Serif", serif;
+  font-weight: 800;
+  margin-bottom: 1em; }
+
+.physician--icon {
+  position: relative;
+  padding-left: 2.375em; }
+  .physician--icon::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.3125em;
+    display: block;
+    margin-right: 1.25em;
+    width: 1.125em;
+    height: 1.125em; }
+
+.physician__address {
+  margin-bottom: 0.5em; }
+  .physician__address::before {
+    background-image: url("../img/address.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/address.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/address.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/address.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/address.svg") no-repeat 0 0;
+    background-size: contain; }
+
+.physician__email {
+  margin-bottom: 0.5em; }
+  .physician__email::before {
+    background-image: url("../img/e-mail.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/e-mail.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/e-mail.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/e-mail.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/e-mail.svg") no-repeat 0 0;
+    background-size: contain; }
+
+.physician__phone,
+.physician__mobile-phone {
+  margin-bottom: 0.5em; }
+  .physician__phone::before,
+  .physician__mobile-phone::before {
+    background-image: url("../img/telephone.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/telephone.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/telephone.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/telephone.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/telephone.svg") no-repeat 0 0;
+    background-size: contain; }
+
+.physician__fax {
+  margin-bottom: 0.5em; }
+  .physician__fax::before {
+    background-image: url("../img/fax.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/fax.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/fax.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/fax.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/fax.svg") no-repeat 0 0;
+    background-size: contain; }
+
+.physician__employees::before {
+  background-image: url("../img/therapists.png") no-repeat 0 0;
+  background: -webkit-linear-gradient(transparent, transparent), url("../img/therapists.svg") no-repeat 0 0;
+  background: -moz-linear-gradient(transparent, transparent), url("../img/therapists.svg") no-repeat 0 0;
+  background: -o-linear-gradient(transparent, transparent), url("../img/therapists.svg") no-repeat 0 0;
+  background: linear, false, transparent, transparent, url("../img/therapists.svg") no-repeat 0 0;
+  background-size: contain; }
+
+.physician__employees [itemprop="givenName"],
+.physician__employees [itemprop="familyName"] {
+  font-weight: 600; }
+
+.physician__save::before {
+  background-image: url("../img/navigation.png") no-repeat 0 0;
+  background: -webkit-linear-gradient(transparent, transparent), url("../img/navigation.svg") no-repeat 0 0;
+  background: -moz-linear-gradient(transparent, transparent), url("../img/navigation.svg") no-repeat 0 0;
+  background: -o-linear-gradient(transparent, transparent), url("../img/navigation.svg") no-repeat 0 0;
+  background: linear, false, transparent, transparent, url("../img/navigation.svg") no-repeat 0 0;
+  background-size: contain; }
+
+.physician__item--marker .physician--icon {
+  padding-left: 0.7142857143em; }
+  .physician__item--marker .physician--icon::before {
+    top: 0.0714285714em;
+    display: block;
+    margin-right: 1.25em;
+    width: 0.7142857143em;
+    height: 0.7142857143em; }
+
+.physician__employee {
+  margin-bottom: 0.5em; }
+  .physician__employee .physician--icon {
+    margin-left: -2.375em; }
+
+.physician__item--inline .physician__name, .physician__item--inline .physician__address, .physician__item--inline .physician__email, .physician__item--inline .physician__phone, .physician__item--inline .physician__country, .physician__item--inline .physician__vat {
   display: inline-block;
   float: left; }
-  .contact__item--inline .contact__name:after, .contact__item--inline .contact__address:after, .contact__item--inline .contact__email:after, .contact__item--inline .contact__phone:after, .contact__item--inline .contact__country:after, .contact__item--inline .contact__vat:after {
+  .physician__item--inline .physician__name:after, .physician__item--inline .physician__address:after, .physician__item--inline .physician__email:after, .physician__item--inline .physician__phone:after, .physician__item--inline .physician__country:after, .physician__item--inline .physician__vat:after {
     display: inline-block;
     margin: 0 0.3125em;
     content: '|'; }
 
-.contact__item--inline .contact__address span {
+.physician__item--inline .physician__address span {
   display: inline-block;
   float: left; }
-  .contact__item--inline .contact__address span:after {
+  .physician__item--inline .physician__address span:after {
     display: inline-block;
     margin: 0 0.625em 0 -0.3125em;
     content: ','; }
 
-.contact__item--inline .contact__address:after {
+.physician__item--inline .physician__name {
+  font-size: 1.125em;
+  line-height: 1.6em;
+  font-weight: 800;
+  font-family: "Noto Serif", serif;
+  margin-bottom: 1em; }
+
+.physician__item--inline .physician__address:after {
   content: none; }
 
-.contact__item--inline .contact__address span:nth-last-child(1):after {
+.physician__item--inline .physician__address span:nth-last-child(1):after {
   display: none; }
 
-.contact__item--inline .contact__email {
+.physician__item--inline .physician__email {
   clear: left; }
 
-.contact__item--inline .contact__vat:after {
+.physician__item--inline .physician__vat:after {
   content: none; }
 
 .address--footer {
@@ -3205,8 +3361,34 @@ h2.pane__title {
     font-weight: 800; }
 
 @media screen and (min-width: 30em) {
-  .contact__overview .contact__item {
-    width: 50%; }
+  .physician__overview .physician__item {
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -moz-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    box-direction: normal;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    width: 47.8260869565%; }
+  .physician__overview .physician__save {
+    margin-top: auto; }
   .address--footer {
     width: 47.8260869565%;
     margin-right: 4.347826087%;
@@ -3214,7 +3396,9 @@ h2.pane__title {
     text-align: left; } }
 
 @media screen and (min-width: 48em) {
-  .contact__main--contact-form {
+  .physician__overview .physician__item {
+    width: 31.4285714286%; }
+  .physician__main--contact-form {
     width: 42.8571428571%;
     margin-right: 0;
     float: right; }
@@ -3224,9 +3408,9 @@ h2.pane__title {
     float: left; } }
 
 @media screen and (min-width: 60em) {
-  .contact__overview .contact__item {
-    width: 33%; }
-  .contact__main--contact-form {
+  .physician__overview .physician__item {
+    width: 31.914893617%; }
+  .physician__main--contact-form {
     width: 48.9361702128%;
     margin-right: 0;
     float: right; }
@@ -3236,9 +3420,9 @@ h2.pane__title {
     float: left; } }
 
 @media screen and (min-width: 75em) {
-  .contact__overview .contact__item {
-    width: 25%; }
-  .contact__main--contact-form {
+  .physician__overview .physician__item {
+    width: 23.7288135593%; }
+  .physician__main--contact-form {
     width: 66.1016949153%;
     margin-right: 0;
     float: right; }

@@ -147,6 +147,15 @@ function bht_theme_preprocess_taxonomy_term(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_user_profile()
+ */
+function bht_theme_preprocess_user_profile(&$variables) {
+  // Define default theme hook suggestion for users.
+  // Set user-profile--{view_mode}.tpl.php.
+  $variables['theme_hook_suggestions'][] = "user_profile__" . $variables['elements']['#view_mode'];
+}
+
+/**
  * Implements template_preprocess_views_view_table().
  */
 function bht_theme_preprocess_views_view_table(&$variables) {

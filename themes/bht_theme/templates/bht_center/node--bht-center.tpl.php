@@ -32,35 +32,53 @@ if (isset($content['email']))
   hide($content['email']);
 if (isset($content['phone']))
   hide($content['phone']);
-if (isset($content['mobile_phone']))
-  hide($content['mobile_phone']);
+if (isset($content['therapist']))
+  hide($content['therapist']);
 if (isset($content['fax']))
   hide($content['fax']);
-if (isset($content['vatin']))
-  hide($content['vatin']);
-if (isset($content['render_map']))
-  hide($content['render_map']);
-if (isset($content['field_cover_image']))
-  hide($content['field_cover_image']);
 if (isset($content['title']))
   hide($content['title']);
+
+$lat = reset($lat);
+while (gettype($lat) == 'array' && !isset($lat['value'])) {
+  $lat = reset($lat);
+}
+if (isset($lat['value'])) {
+  $lat = $lat['value'];
+}
+else {
+  $lat = 0;
+}
+
+$lng = reset($lng);
+while (gettype($lng) == 'array' && !isset($lng['value'])) {
+  $lng = reset($lng);
+}
+if (isset($lng['value'])) {
+  $lng = $lng['value'];
+}
+else {
+  $lng = 0;
+}
 ?>
 
 
-<div itemscope itemtype="http://schema.org/LocalBusiness" class="contact__item"<?php if(isset($lat[0]['value'])) print " data-lat=\"{$lat[0]['value']}\""; ?> <?php if(isset($long[0]['value'])) print " data-long=\"{$long[0]['value']}\""; ?> data-title="<?php print $title; ?>">
+<div itemscope itemtype="http://schema.org/Physician"
+     class="physician__item"
+     <?php if (isset($lat)): ?>
+       data-lat="<?php print $lat; ?>"
+     <?php endif; ?>
+     <?php if (isset($lng)): ?>
+       data-long="<?php print $lng; ?>"
+     <?php endif; ?>
+     data-title="<?php print $title; ?>">
 
-  <div class="layout__contact--left">
+  <div class="layout__physician--left">
 
-    <?php if (isset($content['render_map'])): ?>
-      <div class="contact__map" itemprop="map"><?php print render($content['render_map']); ?></div>
-    <?php endif; ?>
-
-
-    <h1 class="contact__name" itemprop="name"><?php print $title; ?></h1>
+    <h1 class="physician__name" itemprop="name"><?php print $title; ?></h1>
 
     <?php if (isset($content['street']) || isset($content['postal_code']) || isset($content['city']) || isset($content['country'])) : ?>
-      <div class="contact__address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-
+      <div class="physician__address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
         <?php if (isset($content['street'])): ?>
           <span itemprop="streetAddress">
         <?php print render($content['street']); ?>
@@ -80,43 +98,23 @@ if (isset($content['title']))
         <?php if (isset($content['country'])): ?>
           <span itemprop="addressCountry"><?php print render($content['country']); ?></span>
         <?php endif; ?>
-
       </div>
     <?php endif; ?>
 
-
     <?php if (isset($content['email'])): ?>
-      <div class="contact__email"><?php print render($content['email']); ?></div>
+      <div class="physician__email"><?php print render($content['email']); ?></div>
     <?php endif; ?>
     <?php if (isset($content['phone'])): ?>
-      <div class="contact__phone"><?php print render($content['phone']); ?></div>
-    <?php endif; ?>
-    <?php if (isset($content['mobile_phone'])): ?>
-      <div class="contact__mobile-phone"><?php print render($content['mobile_phone']); ?></div>
+      <div class="physician__phone"><?php print render($content['phone']); ?></div>
     <?php endif; ?>
     <?php if (isset($content['fax'])): ?>
-      <div class="contact__fax"><?php print render($content['fax']); ?></div>
-    <?php endif; ?>
-
-    <?php if (isset($content['vatin'])): ?>
-      <div class="contact__vat"><?php print render($content['vatin']); ?></div>
+      <div class="physician__fax"><?php print render($content['fax']); ?></div>
     <?php endif; ?>
 
   </div>
 
-  <div class="layout__contact--right">
-    <?php if (isset($content['field_cover_image'])): ?>
-      <?php print render($content['field_cover_image']); ?>
-    <?php endif; ?>
-
-    <?php print render($content['field_services']); ?>
-
-    <?php print render($content['field_material']); ?>
+  <div class="layout__physician--right">
+    <?php print render($content); ?>
   </div>
-
-
-  <?php print render($content); ?>
-
-
 
 </div>

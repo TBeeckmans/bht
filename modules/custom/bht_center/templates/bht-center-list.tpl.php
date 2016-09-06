@@ -7,4 +7,4 @@
  */
 ?>
 
-<div id="map-overview" class="js-map-overview map__overview" ></div>
+<div id="map-overview" class="js-map-overview physician__overview" ></div>

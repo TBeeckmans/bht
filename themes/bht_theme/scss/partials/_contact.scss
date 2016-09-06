@@ -3,35 +3,178 @@
 // Default contact CT styling
 //------------------------------------------------------------------------------
 
-
 //*** GOOGLE MAPS ***
-.contact__map {
-  float: left;
+.bht-center__map,
+.bht-center__overview {
   width: 100%;
-  max-width: em($break-2-w);
-  margin-bottom: em(20px);
+  float: left;
 }
 
 .map__canvas,
-#map__canvas {
-  height: em(400px) !important; /* Override of module css */
+#map-canvas {
+  float: left;
+  margin-bottom: em(20px);
   width: 100% !important; /* Override of module css */
+  height: em(400px) !important; /* Override of module css */
 }
 
-.contact__overview {
-  float: left;
+.physician__overview {
+  @include display(flex);
+  @include flex-direction(row);
+  @include flex-wrap(wrap);
+  @include justify-content(space-between);
   width: 100%;
 }
 
-.contact__item {
-  float: left;
+.physician__item {
+  margin-bottom: $gutter;
   width: 100%;
-  padding: em(10px);
+  padding: $gutter/2;
+  background-color: $white;
+  @include hyphenate();
 }
 
+.physician__item--marker {
+  margin-bottom: 0;
+  @include font(14px, 1, 16px);
+
+  .physician__name {
+    margin-bottom: 0;
+  }
+}
+
+.physician__name {
+  @include font(18, 1.2);
+  font-family: $notoserif;
+  font-weight: 800;
+  margin-bottom: 1em;
+}
+
+.physician__memberof,
+.physician__specialty {
+  @include element-invisible();
+}
+
+.physician--icon {
+  position: relative;
+  padding-left: em(18px) + $gutter;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: em(5px);
+    display: block;
+    margin-right: $gutter;
+    width: em(18px);
+    height: em(18px);
+  }
+}
+
+.physician__address {
+  margin-bottom: 0.5em;
+
+  &::before {
+    background-image: url("../img/address.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/address.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/address.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/address.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/address.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+}
+
+.physician__email {
+  margin-bottom: 0.5em;
+
+  &::before {
+    background-image: url("../img/e-mail.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/e-mail.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/e-mail.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/e-mail.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/e-mail.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+}
+
+.physician__phone,
+.physician__mobile-phone {
+  margin-bottom: 0.5em;
+
+  &::before {
+    background-image: url("../img/telephone.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/telephone.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/telephone.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/telephone.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/telephone.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+}
+
+.physician__fax {
+  margin-bottom: 0.5em;
+
+  &::before {
+    background-image: url("../img/fax.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/fax.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/fax.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/fax.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/fax.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+}
+
+.physician__employees {
+  &::before {
+    background-image: url("../img/therapists.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/therapists.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/therapists.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/therapists.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/therapists.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+
+  [itemprop="givenName"],
+  [itemprop="familyName"] {
+    font-weight: 600;
+  }
+}
+
+.physician__save {
+  &::before {
+    background-image: url("../img/navigation.png") no-repeat 0 0;
+    background: -webkit-linear-gradient(transparent, transparent), url("../img/navigation.svg") no-repeat 0 0;
+    background: -moz-linear-gradient(transparent, transparent), url("../img/navigation.svg") no-repeat 0 0;
+    background: -o-linear-gradient(transparent, transparent), url("../img/navigation.svg") no-repeat 0 0;
+    background: linear, false, transparent, transparent, url("../img/navigation.svg") no-repeat 0 0;
+    background-size: contain;
+  }
+}
+
+.physician__item--marker {
+  .physician--icon {
+    padding-left: em(10px, 14px);
+
+    &::before {
+      top: em(1px, 14px);
+      display: block;
+      margin-right: $gutter;
+      width: em(10px, 14px);
+      height: em(10px, 14px);
+    }
+  }
+}
+
+.physician__employee {
+  margin-bottom: 0.5em;
+
+  .physician--icon {
+    margin-left: (em(18px) + $gutter) * -1;
+  }
+}
 
 //*** INLINE CONTACT ITEM ***
-.contact__item--inline {
+.physician__item--inline {
 
   %contact-div {
     display: inline-block;
@@ -55,11 +198,15 @@
     }
   }
 
-  .contact__name {
+  .physician__name {
     @extend %contact-div;
+    @include font(18, 1.2);
+    font-weight: 800;
+    font-family: $notoserif;
+    margin-bottom: 1em;
   }
 
-  .contact__address {
+  .physician__address {
     @extend %contact-div;
 
     &:after {
@@ -77,17 +224,17 @@
     }
   }
 
-  .contact__email,
-  .contact__phone,
-  .contact__country {
+  .physician__email,
+  .physician__phone,
+  .physician__country {
     @extend %contact-div;
   }
 
-  .contact__email {
+  .physician__email {
     clear: left;
   }
 
-  .contact__vat {
+  .physician__vat {
     @extend %contact-div;
 
     &:after {
@@ -109,7 +256,6 @@
   }
 }
 
-
 //*************************
 //***** MEDIA QUERIES *****
 //*************************
@@ -120,9 +266,15 @@
 @include media($break-1) {
 
   //*** GOOGLE MAPS ***
-  .contact__overview {
-    .contact__item {
-      width: 50%;
+  .physician__overview {
+    .physician__item {
+      @include flex(0 0 auto);
+      @include display(flex);
+      @include flex-direction(column);
+      width: flex-grid($grid-columns/2, $grid-columns);
+    }
+    .physician__save {
+      margin-top: auto;
     }
   }
 
@@ -133,14 +285,20 @@
 
 }
 
-
 //-------------
 //-- BREAK 2 --
 //-------------
 @include media($break-2) {
 
+  //*** GOOGLE MAPS ***
+  .physician__overview {
+    .physician__item {
+      width: flex-grid($grid-columns/3, $grid-columns);
+    }
+  }
+
   //*** CONTACT MAIN ***
-  .contact__main--contact-form {
+  .physician__main--contact-form {
     @include span-columns(4 omega);
   }
 
@@ -149,21 +307,20 @@
   }
 }
 
-
 //-------------
 //-- BREAK 3 --
 //-------------
 @include media($break-3) {
 
   //*** GOOGLE MAPS ***
-  .contact__overview {
-    .contact__item {
-      width: 33%;
+  .physician__overview {
+    .physician__item {
+      width: flex-grid($grid-columns/3, $grid-columns);
     }
   }
 
   //*** CONTACT MAIN ***
-  .contact__main--contact-form {
+  .physician__main--contact-form {
     @include span-columns(6 omega);
   }
 
@@ -172,21 +329,20 @@
   }
 }
 
-
 //-------------
 //-- BREAK 4 --
 //-------------
 @include media($break-4) {
 
   //*** GOOGLE MAPS ***
-  .contact__overview {
-    .contact__item {
-      width: 25%;
+  .physician__overview {
+    .physician__item {
+      width: flex-grid($grid-columns/4, $grid-columns);
     }
   }
 
   //*** CONTACT MAIN ***
-  .contact__main--contact-form {
+  .physician__main--contact-form {
     @include span-columns(10 omega);
   }
 
