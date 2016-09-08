@@ -85,6 +85,15 @@
 <?php
 hide($content['comments']);
 hide($content['links']);
+
+$paragraph_title = FALSE;
+$paragraph_tags = FALSE;
+$paragraph_date = FALSE;
+if (isset($content['field_body']) && !empty($content['field_body'])) {
+  $paragraph_title = _bht_paragraphs_title_set($content['field_body']);
+  $paragraph_tags = _bht_paragraphs_tags_set($content['field_body']);
+  $paragraph_date = _bht_paragraphs_date_set($content['field_body']);
+}
 ?>
 
 <?php
@@ -120,42 +129,46 @@ $link_attributes_array['itemprop'][] = 'url';
          itemtype="http://schema.org/EducationEvent"
   <?php print drupal_attributes($attributes_array); ?>>
 
-  <h1 itemprop="name"
-    <?php print drupal_attributes($title_attributes_array); ?>>
-    <?php print $title; ?>
-  </h1>
+  <?php if (!$paragraph_title): ?>
+    <h1 itemprop="name"
+      <?php print drupal_attributes($title_attributes_array); ?>>
+      <?php print $title; ?>
+    </h1>
+  <?php endif; ?>
 
-  <div class="events__date events__date--<?php print $css_modifier; ?>">
-    <span class="events__date--start" itemprop="startDate"
-          content="<?php print format_date($start_date, 'custom', 'c'); ?>">
-      <span class="events__day">
-        <?php print format_date($start_date, 'custom', 'j'); ?>
+  <?php if (!$paragraph_date): ?>
+    <div class="events__date events__date--<?php print $css_modifier; ?>">
+      <span class="events__date--start" itemprop="startDate"
+            content="<?php print format_date($start_date, 'custom', 'c'); ?>">
+        <span class="events__day">
+          <?php print format_date($start_date, 'custom', 'j'); ?>
+        </span>
+        <span class="events__month">
+          <?php print strtolower(format_date($start_date, 'custom', 'F')); ?>
+        </span>
+        <span class="events__year">
+          <?php print format_date($start_date, 'custom', 'Y'); ?>
+        </span>
       </span>
-      <span class="events__month">
-        <?php print strtolower(format_date($start_date, 'custom', 'F')); ?>
+      <?php if (format_date($start_date, 'custom', 'Ymd') !== format_date($end_date, 'custom', 'Ymd')): ?>
+        -
+        <span class="events__date--end" itemprop="endDate"
+                content="<?php print format_date($end_date, 'custom', 'c'); ?>">
+        <span class="events__day">
+          <?php print format_date($end_date, 'custom', 'j'); ?>
+        </span>
+        <span class="events__month">
+          <?php print strtolower(format_date($end_date, 'custom', 'F')); ?>
+        </span>
+        <span class="events__year">
+          <?php print format_date($end_date, 'custom', 'Y'); ?>
+        </span>
       </span>
-      <span class="events__year">
-        <?php print format_date($start_date, 'custom', 'Y'); ?>
-      </span>
-    </span>
-    <?php if (format_date($start_date, 'custom', 'Ymd') !== format_date($end_date, 'custom', 'Ymd')): ?>
-      -
-      <span class="events__date--end" itemprop="endDate"
-              content="<?php print format_date($end_date, 'custom', 'c'); ?>">
-      <span class="events__day">
-        <?php print format_date($end_date, 'custom', 'j'); ?>
-      </span>
-      <span class="events__month">
-        <?php print strtolower(format_date($end_date, 'custom', 'F')); ?>
-      </span>
-      <span class="events__year">
-        <?php print format_date($end_date, 'custom', 'Y'); ?>
-      </span>
-    </span>
-    <?php endif; ?>
-  </div>
+      <?php endif; ?>
+    </div>
+  <?php endif; ?>
 
-  <?php if (isset($content['field_tags'])): ?>
+  <?php if (!$paragraph_tags && isset($content['field_tags'])): ?>
     <div itemprop="articleSection" class="events__tags">
       <?php print render($content['field_tags']); ?>
     </div>

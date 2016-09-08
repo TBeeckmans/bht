@@ -116,7 +116,7 @@ dfn {
  * Address variable `h1` font-size and margin within `section` and `article`
  * contexts in Firefox 4+, Safari, and Chrome.
  */
-h1, .page-title {
+h1, .page-title, .page-title--intro, .page-title--pseudo {
   font-size: 2em;
   margin: 0.67em 0; }
 
@@ -376,7 +376,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-h1, .page-title,
+h1, .page-title, .page-title--intro, .page-title--pseudo,
 h2,
 h3,
 p.title {
@@ -395,7 +395,7 @@ p.title {
   word-wrap: break-word;
   margin: 0 0 0.625em; }
 
-h1, .page-title {
+h1, .page-title, .page-title--intro, .page-title--pseudo {
   font-size: 1.75em;
   line-height: 1.5em;
   font-family: "Noto Serif", serif; }

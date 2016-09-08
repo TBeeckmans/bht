@@ -49,9 +49,11 @@ h6 {
   @extend h1;
 }
 
-.page-title--intro { }
+.page-title--intro {
+  @extend h1;}
 
-.page-title--pseudo { }
+.page-title--pseudo {
+  @extend h1;}
 
 .item-title {
   @include font(18);

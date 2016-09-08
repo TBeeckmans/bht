@@ -20,15 +20,19 @@ ul.pager {
   &.pager__item--current {
     display: inline-block;
     padding: 0 em(10px);
-    border: 1px solid $black;
+    border: 1px solid shade($highlight-dark, 20%);
+    background-color: $highlight-dark;
+    color: $white;
   }
 
   a {
     text-decoration: none;
-    background: $grey-medium;
+    border: 1px solid $blue-dark;
+    background: $blue-medium;
+    color: $white;
 
     &:hover {
-      background: $grey;
+      background: $blue;
     }
   }
 }

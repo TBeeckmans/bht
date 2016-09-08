@@ -73,8 +73,12 @@ function bht_theme_preprocess_html(&$variables) {
   drupal_add_js($extra_js_settings, 'setting');
 
   // Strip out wbr character
-  $variables['head_title_array']['title'] = str_replace('||', '', $variables['head_title_array']['title']);
-  $variables['head_title'] = str_replace('||', '', $variables['head_title']);
+  if (isset($variables['head_title_array']['title'])) {
+    $variables['head_title_array']['title'] = str_replace('||', '', $variables['head_title_array']['title']);
+  }
+  if (isset($variables['head_title'])) {
+    $variables['head_title'] = str_replace('||', '', $variables['head_title']);
+  }
 
 }
 
@@ -224,6 +228,10 @@ function bht_theme_preprocess_views_view_unformatted(&$variables) {
     foreach ($variables['classes'] as $key => $class) {
       $classes = array();
 
+      if ($variables['options']['default_row_class'] && !empty($variables['options']['row_class'])) {
+        $classes[] = $variables['options']['row_class'];
+      }
+
       if ($key == 0) {
         $classes[] = 'first';
       }
@@ -232,6 +240,12 @@ function bht_theme_preprocess_views_view_unformatted(&$variables) {
       }
 
       $classes[] = $key % 2 ? 'even' : 'odd';
+      if ($key % 3 === 0) {
+        $classes[] = 'third';
+      }
+      if ($key % 4 === 0) {
+        $classes[] = 'fourth';
+      }
 
       $variables['classes_array'][$key] = implode(' ', $classes);
     }
@@ -666,7 +680,7 @@ function _bemify_classes(&$source, $prefix = '', $decline = array(
   'first',
   'last',
   'active-trail',
-  'active'
+  'active',
 )) {
   foreach ($source as $key => $class) {
     if (!in_array($class, $decline)) {

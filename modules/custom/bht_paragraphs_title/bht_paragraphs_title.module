@@ -225,6 +225,62 @@ function _bht_paragraphs_title_set($paragraphs) {
   return $return;
 }
 
+function _bht_paragraphs_date_set($paragraphs) {
+  $return = FALSE;
+
+  if (!empty($paragraphs) && gettype($paragraphs) == 'array') {
+    $paragraphs_items = element_children($paragraphs);
+    foreach ($paragraphs_items as $key) {
+      if (gettype($paragraphs[$key]) == 'array') {
+        if (!isset($paragraphs[$key]['#bundle'])) {
+          $return = _bht_paragraphs_title_set($paragraphs[$key]);
+        }
+        else {
+          if ($paragraphs[$key]['#bundle'] == 'date') {
+            return TRUE;
+          }
+          else {
+            $return = _bht_paragraphs_title_set($paragraphs[$key]);
+          }
+        }
+      }
+      if ($return) {
+        break;
+      }
+    }
+  }
+
+  return $return;
+}
+
+function _bht_paragraphs_tags_set($paragraphs) {
+  $return = FALSE;
+
+  if (!empty($paragraphs) && gettype($paragraphs) == 'array') {
+    $paragraphs_items = element_children($paragraphs);
+    foreach ($paragraphs_items as $key) {
+      if (gettype($paragraphs[$key]) == 'array') {
+        if (!isset($paragraphs[$key]['#bundle'])) {
+          $return = _bht_paragraphs_title_set($paragraphs[$key]);
+        }
+        else {
+          if ($paragraphs[$key]['#bundle'] == 'tags') {
+            return TRUE;
+          }
+          else {
+            $return = _bht_paragraphs_title_set($paragraphs[$key]);
+          }
+        }
+      }
+      if ($return) {
+        break;
+      }
+    }
+  }
+
+  return $return;
+}
+
 /**
  * Implements hook_theme()
  */

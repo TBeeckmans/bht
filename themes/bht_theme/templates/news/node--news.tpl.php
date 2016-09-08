@@ -91,15 +91,19 @@ if (isset($content['language'])) {
 if (isset($content['cover_image'])) {
   hide($content['cover_image']);
 }
+
+$paragraph_title = FALSE;
+$paragraph_tags = FALSE;
+$paragraph_date = FALSE;
+if (isset($content['field_body']) && !empty($content['field_body'])) {
+  $paragraph_title = _bht_paragraphs_title_set($content['field_body']);
+  $paragraph_tags = _bht_paragraphs_tags_set($content['field_body']);
+  $paragraph_date = _bht_paragraphs_date_set($content['field_body']);
+}
 ?>
 
 
 <?php
-
-$paragraph_title = FALSE;
-if (isset($content['field_body']) && !empty($content['field_body'])) {
-  $paragraph_title = _bht_paragraphs_title_set($content['field_body']);
-}
 
 $date = $created;
 if (isset($news_date[LANGUAGE_NONE][0]['value'])) {
@@ -148,22 +152,26 @@ else {
            itemtype="http://schema.org/NewsArticle"
     <?php print drupal_attributes($attributes_array); ?>>
 
-    <h1 itemprop="name"
-      <?php print drupal_attributes($title_attributes_array); ?>>
-      <?php print $title; ?>
-    </h1>
+    <?php if (!$paragraph_title): ?>
+      <h1 itemprop="name"
+        <?php print drupal_attributes($title_attributes_array); ?>>
+        <?php print $title; ?>
+      </h1>
+    <?php endif; ?>
 
-    <div class="news__date news__date--page">
-      <span class="news__day">
-        <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
-      </span>
-      <span class="news__month">
-        <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
-      </span>
-      <span class="news__year">
-        <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
-      </span>
-    </div>
+    <?php if (!$paragraph_date): ?>
+      <div class="news__date news__date--page">
+        <span class="news__day">
+          <?php print format_date($date, 'custom', 'j', NULL, $language); ?>
+        </span>
+        <span class="news__month">
+          <?php print format_date($date, 'custom', 'F', NULL, $language); ?>
+        </span>
+        <span class="news__year">
+          <?php print format_date($date, 'custom', 'Y', NULL, $language); ?>
+        </span>
+      </div>
+    <?php endif; ?>
 
     <?php print render($content); ?>
 
