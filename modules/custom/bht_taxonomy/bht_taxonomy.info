@@ -1,9 +1,0 @@
-name = BHT Taxonomy
-description = Turns taxonomy content & taxonomy children into draggable fields under "Manage Display"
-package = BHT
-core = 7.x
-
-dependencies[] = taxonomy
-
-; Version information
-version = 7.x-1.x
