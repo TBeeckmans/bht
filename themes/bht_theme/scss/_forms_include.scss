@@ -5,22 +5,16 @@
 
 
 // Some reset that isn't in Eric Meyer's reset.css
-button,
-input[type="button"] {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  vertical-align: baseline;
-}
-
 *:focus {
   outline: none; // Prevent yellow outline in Chrome
 }
 
-input {
-  border-radius: 0; // Prevent rounded corners on iPhone
+input,
+textarea,
+select {
+  border-radius: 4px;
+  background-color: $white;
+  color: $blue-dark;
 }
 
 input,
@@ -28,10 +22,19 @@ textarea {
   @include selection;
 }
 
+.entityform {
+  padding-bottom: 3em;
+}
+
 .form-item {
   float: left;
   width: 100%;
   margin-bottom: em(15px);
+}
+
+.form-wrapper {
+  padding-top: 0.75em;
+  overflow: hidden;
 }
 
 fieldset > * {
@@ -48,6 +51,7 @@ textarea,
 select {
   float: left;
   width: 100%;
+  padding: em(25px) em(10px);
 }
 
 input[type="text"],
@@ -55,37 +59,17 @@ input[type="tel"],
 input[type="password"],
 input[type="email"],
 input[type="number"],
-input[type="submit"],
 textarea,
 select {
-  border: 1px solid $grey-medium;
+  border: 1px solid $grey-dark;
   font-size: $font-size;
 
   &:focus {
-    outline: 1px solid $highlight;
-  }
-}
-
-input[type="text"],
-input[type="tel"],
-input[type="password"],
-input[type="email"],
-input[type="number"] {
-  padding: 0 em(10px);
-}
-
-.ie8 {
-  input[type="text"],
-  input[type="tel"],
-  input[type="password"],
-  input[type="email"],
-  input[type="number"] {
-    line-height: em(35px);
+    border-color: $highlight;
   }
 }
 
 textarea {
-  padding: em(10px);
   font-family: $base-font-family;
   resize: vertical;
   max-size: 100%;
@@ -99,34 +83,83 @@ input[type="number"] {
   height: em(35px);
 }
 
-select {
-  padding: em(10px);
-}
-
-input[type="checkbox"],
-input[type="radio"] {
-  float: left;
-  margin: 0;
+input[type='radio'],
+input[type='checkbox'] {
+  -webkit-appearance:none;
+  display: inline-block;
+  position: relative;
+  top: em(5px);
+  margin: 0 em(10px) 0 0;
   padding: 0;
-  border: 0;
-
-  & + label,
-  & + .ajax-progress-throbber + label {
-    width: 95%;
-    padding-left: em(10px);
+  background: $white;
+  border: 1px solid $grey-dark;
+  border-radius: 0;
+  width: em(20px);
+  height: em(20px);
+  outline: none;
+  @include transition(border-color 0.3s ease-in-out, background-color 0.3s ease-in-out);
+  &:hover,
+  &:focus {
+    border-color: $highlight-dark;
+    outline: 0;
+    cursor: pointer;
+  }
+  &:disabled {
+    opacity: .5;
+    background: #E2E2E2;
+    &:hover {
+      border-color: $grey;
+      cursor: default;
+    }
+  }
+  & + label {
+    display: inline-block;
+    width: auto;
+    float: none;
   }
 }
 
+input[type='checkbox'] {
+  background-position: 50% 50%;
+  @include transition(background-color ease-in-out .1s);
+  &:checked,
+  &:disabled:checked {
+    background-image: url('../img/check.svg');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: $highlight;
+    border: 0;
+  }
+}
+
+input[type='radio'] {
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 0px 0px $highlight;
+  @include transition(box-shadow .1s cubic-bezier(0.28,0.63,0.77,0.17));
+  &:checked,
+  &:disabled:checked {
+    background: $highlight;
+    box-shadow: inset 0px 0px 0px 5px white;
+  }
+}
+
+button,
+input[type="button"],
 input[type="submit"] {
-  float: right;
-  display: block;
-  width: 100%;
+  margin: 2em 0;
   padding: em(10px) em(25px);
-  background: $grey-medium;
+  border: 1px solid $highlight-medium;
+  background: $highlight-dark;
+  vertical-align: baseline;
+  font-family: $opensans;
+  font-weight: 400;
+  font-size: 1em;
+  color: $white;
   cursor: pointer;
 
   &:hover {
-    background: $grey;
+    background: tint($highlight-dark, 10%);
+    border-color: tint($highlight-medium, 20%);
   }
 }
 
@@ -139,6 +172,8 @@ legend,
 small {
   float: left;
   width: 100%;
+  @include font(14,1,16);
+  color: $blue;
 }
 
 .label--inline {
@@ -159,13 +194,6 @@ label.required:after {
 small,
 .description {
   @include font(11);
-}
-
-.webform-component-radios,
-.webform-component-checkboxes {
-  > label {
-    margin-bottom: em(8px);
-  }
 }
 
 .form-radios,

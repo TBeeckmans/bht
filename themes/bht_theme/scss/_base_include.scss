@@ -143,7 +143,7 @@ a[href^="fax:"] {
   display: inline-block;
   padding: em(8px) em(15px);
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: 4px;
   text-decoration: none;
   color: $white;
 }
@@ -156,7 +156,8 @@ a[href^="fax:"] {
   border-color: $highlight-medium;
 
   &:hover {
-    background: $highlight;
+    background: tint($highlight-dark, 10%);
+    border-color: tint($highlight-medium, 20%);
   }
 }
 
