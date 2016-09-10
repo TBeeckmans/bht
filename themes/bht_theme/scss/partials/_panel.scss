@@ -48,12 +48,20 @@
     @include display(flex);
     @include flex(0 0 auto);
     width: flex-grid(5,9) + flex-gutter(9);
+
+    .node-type-events-promote .panel__item--above & {
+      width: flex-grid(4,9);
+    }
   }
 
   .panel__item--col-last {
     @include display(flex);
     @include flex(1 0 auto);
     width: flex-grid(4,9);
+
+    .node-type-events-promote .panel__item--above & {
+      width: flex-grid(5,9) + flex-gutter(9);
+    }
   }
 }
 

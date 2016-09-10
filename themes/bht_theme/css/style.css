@@ -1899,6 +1899,8 @@ div.file {
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 57.1428571429%; }
+    .node-type-events-promote .panel__item--above .panel__item--col-first {
+      width: 42.8571428571%; }
   .panel__item--col-last {
     display: -webkit-box;
     display: -moz-box;
@@ -1914,7 +1916,9 @@ div.file {
     -moz-flex: 1 0 auto;
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
-    width: 42.8571428571%; } }
+    width: 42.8571428571%; }
+    .node-type-events-promote .panel__item--above .panel__item--col-last {
+      width: 57.1428571429%; } }
 
 @media screen and (min-width: 60em) {
   .panel__item--top {
@@ -2425,7 +2429,7 @@ div.file {
   float: left;
   width: 100%;
   margin-bottom: 1.25em;
-  color: #A3AEC6; }
+  color: #FFFFFF; }
 
 .breadcrumb__title {
   display: none; }
@@ -2440,7 +2444,7 @@ div.file {
   margin-left: -100%;
   padding-left: 100%;
   display: none;
-  background-color: #b1e8eb;
+  background-color: #8FDEE3;
   padding-right: 5px; }
   .breadcrumb__list * {
     -webkit-box-sizing: border-box;
@@ -2454,16 +2458,16 @@ div.file {
   display: inline-block;
   margin: 0;
   padding: 0 1.25em;
-  background-color: #b1e8eb;
+  background-color: #8FDEE3;
   border-left: 0.4375em solid #F9F9F9; }
   .breadcrumb__item:hover {
-    background-color: #9ae1e6;
-    color: #56638D; }
+    background-color: #9ae1e6; }
   .breadcrumb__item.last {
     cursor: default;
-    margin-right: 0.3125em; }
+    margin-right: 0.3125em;
+    background-color: #8FDEE3; }
     .breadcrumb__item.last:hover {
-      background-color: #b1e8eb;
+      background-color: #8FDEE3;
       color: inherit; }
 
 .breadcrumb__link {
@@ -2486,9 +2490,9 @@ div.file {
   margin: 0 0.3125em;
   padding: 0.3125em 1.25em;
   background-color: #9ae1e6;
-  color: #56638D; }
+  color: #FFFFFF; }
   .breadcrumb__back:hover {
-    background-color: #8fdee3; }
+    background-color: #8FDEE3; }
 
 @media screen and (min-width: 48em) {
   #breadcrumb {
@@ -2882,8 +2886,19 @@ h2.pane__title {
     box-sizing: border-box; }
 
 .pane__member-advantages {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin-left: -100%;
+  margin-right: -100%;
+  padding-left: 100%;
+  padding-right: 100%;
   background-color: #45C3AB;
   color: #FFFFFF; }
+  .pane__member-advantages * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
   .pane__member-advantages .pane__title {
     font-family: "Noto Serif", serif; }
   .pane__member-advantages .btn--more {
@@ -3154,8 +3169,9 @@ h2.pane__title {
   .pane__sponsor-banner .third {
     clear: none; }
   .pane__member-advantages {
-    margin-left: 0;
-    padding-left: 0;
+    margin: 0 0;
+    padding: 0 0;
+    box-sizing: border-box;
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -3189,6 +3205,11 @@ h2.pane__title {
       -ms-flex: 1 0 auto;
       flex: 1 0 auto;
       margin-top: auto; }
+    .pane__member-advantages .layout__pane {
+      -webkit-align-self: center;
+      -moz-align-self: center;
+      align-self: center;
+      -ms-flex-item-align: center; }
   .pane__symposium-cta {
     margin-right: 0;
     padding-right: 0; }
@@ -3833,20 +3854,8 @@ h2.pane__title {
   color: inherit; }
 
 .pane__events-sponsors {
-  margin: 2em 0;
-  padding: 3em 0;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  margin-left: -100%;
-  margin-right: -100%;
-  padding-left: 100%;
-  padding-right: 100%;
-  background-color: #FFFFFF; }
-  .pane__events-sponsors * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box; }
+  margin-bottom: 2em;
+  padding: 3em 0; }
   .pane__events-sponsors .pane__title {
     font-family: "Noto Serif", serif; }
 
@@ -4072,9 +4081,9 @@ h2.pane__title {
     align-content: center;
     -ms-flex-line-pack: center; }
   .pane__events-sponsors {
-    margin: 0 0 0 -100%;
+    margin: 0;
     width: 100%;
-    padding: 0 1.25em 0 100%;
+    padding: 0 0 0 1.25em;
     display: -webkit-box;
     display: -moz-box;
     display: box;

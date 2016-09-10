@@ -8,7 +8,7 @@
   float: left;
   width: 100%;
   margin-bottom: em(20px);
-  color: $grey-dark;
+  color: $white;
 }
 
 .breadcrumb__title {
@@ -19,7 +19,7 @@
   @include reset-list;
   @include break-out(100%, left);
   display: none;
-  background-color: tint($highlight-medium, 30%);
+  background-color: $highlight-medium;
   padding-right: (5px);
 }
 
@@ -28,20 +28,20 @@
   display: inline-block;
   margin: 0;
   padding: 0 em(20px);
-  background-color: tint($highlight-medium, 30%);
+  background-color: $highlight-medium;
   border-left: em(7px) solid $white-medium;
 
   &:hover {
     background-color: tint($highlight-medium, 10%);
-    color: $blue-dark
   }
 
   &.last {
     cursor: default;
     margin-right: em(5px);
+    background-color: $highlight-medium;
 
     &:hover {
-      background-color: tint($highlight-medium, 30%);
+      background-color: $highlight-medium;
       color: inherit
     }
   }
@@ -65,10 +65,10 @@
   margin: 0 em(5px);
   padding: em(5px) em(20px);
   background-color: tint($highlight-medium, 10%);
-  color: $blue-dark;
+  color: $white;
 
   &:hover {
-    background-color: tint($highlight-medium, 0%);
+    background-color: $highlight-medium;
   }
 }
 

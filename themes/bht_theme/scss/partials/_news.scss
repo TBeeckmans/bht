@@ -286,10 +286,8 @@
 }
 
 .pane__events-sponsors {
-  margin: 2em 0;
+  margin-bottom: 2em;
   padding: 3em 0;
-  @include break-out();
-  background-color: $white;
 
   .pane__title {
     font-family: $notoserif;
@@ -422,9 +420,9 @@
   }
 
   .pane__events-sponsors {
-    margin: 0 0 0 -100%;
+    margin: 0;
     width: 100%;
-    padding: 0 $gutter 0 100%;
+    padding: 0 0 0 $gutter;
     @include display(flex);
     @include flex-direction(column);
 
