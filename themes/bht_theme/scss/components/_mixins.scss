@@ -81,7 +81,7 @@ $allowed-directions: ("left", "right");
     padding-right: $value;
   }
 
-  * {
+  > * {
     @include prefixer(box-sizing, border-box, webkit moz spec);
   }
 }

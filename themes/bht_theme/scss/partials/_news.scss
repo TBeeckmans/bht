@@ -272,7 +272,8 @@
 
 .events__item--teaser-promoted {
   @include display(flex);
-  padding: 3em $gutter 3em 0;
+  @include flex-direction(column);
+  padding: 3em 0;
 }
 
 .events__item-title--teaser-promoted {
@@ -399,15 +400,24 @@
     @include display(flex);
   }
 
+  .events__item--teaser-promoted {
+    @include flex-direction(row);
+    width: 100%;
+  }
+
   .layout__event-info {
-    @include span-columns(5 of 9);
+    @include flex(1 1 auto)
   }
 
   .layout__event-links {
-    @include span-columns(4 omega of 9);
     @include display(flex);
-    @include flex(1 0 auto);
+    @include flex(0 0 auto);
     @include flex-direction(column);
+    padding-right: $gutter;
+
+    .btn--more:first-child {
+      margin-top: 0;
+    }
   }
 
   .event__link {

@@ -279,6 +279,8 @@ h2.pane__title {
 }
 
 .pane__symposium-cta {
+  @include display(flex);
+  @include align-items(center);
   width: 100%;
   @include break-out();
   background-color: $white;
