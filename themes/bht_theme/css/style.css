@@ -2887,7 +2887,6 @@ h2.pane__title {
   -o-align-items: center;
   align-items: center;
   -ms-flex-align: center;
-  width: 100%;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -2895,6 +2894,7 @@ h2.pane__title {
   margin-right: -100%;
   padding-left: 100%;
   padding-right: 100%;
+  width: 100%;
   background-color: #FFFFFF; }
   .pane__symposium-cta > * {
     -webkit-box-sizing: border-box;
