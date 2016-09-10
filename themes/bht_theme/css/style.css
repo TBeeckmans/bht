@@ -2423,7 +2423,9 @@ div.file {
 
 #breadcrumb {
   float: left;
-  width: 100%; }
+  width: 100%;
+  margin-bottom: 1.25em;
+  color: #A3AEC6; }
 
 .breadcrumb__title {
   display: none; }
@@ -2432,13 +2434,61 @@ div.file {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: none; }
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin-left: -100%;
+  padding-left: 100%;
+  display: none;
+  background-color: #b1e8eb;
+  padding-right: 5px; }
+  .breadcrumb__list * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+
+.breadcrumb__item {
+  -webkit-transform: skew(30deg, 0deg);
+  -ms-transform: skew(30deg, 0deg);
+  transform: skew(30deg, 0deg);
+  display: inline-block;
+  margin: 0;
+  padding: 0 1.25em;
+  background-color: #b1e8eb;
+  border-left: 0.4375em solid #F9F9F9; }
+  .breadcrumb__item:hover {
+    background-color: #9ae1e6;
+    color: #56638D; }
+  .breadcrumb__item.last {
+    cursor: default;
+    margin-right: 0.3125em; }
+    .breadcrumb__item.last:hover {
+      background-color: #b1e8eb;
+      color: inherit; }
+
+.breadcrumb__link {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit; }
+
+.breadcrumb__text {
+  -webkit-transform: skew(-10deg, 0deg);
+  -ms-transform: skew(-10deg, 0deg);
+  transform: skew(-10deg, 0deg);
+  display: inline-block;
+  color: inherit; }
 
 .breadcrumb__back {
-  margin-bottom: 1.25em; }
-  .breadcrumb__back .breadcrumb__text:before {
-    content: '\00AB';
-    margin-right: 0.625em; }
+  -webkit-transform: skew(10deg, 0deg);
+  -ms-transform: skew(10deg, 0deg);
+  transform: skew(10deg, 0deg);
+  display: inline-block;
+  margin: 0 0.3125em;
+  padding: 0.3125em 1.25em;
+  background-color: #9ae1e6;
+  color: #56638D; }
+  .breadcrumb__back:hover {
+    background-color: #8fdee3; }
 
 @media screen and (min-width: 48em) {
   #breadcrumb {
@@ -2448,14 +2498,10 @@ div.file {
   .breadcrumb__list {
     display: inline-block;
     line-height: 2.1875em; }
-  .breadcrumb__item {
-    display: inline-block; }
-    .breadcrumb__item:after {
-      content: '\00BB';
-      margin: 0 0.625em; }
-    .breadcrumb__item.last:after {
-      content: none; }
-  .breadcrumb__link {
+  .breadcrumb__text {
+    -webkit-transform: skew(-30deg, 0deg);
+    -ms-transform: skew(-30deg, 0deg);
+    transform: skew(-30deg, 0deg);
     display: inline-block; }
   .breadcrumb__back {
     display: none; } }

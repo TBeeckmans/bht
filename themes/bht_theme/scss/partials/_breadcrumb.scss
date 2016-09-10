@@ -7,6 +7,8 @@
 #breadcrumb {
   float: left;
   width: 100%;
+  margin-bottom: em(20px);
+  color: $grey-dark;
 }
 
 .breadcrumb__title {
@@ -15,15 +17,58 @@
 
 .breadcrumb__list {
   @include reset-list;
+  @include break-out(100%, left);
   display: none;
+  background-color: tint($highlight-medium, 30%);
+  padding-right: (5px);
+}
+
+.breadcrumb__item {
+  @include prefixer(transform, skew(30deg, 0deg), webkit ms spec);
+  display: inline-block;
+  margin: 0;
+  padding: 0 em(20px);
+  background-color: tint($highlight-medium, 30%);
+  border-left: em(7px) solid $white-medium;
+
+  &:hover {
+    background-color: tint($highlight-medium, 10%);
+    color: $blue-dark
+  }
+
+  &.last {
+    cursor: default;
+    margin-right: em(5px);
+
+    &:hover {
+      background-color: tint($highlight-medium, 30%);
+      color: inherit
+    }
+  }
+}
+
+.breadcrumb__link {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.breadcrumb__text {
+  @include prefixer(transform, skew(-10deg, 0deg), webkit ms spec);
+  display: inline-block;
+  color: inherit;
 }
 
 .breadcrumb__back {
-  margin-bottom: em(20px);
+  @include prefixer(transform, skew(10deg, 0deg), webkit ms spec);
+  display: inline-block;
+  margin: 0 em(5px);
+  padding: em(5px) em(20px);
+  background-color: tint($highlight-medium, 10%);
+  color: $blue-dark;
 
-  .breadcrumb__text:before {
-    content: '\00AB';
-    margin-right: em(10px);
+  &:hover {
+    background-color: tint($highlight-medium, 0%);
   }
 }
 
@@ -59,20 +104,8 @@
     line-height: em(35px);
   }
 
-  .breadcrumb__item {
-    display: inline-block;
-
-    &:after {
-      content: '\00BB';
-      margin: 0 em(10px);
-    }
-
-    &.last:after {
-      content: none;
-    }
-  }
-
-  .breadcrumb__link {
+  .breadcrumb__text {
+    @include prefixer(transform, skew(-30deg, 0deg), webkit ms spec);
     display: inline-block;
   }
 
