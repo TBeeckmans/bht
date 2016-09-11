@@ -129,7 +129,7 @@ $link_attributes_array['itemprop'][] = 'url';
          itemtype="http://schema.org/EducationEvent"
   <?php print drupal_attributes($attributes_array); ?>>
 
-  <div class="layout__event-info">
+  <div class="layout__event layout__event-info">
 
     <?php if (!$paragraph_title): ?>
       <h1 itemprop="name"
@@ -186,7 +186,7 @@ $link_attributes_array['itemprop'][] = 'url';
 
   </div>
 
-  <div class="layout__event-links">
+  <div class="layout__event layout__event-links">
 
     <?php
     // Generate link to registration path.

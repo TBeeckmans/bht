@@ -407,9 +407,9 @@ h2.pane__title {
 //-------------
 @include media($break-2) {
 
-  .pane__event--promoted {
-    padding-bottom: 3em;
-  }
+  //.pane__event--promoted {
+  //  padding-bottom: 3em;
+  //}
 
   .pane__become-member {
     @include display(flex);
