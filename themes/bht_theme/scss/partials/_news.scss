@@ -401,6 +401,9 @@
     }
 
     .layout__event-links {
+      @include display(flex);
+      @include flex(0 0 auto);
+      @include flex-direction(column);
       width: flex-grid(4,9);
     }
   }
