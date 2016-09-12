@@ -28,6 +28,18 @@ function bht_custom_form_alter(&$form, &$form_state, $form_id) {
       unset($form['account']['#type']);
       break;
 
+    case 'membership_entityform_edit_form':
+      $parameters = drupal_get_query_parameters();
+      if (!empty($parameters)) {
+        foreach ($parameters as $field_name => $default_value) {
+          if (array_key_exists($field_name, $form)) {
+            $form[$field_name][LANGUAGE_NONE]['#default_value'] = $default_value;
+          }
+        }
+      }
+
+      break;
+
     default:
       break;
   }
