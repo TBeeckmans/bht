@@ -138,17 +138,6 @@ $readmore_attributes_array['itemprop'][] = 'url';
     <?php print render($content['field_tags']); ?>
   </div>
 
-  <div itemprop="name"
-    <?php print drupal_attributes($title_attributes_array); ?>>
-    <?php print l(
-      $title,
-      'node/' . $nid, array(
-        'attributes' => $link_attributes_array,
-        'html' => TRUE,
-      )
-    ); ?>
-  </div>
-
   <div class="events__date events__date--<?php print $css_modifier; ?>">
     <span class="events__date--start" itemprop="startDate"
           content="<?php print format_date($start_date, 'custom', 'c'); ?>">
@@ -177,6 +166,17 @@ $readmore_attributes_array['itemprop'][] = 'url';
         </span>
       </span>
     <?php endif; ?>
+  </div>
+
+  <div itemprop="name"
+    <?php print drupal_attributes($title_attributes_array); ?>>
+    <?php print l(
+      $title,
+      'node/' . $nid, array(
+        'attributes' => $link_attributes_array,
+        'html' => TRUE,
+      )
+    ); ?>
   </div>
 
   <?php print render($content); ?>
