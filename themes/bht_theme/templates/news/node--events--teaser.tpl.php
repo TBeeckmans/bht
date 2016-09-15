@@ -179,6 +179,8 @@ $readmore_attributes_array['itemprop'][] = 'url';
     <?php endif; ?>
   </div>
 
+  <?php print render($content); ?>
+
   <div class="layout__btn">
     <?php print l(
       t(
