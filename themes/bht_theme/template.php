@@ -539,18 +539,18 @@ function bht_theme_css_alter(&$css) {
  */
 function bht_theme_js_alter(&$js) {
   // Add live reloading during development.
-  if ((bool) variable_get('bht_production', FALSE)) {
-    drupal_add_js(
-      '//' . $_SERVER['HTTP_HOST'] . ':35729/livereload.js?snipver=1',
-      array(
-        'type' => 'external',
-        'scope' => 'header',
-        'weight' => 20,
-        'group' => '-200',
-        'preprocess' => FALSE,
-      )
-    );
-  }
+  //if ((bool) variable_get('bht_production', FALSE)) {
+  //  drupal_add_js(
+  //    '//' . $_SERVER['HTTP_HOST'] . ':35729/livereload.js?snipver=1',
+  //    array(
+  //      'type' => 'external',
+  //      'scope' => 'header',
+  //      'weight' => 20,
+  //      'group' => '-200',
+  //      'preprocess' => FALSE,
+  //    )
+  //  );
+  //}
 
   // Strip the JS we defined in our settings.
   if (!theme_get_setting('js_to_strip')) {
