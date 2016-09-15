@@ -1,0 +1,13 @@
+#
+# Apache/PHP/Drupal settings:
+#
+
+# Override PHP settings that cannot be changed at runtime. See
+# sites/default/default.settings.php and drupal_environment_initialize() in
+# includes/bootstrap.inc for settings that can be changed at runtime.
+
+# PHP 5, Apache 1 and 2.
+<IfModule mod_php5.c>
+  php_value allow_url_fopen                 on
+  php_value allow_url_include               on
+</IfModule>
