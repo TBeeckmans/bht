@@ -3655,6 +3655,11 @@ h2.pane__title {
     height: 1.125em;
     vertical-align: bottom; }
 
+.news__content--teaser,
+.events__content--teaser {
+  font-size: 0.75em;
+  line-height: 2em; }
+
 .news__item-title--teaser,
 .events__item-title--teaser {
   font-family: "Noto Serif", serif;
