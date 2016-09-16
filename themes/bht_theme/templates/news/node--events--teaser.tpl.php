@@ -85,6 +85,8 @@
 <?php
 hide($content['comments']);
 hide($content['links']);
+hide($content['field_tags']);
+hide($content['title']);
 ?>
 
 <?php
