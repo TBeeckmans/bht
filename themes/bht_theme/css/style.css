@@ -3854,6 +3854,10 @@ h2.pane__title {
 .events__description {
   padding-top: 1em; }
 
+.layout__event-info {
+  width: 100%;
+  float: left; }
+
 .events__item--teaser-promoted {
   display: -webkit-box;
   display: -moz-box;

@@ -277,6 +277,11 @@
   padding-top: 1em;
 }
 
+.layout__event-info {
+  width: 100%;
+  float: left;
+}
+
 .events__item--teaser-promoted {
   @include display(flex);
   @include flex-direction(column);
