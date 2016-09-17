@@ -429,6 +429,7 @@
       @include flex(0 0 auto);
       @include flex-direction(column);
       padding-right: $gutter;
+      width: auto;
 
       .btn--more:first-child {
         margin-top: 0;

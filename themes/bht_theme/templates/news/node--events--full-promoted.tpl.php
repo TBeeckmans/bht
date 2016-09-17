@@ -213,7 +213,7 @@ $link_attributes_array['itemprop'][] = 'url';
           <?php print t('Reserve your seat'); ?>
         </div>
         <div class="event__link-info event__link-info--registration">
-          Lorem ipsum dolor sit amet, vivamus viverra, sem id lacinia suscipit.
+          Attend our congress. Fill out the registration form.
         </div>
       </a>
     <?php endif; ?>
@@ -224,7 +224,7 @@ $link_attributes_array['itemprop'][] = 'url';
           <?php print t('Scientific program'); ?>
         </div>
         <div class="event__link-info event__link-info--program">
-          Lorem ipsum dolor sit amet, vivamus viverra, sem id lacinia suscipit.
+          Check out the topics and our speakers.
         </div>
       </a>
     <?php endif; ?>
@@ -235,7 +235,7 @@ $link_attributes_array['itemprop'][] = 'url';
           <?php print t('Location and venue'); ?>
         </div>
         <div class="event__link-info event__link-info--venue">
-          Lorem ipsum dolor sit amet, vivamus viverra, sem id lacinia suscipit.
+          Get directions to the venue and discover the location.
         </div>
       </a>
     <?php endif; ?>
