@@ -256,7 +256,6 @@ h2.pane__title {
   @include justify-content(space-around);
   @include flex-wrap(wrap);
   float: left;
-  display: block;
   width: 100%;
   overflow: hidden;
   padding: 2em 0;

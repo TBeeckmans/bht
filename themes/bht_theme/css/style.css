@@ -2869,7 +2869,6 @@ h2.pane__title {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   float: left;
-  display: block;
   width: 100%;
   overflow: hidden;
   padding: 2em 0;
