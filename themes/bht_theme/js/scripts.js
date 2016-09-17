@@ -73,6 +73,49 @@
   });
 
 
+  //chk_dynamic
+  // initial set
+  $(document).ready(function(element) {
+    $('.chk_dynamic').each(function(e){
+      if ($(this).find('input[type="checkbox"]').is(":checked")) {
+        $(this).toggleClass('checked');
+      }
+    });
+  });
+
+
+  // To stuff when small element is clicked
+  $('.js-radio_dynamic').each(function(e){
+    $(this).find('small').on('click', function(e) {
+      toggle_state($(this));
+    });
+
+    $(this).find('input[type="radio"]').bind('focus blur', function(){
+      $(this).parent().parent().find('small').toggleClass('focus');
+    });
+  });
+
+  // old functionalty to add class when radio is checked
+  $('.js-radio_dynamic').find('input[type="radio"]').each(function(e) {
+    $(this).on('click', function() {
+      $(this).parent().parent().toggleClass('checked');
+    });
+  });
+
+  function toggle_state(item, init) {
+    if (init == false || typeof init === 'undefined') {
+      if ($(item).parent().find('input[type="radio"]').is(":checked")) {
+        $(item).parent().find('input[type="radio"]').trigger('click');
+        $(item).parent().removeClass('checked');
+      }
+      else {
+        $(item).parent().find('input[type="radio"]').trigger('click');
+        $(item).parent().find('input[type="text"]').focus();
+        $(item).parent().addClass('checked');
+      }
+    }
+  }
+
   // ***************
   // FUNCTIONALITY *
   // ***************
