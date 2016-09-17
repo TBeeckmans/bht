@@ -3876,6 +3876,7 @@ h2.pane__title {
   -moz-flex-direction: column;
   flex-direction: column;
   -ms-flex-direction: column;
+  width: 100%;
   padding: 3em 0; }
 
 .events__item-title--teaser-promoted {

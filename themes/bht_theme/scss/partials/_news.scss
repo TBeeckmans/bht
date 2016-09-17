@@ -285,6 +285,7 @@
 .events__item--teaser-promoted {
   @include display(flex);
   @include flex-direction(column);
+  width: 100%;
   padding: 3em 0;
 }
 
