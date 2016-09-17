@@ -256,6 +256,27 @@ function _bht_news_weight_sort($a, $b) {
 }
 
 /**
+ * Format a integer price to a floating Euro price prefixed with the value sign.
+ *
+ * @param int $price
+ *    The price value formatted as integer in cents.
+ * @param null|bool $prefix
+ *    Define if the price should be prefixed or not.
+ *
+ * @return string
+ *    The formatted price with the euro sign, prefixed with the value sign.
+ */
+function _bht_format_price($price, $prefix = NULL) {
+  if ((int) $price < 0 && (is_null($prefix) || $prefix === TRUE)) {
+    $prefix = '- ';
+  }
+  if ((int) $price > 0 && $prefix === TRUE) {
+    $prefix = '+ ';
+  }
+  return $prefix . '€ ' . str_replace('.', ',', sprintf('%.2f', abs($price) / 100.0));
+}
+
+/**
  * Theme helper function. Print location of template file.
  */
 function theme_helper($file) {
