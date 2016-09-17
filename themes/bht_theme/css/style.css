@@ -3003,6 +3003,10 @@ h2.pane__title {
   float: left;
   width: 100%; }
 
+.pane--views-panes {
+  width: 100%;
+  float: left; }
+
 @media screen and (min-width: 48em) {
   .pane__become-member {
     display: -webkit-box;
