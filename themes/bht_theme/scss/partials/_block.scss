@@ -260,7 +260,7 @@ h2.pane__title {
   overflow: hidden;
   padding: 2em 0;
   @include break-out();
-  background-color: $grey-medium;
+  background-color: $white;
 
   .node-sponsor {
     text-align: center;
