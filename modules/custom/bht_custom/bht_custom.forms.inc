@@ -8,6 +8,7 @@
  * Implements hook_form_alter().
  */
 function bht_custom_form_alter(&$form, &$form_state, $form_id) {
+  kpr($form_id);
   // Add BEM styling to user forms
   switch ($form_id) {
     case 'user_login':
@@ -102,12 +103,87 @@ function bht_custom_entityform_require_membership(&$form, &$form_state) {
   }
 
   // Check for a single checked membership type.
-  if ($standard_member XOR $dedicated_member) {
+  if ($standard_member xor $dedicated_member) {
     return FALSE;
   }
 
   // Set a form error if the above validation fails.
   form_set_error('field_standard_member', t('You need to chose between one of the two membership types'));
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function bht_custom_form_symposium_registration_entityform_edit_form_alter(&$form, &$form_state, $form_id) {
+  // Add our custom validation to require a membership type.
+  $form['#validate'][] = 'bht_custom_entityform_require_attendee_type';
+
+  // Add context to the membership types.
+  $form['field_early_bird_bht_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
+  $form['field_early_bird_bht_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
+  $form['field_early_bird_bht_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '5000';
+  $form['field_regular_bht_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
+  $form['field_regular_bht_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
+  $form['field_regular_bht_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '7500';
+
+}
+
+function bht_custom_entityform_require_attendee_type(&$form, &$form_state) {
+
+  $early_bird_bht_member = FALSE;
+  $early_bird_bhg_member = FALSE;
+  $early_bird_efsht_member = FALSE;
+  $early_bird_student = FALSE;
+  $early_bird_standard = FALSE;
+  $regular_bht_member = FALSE;
+  $regular_bhg_member = FALSE;
+  $regular_efsht_member = FALSE;
+  $regular_student = FALSE;
+  $regular_standard = FALSE;
+
+  // Get the values of the ticket options
+  if (isset($form_state['values']['field_early_bird_bht_member'][LANGUAGE_NONE][0]['value'])) {
+    $early_bird_bht_member = (bool) $form_state['values']['field_early_bird_bht_member'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_early_bird_bhg_member'][LANGUAGE_NONE][0]['value'])) {
+    $early_bird_bhg_member = (bool) $form_state['values']['field_early_bird_bhg_member'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_early_bird_efsht_member'][LANGUAGE_NONE][0]['value'])) {
+    $early_bird_efsht_member = (bool) $form_state['values']['field_early_bird_efsht_member'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_early_bird_student'][LANGUAGE_NONE][0]['value'])) {
+    $early_bird_student = (bool) $form_state['values']['field_early_bird_student'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_early_bird_standard'][LANGUAGE_NONE][0]['value'])) {
+    $early_bird_standard = (bool) $form_state['values']['field_early_bird_standard'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_regular_bht_member'][LANGUAGE_NONE][0]['value'])) {
+    $regular_bht_member = (bool) $form_state['values']['field_regular_bht_member'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_regular_bhg_member'][LANGUAGE_NONE][0]['value'])) {
+    $regular_bhg_member = (bool) $form_state['values']['field_regular_bhg_member'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_regular_efsht_member'][LANGUAGE_NONE][0]['value'])) {
+    $regular_efsht_member = (bool) $form_state['values']['field_regular_efsht_member'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_regular_student'][LANGUAGE_NONE][0]['value'])) {
+    $regular_student = (bool) $form_state['values']['field_regular_student'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_regular_standard'][LANGUAGE_NONE][0]['value'])) {
+    $regular_standard = (bool) $form_state['values']['field_regular_standard'][LANGUAGE_NONE][0]['value'];
+  }
+
+  // Check for a single ticket option
+  if ($early_bird_bht_member xor $early_bird_bhg_member xor $early_bird_efsht_member xor $early_bird_student xor $early_bird_standard
+    xor $regular_bht_member xor $regular_bhg_member xor $regular_efsht_member xor $regular_student xor $regular_standard
+  ) {
+    return FALSE;
+  }
+
+  // Set a form error if the above validation fails.
+  form_set_error('field_profession', t('You need to chose between one of the ticket options'));
 
   return FALSE;
 

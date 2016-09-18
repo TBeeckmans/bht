@@ -639,7 +639,7 @@ ul.contextual-links li a:hover {
         padding: 0.3125em 1.25em; } }
 
 .element-invisible, .breadcrumb__title, .physician__memberof,
-.physician__specialty, .form-item.member input, .sharelinks {
+.physician__specialty, .form-item.member input, .form-item.register input, .sharelinks {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -3609,13 +3609,14 @@ h2.pane__title {
     margin-right: 1.6949152542%;
     float: left; } }
 
-.member_wrapper {
+.member_wrapper,
+.register_wrapper {
   float: left;
   width: 100%;
   margin-top: 15px;
   margin-bottom: 20px; }
 
-.member-price {
+.register-price {
   font-weight: bold;
   font-style: italic;
   margin: 0.7em 0 1em;
@@ -3623,28 +3624,92 @@ h2.pane__title {
   font-size: 1.2857142857em;
   line-height: 1.3333333333em; }
 
-.form-item.member {
+.form-item.member, .form-item.register {
   position: relative;
   width: 100%;
   text-align: center;
   overflow: hidden;
   border-radius: 4px; }
-  .form-item.member input:checked + label:before, .form-item.member input:disabled:checked + label:before {
+  .form-item.member input:checked + label:before, .form-item.member input:disabled:checked + label:before, .form-item.register input:checked + label:before, .form-item.register input:disabled:checked + label:before {
     content: none; }
-  .form-item.member input:checked ~ .member-check, .form-item.member input:disabled:checked ~ .member-check {
+  .form-item.member input:checked ~ .member-check,
+  .form-item.member input:checked ~ .register-check, .form-item.member input:disabled:checked ~ .member-check,
+  .form-item.member input:disabled:checked ~ .register-check, .form-item.register input:checked ~ .member-check,
+  .form-item.register input:checked ~ .register-check, .form-item.register input:disabled:checked ~ .member-check,
+  .form-item.register input:disabled:checked ~ .register-check {
     background: #45C3AB;
     color: #FFFFFF; }
-    .form-item.member input:checked ~ .member-check h3, .form-item.member input:checked ~ .member-check p.title, .form-item.member input:checked ~ .member-check .nav__footer .nav__title, .nav__footer .form-item.member input:checked ~ .member-check .nav__title, .form-item.member input:checked ~ .member-check .nav__bottom .nav__title, .nav__bottom .form-item.member input:checked ~ .member-check .nav__title, .form-item.member input:checked ~ .member-check .block__title, .form-item.member input:checked ~ .member-check .pane__title, .form-item.member input:checked ~ .member-check .address--footer [itemprop="name"], .address--footer .form-item.member input:checked ~ .member-check [itemprop="name"], .form-item.member input:disabled:checked ~ .member-check h3, .form-item.member input:disabled:checked ~ .member-check p.title, .form-item.member input:disabled:checked ~ .member-check .nav__footer .nav__title, .nav__footer .form-item.member input:disabled:checked ~ .member-check .nav__title, .form-item.member input:disabled:checked ~ .member-check .nav__bottom .nav__title, .nav__bottom .form-item.member input:disabled:checked ~ .member-check .nav__title, .form-item.member input:disabled:checked ~ .member-check .block__title, .form-item.member input:disabled:checked ~ .member-check .pane__title, .form-item.member input:disabled:checked ~ .member-check .address--footer [itemprop="name"], .address--footer .form-item.member input:disabled:checked ~ .member-check [itemprop="name"] {
+    .form-item.member input:checked ~ .member-check h3, .form-item.member input:checked ~ .member-check p.title, .form-item.member input:checked ~ .member-check .nav__footer .nav__title, .nav__footer .form-item.member input:checked ~ .member-check .nav__title, .form-item.member input:checked ~ .member-check .nav__bottom .nav__title, .nav__bottom .form-item.member input:checked ~ .member-check .nav__title, .form-item.member input:checked ~ .member-check .block__title, .form-item.member input:checked ~ .member-check .pane__title, .form-item.member input:checked ~ .member-check .address--footer [itemprop="name"], .address--footer .form-item.member input:checked ~ .member-check [itemprop="name"],
+    .form-item.member input:checked ~ .register-check h3,
+    .form-item.member input:checked ~ .register-check p.title,
+    .form-item.member input:checked ~ .register-check .nav__footer .nav__title, .nav__footer
+    .form-item.member input:checked ~ .register-check .nav__title,
+    .form-item.member input:checked ~ .register-check .nav__bottom .nav__title, .nav__bottom
+    .form-item.member input:checked ~ .register-check .nav__title,
+    .form-item.member input:checked ~ .register-check .block__title,
+    .form-item.member input:checked ~ .register-check .pane__title,
+    .form-item.member input:checked ~ .register-check .address--footer [itemprop="name"], .address--footer
+    .form-item.member input:checked ~ .register-check [itemprop="name"], .form-item.member input:disabled:checked ~ .member-check h3, .form-item.member input:disabled:checked ~ .member-check p.title, .form-item.member input:disabled:checked ~ .member-check .nav__footer .nav__title, .nav__footer .form-item.member input:disabled:checked ~ .member-check .nav__title, .form-item.member input:disabled:checked ~ .member-check .nav__bottom .nav__title, .nav__bottom .form-item.member input:disabled:checked ~ .member-check .nav__title, .form-item.member input:disabled:checked ~ .member-check .block__title, .form-item.member input:disabled:checked ~ .member-check .pane__title, .form-item.member input:disabled:checked ~ .member-check .address--footer [itemprop="name"], .address--footer .form-item.member input:disabled:checked ~ .member-check [itemprop="name"],
+    .form-item.member input:disabled:checked ~ .register-check h3,
+    .form-item.member input:disabled:checked ~ .register-check p.title,
+    .form-item.member input:disabled:checked ~ .register-check .nav__footer .nav__title, .nav__footer
+    .form-item.member input:disabled:checked ~ .register-check .nav__title,
+    .form-item.member input:disabled:checked ~ .register-check .nav__bottom .nav__title, .nav__bottom
+    .form-item.member input:disabled:checked ~ .register-check .nav__title,
+    .form-item.member input:disabled:checked ~ .register-check .block__title,
+    .form-item.member input:disabled:checked ~ .register-check .pane__title,
+    .form-item.member input:disabled:checked ~ .register-check .address--footer [itemprop="name"], .address--footer
+    .form-item.member input:disabled:checked ~ .register-check [itemprop="name"], .form-item.register input:checked ~ .member-check h3, .form-item.register input:checked ~ .member-check p.title, .form-item.register input:checked ~ .member-check .nav__footer .nav__title, .nav__footer .form-item.register input:checked ~ .member-check .nav__title, .form-item.register input:checked ~ .member-check .nav__bottom .nav__title, .nav__bottom .form-item.register input:checked ~ .member-check .nav__title, .form-item.register input:checked ~ .member-check .block__title, .form-item.register input:checked ~ .member-check .pane__title, .form-item.register input:checked ~ .member-check .address--footer [itemprop="name"], .address--footer .form-item.register input:checked ~ .member-check [itemprop="name"],
+    .form-item.register input:checked ~ .register-check h3,
+    .form-item.register input:checked ~ .register-check p.title,
+    .form-item.register input:checked ~ .register-check .nav__footer .nav__title, .nav__footer
+    .form-item.register input:checked ~ .register-check .nav__title,
+    .form-item.register input:checked ~ .register-check .nav__bottom .nav__title, .nav__bottom
+    .form-item.register input:checked ~ .register-check .nav__title,
+    .form-item.register input:checked ~ .register-check .block__title,
+    .form-item.register input:checked ~ .register-check .pane__title,
+    .form-item.register input:checked ~ .register-check .address--footer [itemprop="name"], .address--footer
+    .form-item.register input:checked ~ .register-check [itemprop="name"], .form-item.register input:disabled:checked ~ .member-check h3, .form-item.register input:disabled:checked ~ .member-check p.title, .form-item.register input:disabled:checked ~ .member-check .nav__footer .nav__title, .nav__footer .form-item.register input:disabled:checked ~ .member-check .nav__title, .form-item.register input:disabled:checked ~ .member-check .nav__bottom .nav__title, .nav__bottom .form-item.register input:disabled:checked ~ .member-check .nav__title, .form-item.register input:disabled:checked ~ .member-check .block__title, .form-item.register input:disabled:checked ~ .member-check .pane__title, .form-item.register input:disabled:checked ~ .member-check .address--footer [itemprop="name"], .address--footer .form-item.register input:disabled:checked ~ .member-check [itemprop="name"],
+    .form-item.register input:disabled:checked ~ .register-check h3,
+    .form-item.register input:disabled:checked ~ .register-check p.title,
+    .form-item.register input:disabled:checked ~ .register-check .nav__footer .nav__title, .nav__footer
+    .form-item.register input:disabled:checked ~ .register-check .nav__title,
+    .form-item.register input:disabled:checked ~ .register-check .nav__bottom .nav__title, .nav__bottom
+    .form-item.register input:disabled:checked ~ .register-check .nav__title,
+    .form-item.register input:disabled:checked ~ .register-check .block__title,
+    .form-item.register input:disabled:checked ~ .register-check .pane__title,
+    .form-item.register input:disabled:checked ~ .register-check .address--footer [itemprop="name"], .address--footer
+    .form-item.register input:disabled:checked ~ .register-check [itemprop="name"] {
       color: #FFFFFF; }
-    .form-item.member input:checked ~ .member-check > small:before, .form-item.member input:checked ~ .member-check > small:after, .form-item.member input:disabled:checked ~ .member-check > small:before, .form-item.member input:disabled:checked ~ .member-check > small:after {
+    .form-item.member input:checked ~ .member-check > small:before, .form-item.member input:checked ~ .member-check > small:after,
+    .form-item.member input:checked ~ .register-check > small:before,
+    .form-item.member input:checked ~ .register-check > small:after, .form-item.member input:disabled:checked ~ .member-check > small:before, .form-item.member input:disabled:checked ~ .member-check > small:after,
+    .form-item.member input:disabled:checked ~ .register-check > small:before,
+    .form-item.member input:disabled:checked ~ .register-check > small:after, .form-item.register input:checked ~ .member-check > small:before, .form-item.register input:checked ~ .member-check > small:after,
+    .form-item.register input:checked ~ .register-check > small:before,
+    .form-item.register input:checked ~ .register-check > small:after, .form-item.register input:disabled:checked ~ .member-check > small:before, .form-item.register input:disabled:checked ~ .member-check > small:after,
+    .form-item.register input:disabled:checked ~ .register-check > small:before,
+    .form-item.register input:disabled:checked ~ .register-check > small:after {
       left: 37px; }
-    .form-item.member input:checked ~ .member-check > small:before, .form-item.member input:disabled:checked ~ .member-check > small:before {
+    .form-item.member input:checked ~ .member-check > small:before,
+    .form-item.member input:checked ~ .register-check > small:before, .form-item.member input:disabled:checked ~ .member-check > small:before,
+    .form-item.member input:disabled:checked ~ .register-check > small:before, .form-item.register input:checked ~ .member-check > small:before,
+    .form-item.register input:checked ~ .register-check > small:before, .form-item.register input:disabled:checked ~ .member-check > small:before,
+    .form-item.register input:disabled:checked ~ .register-check > small:before {
       background-color: #45C3AB; }
-    .form-item.member input:checked ~ .member-check > small:after, .form-item.member input:disabled:checked ~ .member-check > small:after {
+    .form-item.member input:checked ~ .member-check > small:after,
+    .form-item.member input:checked ~ .register-check > small:after, .form-item.member input:disabled:checked ~ .member-check > small:after,
+    .form-item.member input:disabled:checked ~ .register-check > small:after, .form-item.register input:checked ~ .member-check > small:after,
+    .form-item.register input:checked ~ .register-check > small:after, .form-item.register input:disabled:checked ~ .member-check > small:after,
+    .form-item.register input:disabled:checked ~ .register-check > small:after {
       opacity: 1; }
-  .form-item.member input:focus ~ .member-check {
+  .form-item.member input:focus ~ .member-check,
+  .form-item.member input:focus ~ .register-check, .form-item.register input:focus ~ .member-check,
+  .form-item.register input:focus ~ .register-check {
     box-shadow: 0 0 9px -1px #7992C7; }
-  .form-item.member .member-check {
+  .form-item.member .member-check,
+  .form-item.member .register-check, .form-item.register .member-check,
+  .form-item.register .register-check {
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
@@ -3654,7 +3719,9 @@ h2.pane__title {
     padding: 3em 1em;
     width: 100%;
     display: inline-block; }
-    .form-item.member .member-check > small {
+    .form-item.member .member-check > small,
+    .form-item.member .register-check > small, .form-item.register .member-check > small,
+    .form-item.register .register-check > small {
       position: relative;
       width: 60px;
       height: 26px;
@@ -3663,7 +3730,11 @@ h2.pane__title {
       background: #FFFFFF;
       border-radius: 13px;
       float: none; }
-      .form-item.member .member-check > small:before, .form-item.member .member-check > small:after {
+      .form-item.member .member-check > small:before, .form-item.member .member-check > small:after,
+      .form-item.member .register-check > small:before,
+      .form-item.member .register-check > small:after, .form-item.register .member-check > small:before, .form-item.register .member-check > small:after,
+      .form-item.register .register-check > small:before,
+      .form-item.register .register-check > small:after {
         content: '';
         display: block;
         position: absolute;
@@ -3675,22 +3746,26 @@ h2.pane__title {
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out; }
-      .form-item.member .member-check > small:before {
+      .form-item.member .member-check > small:before,
+      .form-item.member .register-check > small:before, .form-item.register .member-check > small:before,
+      .form-item.register .register-check > small:before {
         background: #7992C7; }
-      .form-item.member .member-check > small:after {
+      .form-item.member .member-check > small:after,
+      .form-item.member .register-check > small:after, .form-item.register .member-check > small:after,
+      .form-item.register .register-check > small:after {
         opacity: 0;
         background-image: url("../img/check.svg");
         background-position: 50% 50%;
         background-size: 10px;
         background-repeat: no-repeat; }
-  .form-item.member label {
+  .form-item.member label, .form-item.register label {
     margin: 0;
     cursor: pointer; }
-  .form-item.member h3, .form-item.member p.title, .form-item.member .nav__footer .nav__title, .nav__footer .form-item.member .nav__title, .form-item.member .nav__bottom .nav__title, .nav__bottom .form-item.member .nav__title, .form-item.member .block__title, .form-item.member .pane__title, .form-item.member .address--footer [itemprop="name"], .address--footer .form-item.member [itemprop="name"] {
+  .form-item.member h3, .form-item.member p.title, .form-item.member .nav__footer .nav__title, .nav__footer .form-item.member .nav__title, .form-item.member .nav__bottom .nav__title, .nav__bottom .form-item.member .nav__title, .form-item.member .block__title, .form-item.member .pane__title, .form-item.member .address--footer [itemprop="name"], .address--footer .form-item.member [itemprop="name"], .form-item.register h3, .form-item.register p.title, .form-item.register .nav__footer .nav__title, .nav__footer .form-item.register .nav__title, .form-item.register .nav__bottom .nav__title, .nav__bottom .form-item.register .nav__title, .form-item.register .block__title, .form-item.register .pane__title, .form-item.register .address--footer [itemprop="name"], .address--footer .form-item.register [itemprop="name"] {
     color: #FFFFFF;
     font-weight: normal;
     margin-bottom: 3px; }
-    .form-item.member h3 em, .form-item.member p.title em, .form-item.member .nav__footer .nav__title em, .nav__footer .form-item.member .nav__title em, .form-item.member .nav__bottom .nav__title em, .nav__bottom .form-item.member .nav__title em, .form-item.member .block__title em, .form-item.member .pane__title em, .form-item.member .address--footer [itemprop="name"] em, .address--footer .form-item.member [itemprop="name"] em {
+    .form-item.member h3 em, .form-item.member p.title em, .form-item.member .nav__footer .nav__title em, .nav__footer .form-item.member .nav__title em, .form-item.member .nav__bottom .nav__title em, .nav__bottom .form-item.member .nav__title em, .form-item.member .block__title em, .form-item.member .pane__title em, .form-item.member .address--footer [itemprop="name"] em, .address--footer .form-item.member [itemprop="name"] em, .form-item.register h3 em, .form-item.register p.title em, .form-item.register .nav__footer .nav__title em, .nav__footer .form-item.register .nav__title em, .form-item.register .nav__bottom .nav__title em, .nav__bottom .form-item.register .nav__title em, .form-item.register .block__title em, .form-item.register .pane__title em, .form-item.register .address--footer [itemprop="name"] em, .address--footer .form-item.register [itemprop="name"] em {
       display: block;
       font-weight: bold;
       font-style: normal; }
@@ -3702,6 +3777,15 @@ h2.pane__title {
     width: 13em;
     margin-right: 1.25em; }
   .field-name-field-dedicated-member {
+    display: block;
+    float: left;
+    width: 13em; }
+  .field-type-list-boolean:nth-child(odd) {
+    display: block;
+    float: left;
+    width: 13em;
+    margin-right: 1.25em; }
+  .field-type-list-boolean:nth-child(even) {
     display: block;
     float: left;
     width: 13em; } }
