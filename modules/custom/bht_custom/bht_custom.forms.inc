@@ -8,8 +8,7 @@
  * Implements hook_form_alter().
  */
 function bht_custom_form_alter(&$form, &$form_state, $form_id) {
-  kpr($form_id);
-  // Add BEM styling to user forms
+  // Add BEM styling to user forms.
   switch ($form_id) {
     case 'user_login':
       $form['#attributes'] = array(
@@ -143,7 +142,7 @@ function bht_custom_entityform_require_attendee_type(&$form, &$form_state) {
   $regular_student = FALSE;
   $regular_standard = FALSE;
 
-  // Get the values of the ticket options
+  // Get the values of the ticket options.
   if (isset($form_state['values']['field_early_bird_bht_member'][LANGUAGE_NONE][0]['value'])) {
     $early_bird_bht_member = (bool) $form_state['values']['field_early_bird_bht_member'][LANGUAGE_NONE][0]['value'];
   }
@@ -175,7 +174,7 @@ function bht_custom_entityform_require_attendee_type(&$form, &$form_state) {
     $regular_standard = (bool) $form_state['values']['field_regular_standard'][LANGUAGE_NONE][0]['value'];
   }
 
-  // Check for a single ticket option
+  // Check for a single ticket option.
   if ($early_bird_bht_member xor $early_bird_bhg_member xor $early_bird_efsht_member xor $early_bird_student xor $early_bird_standard
     xor $regular_bht_member xor $regular_bhg_member xor $regular_efsht_member xor $regular_student xor $regular_standard
   ) {
