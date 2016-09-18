@@ -3615,7 +3615,7 @@ h2.pane__title {
 .member-price {
   font-weight: bold;
   font-style: italic;
-  margin-bottom: 0.7em 0 1em;
+  margin: 0.7em 0 1em;
   color: #FFFFFF;
   font-size: 1.2857142857em;
   line-height: 1.3333333333em; }

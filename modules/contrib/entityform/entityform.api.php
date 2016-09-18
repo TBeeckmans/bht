@@ -138,3 +138,4 @@ function hook_entityform_views_autofields_alter(&$autofields, $view, $display_id
     }
   }
 }
+
