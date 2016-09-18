@@ -72,7 +72,19 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
   $parameters = drupal_get_query_parameters();
   if (!empty($parameters)) {
     if (array_key_exists('member', $parameters)) {
-      $form['field_member_type'][LANGUAGE_NONE]['#default_value'] = $parameters['member'];
+      switch ($parameters['member']) {
+        case 'standard':
+          $form['field_standard_member'][LANGUAGE_NONE]['#default_value'] = 1;
+          break;
+
+        case 'dedicated':
+        case 'full':
+          $form['field_dedicated_member'][LANGUAGE_NONE]['#default_value'] = 1;
+          break;
+
+        default:
+          break;
+      }
     }
   }
 }
