@@ -755,6 +755,9 @@ input[type="submit"] {
 .form-actions {
   width: 100%; }
 
+.field-type-markup {
+  width: 100%; }
+
 .form-actions input[type="submit"] {
   float: left; }
 

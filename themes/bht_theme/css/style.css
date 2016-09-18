@@ -1187,6 +1187,9 @@ input[type="submit"] {
 .form-actions {
   width: 100%; }
 
+.field-type-markup {
+  width: 100%; }
+
 .form-actions input[type="submit"] {
   float: left; }
 
@@ -3771,6 +3774,11 @@ h2.pane__title {
       font-style: normal; }
 
 @media screen and (min-width: 30em) {
+  .field-type-list-boolean {
+    display: block;
+    float: left;
+    width: 13em;
+    margin-right: 1.25em; }
   .field-name-field-standard-member {
     display: block;
     float: left;
@@ -3779,16 +3787,8 @@ h2.pane__title {
   .field-name-field-dedicated-member {
     display: block;
     float: left;
-    width: 13em; }
-  .field-type-list-boolean:nth-child(odd) {
-    display: block;
-    float: left;
     width: 13em;
-    margin-right: 1.25em; }
-  .field-type-list-boolean:nth-child(even) {
-    display: block;
-    float: left;
-    width: 13em; } }
+    margin-right: 0; } }
 
 @media screen and (min-width: 48em) {
   .field-name-field-standard-member {
