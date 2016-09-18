@@ -208,10 +208,20 @@ function bht_custom_entityform_require_attendee_type(&$form, &$form_state) {
     $regular_standard = (bool) $form_state['values']['field_regular_standard'][LANGUAGE_NONE][0]['value'];
   }
 
+  $checked_total = 0;
+  if ($early_bird_bht_member) $checked_total++;
+  if ($early_bird_bhg_member) $checked_total++;
+  if ($early_bird_efsht_member) $checked_total++;
+  if ($early_bird_student) $checked_total++;
+  if ($early_bird_standard) $checked_total++;
+  if ($regular_bht_member) $checked_total++;
+  if ($regular_bhg_member) $checked_total++;
+  if ($regular_efsht_member) $checked_total++;
+  if ($regular_student) $checked_total++;
+  if ($regular_standard) $checked_total++;
+
   // Check for a single ticket option.
-  if ($early_bird_bht_member xor $early_bird_bhg_member xor $early_bird_efsht_member xor $early_bird_student xor $early_bird_standard
-    xor $regular_bht_member xor $regular_bhg_member xor $regular_efsht_member xor $regular_student xor $regular_standard
-  ) {
+  if ($checked_total === 1) {
     return TRUE;
   }
 
