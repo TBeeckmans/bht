@@ -752,6 +752,9 @@ input[type="submit"] {
     background: #58c9b3;
     border-color: #a5e5e9; }
 
+.form-actions {
+  width: 100%; }
+
 .form-actions input[type="submit"] {
   float: left; }
 

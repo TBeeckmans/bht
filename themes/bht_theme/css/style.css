@@ -1184,6 +1184,9 @@ input[type="submit"] {
     background: #58c9b3;
     border-color: #a5e5e9; }
 
+.form-actions {
+  width: 100%; }
+
 .form-actions input[type="submit"] {
   float: left; }
 
@@ -3691,6 +3694,23 @@ h2.pane__title {
       display: block;
       font-weight: bold;
       font-style: normal; }
+
+@media screen and (min-width: 30em) {
+  .field-name-field-standard-member {
+    display: block;
+    float: left;
+    width: 13em;
+    margin-right: 1.25em; }
+  .field-name-field-dedicated-member {
+    display: block;
+    float: left;
+    width: 13em; } }
+
+@media screen and (min-width: 48em) {
+  .field-name-field-standard-member {
+    width: 16em; }
+  .field-name-field-dedicated-member {
+    width: 16em; } }
 
 .faq__overview {
   float: left;

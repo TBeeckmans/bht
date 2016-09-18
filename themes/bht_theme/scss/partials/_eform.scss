@@ -135,4 +135,31 @@
 //-------------
 @include media($break-1) {
 
+  .field-name-field-standard-member {
+    display: block;
+    float: left;
+    width: 13em;
+    margin-right: $gutter;
+  }
+
+  .field-name-field-dedicated-member {
+    display: block;
+    float: left;
+    width: 13em;
+  }
+
+}
+//-------------
+//-- BREAK 2 --
+//-------------
+@include media($break-2) {
+
+  .field-name-field-standard-member {
+    width: 16em;
+  }
+
+  .field-name-field-dedicated-member {
+    width: 16em;
+  }
+
 }
