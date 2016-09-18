@@ -103,7 +103,7 @@ function bht_custom_entityform_require_membership(&$form, &$form_state) {
 
   // Check for a single checked membership type.
   if ($standard_member xor $dedicated_member) {
-    return FALSE;
+    return TRUE;
   }
 
   // Set a form error if the above validation fails.
@@ -212,7 +212,7 @@ function bht_custom_entityform_require_attendee_type(&$form, &$form_state) {
   if ($early_bird_bht_member xor $early_bird_bhg_member xor $early_bird_efsht_member xor $early_bird_student xor $early_bird_standard
     xor $regular_bht_member xor $regular_bhg_member xor $regular_efsht_member xor $regular_student xor $regular_standard
   ) {
-    return FALSE;
+    return TRUE;
   }
 
   // Set a form error if the above validation fails.
