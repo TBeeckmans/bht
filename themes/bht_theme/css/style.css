@@ -3390,6 +3390,12 @@ h2.pane__title {
   -ms-word-break: normal;
   word-break: normal;
   word-wrap: break-word; }
+  .physician__item label {
+    float: none;
+    font-size: 1em;
+    color: inherit; }
+    .physician__item label::after {
+      content: none; }
 
 .physician__item--marker {
   margin-bottom: 0;

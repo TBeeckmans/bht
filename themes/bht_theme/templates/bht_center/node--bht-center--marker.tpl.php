@@ -150,17 +150,17 @@ else {
 
 
   <?php if (isset($content['email'])): ?>
-    <div class="physician__email" itemprop="email">
+    <div class="physician__email physician--icon" itemprop="email">
       <?php print render($content['email']); ?>
     </div>
   <?php endif; ?>
   <?php if (isset($content['phone'])): ?>
-    <div class="physician__phone" itemprop="telephone">
+    <div class="physician__phone physician--icon" itemprop="telephone">
       <?php print render($content['phone']); ?>
     </div>
   <?php endif; ?>
   <?php if (isset($content['fax'])): ?>
-    <div class="physician__fax" itemprop="faxNumber">
+    <div class="physician__fax physician--icon" itemprop="faxNumber">
       <?php print render($content['fax']); ?>
     </div>
   <?php endif; ?>

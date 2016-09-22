@@ -32,6 +32,16 @@
   padding: $gutter/2;
   background-color: $white;
   @include hyphenate();
+
+  label {
+    float: none;
+    font-size: 1em;
+    color: inherit;
+
+    &::after {
+      content: none;
+    }
+  }
 }
 
 .physician__item--marker {

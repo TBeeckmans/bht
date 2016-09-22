@@ -18,7 +18,7 @@
       <?php $item['#markup'] = l($item['#markup'], 'mailto:' . $item['#markup'], array('attributes' => array('class' => array('contact__link', 'contact__link--e-mail')), 'html' => FALSE, 'external' => TRUE)); ?>
     <?php endif; ?>
 
-    <span itemprop="email"><?php print render($item); ?></span>
+    <?php print render($item); ?>
 
   <?php endforeach; ?>
 

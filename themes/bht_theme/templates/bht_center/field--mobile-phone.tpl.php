@@ -18,7 +18,7 @@
       <?php $item['#markup'] = l($item['#markup'], 'tel:' . str_replace(array('(0)', ' '), array('', ''), $item['#markup']), array('attributes' => array('class' => array('contact__link', 'contact__link--mobile-phone')), 'html' => FALSE, 'external' => TRUE)); ?>
     <?php endif; ?>
 
-    <span itemprop="telephone"><?php print render($item); ?></span>
+    <?php print render($item); ?>
 
   <?php endforeach; ?>
 
