@@ -9,17 +9,10 @@
   outline: none; // Prevent yellow outline in Chrome
 }
 
-input,
-textarea,
-select {
-  border-radius: 4px;
-  background-color: $white;
-  color: $blue-dark;
-}
-
-input,
-textarea {
-  @include selection;
+.fieldset-description {
+  @include font(12px, 1, 16px);
+  margin: 7px 0;
+  text-align: center;
 }
 
 .entityform {
@@ -33,54 +26,70 @@ textarea {
 }
 
 .form-wrapper {
-  padding-top: 0.75em;
-  overflow: hidden;
-}
-
-fieldset > * {
   float: left;
   width: 100%;
 }
 
-form,
-input[type="text"],
-input[type="tel"],
-input[type="password"],
-input[type="email"],
-textarea,
-select {
-  float: left;
-  width: 100%;
-  padding: em(25px) em(10px);
+// ** INPUTS
+input {
+  -webkit-appearance: none;
 }
 
-input[type="text"],
-input[type="tel"],
-input[type="password"],
-input[type="email"],
-input[type="number"],
-textarea,
-select {
+// Types email, number, password, search, tel, text, url, color, date, datetime,
+// datatime-local, month, time, week
+#{$all-text-inputs},
+textarea {
+  border-radius: 4px;
+  height: 58px;
+  padding: 18px;
+  width: 100%;
+  outline: none;
   border: 1px solid $grey-dark;
-  font-size: $font-size;
-
-  &:focus {
+  &:focus,
+  &:focus:hover {
     border-color: $highlight;
+    outline: 0;
+  }
+  &:disabled {
+    background: lighten($grey-dark, 10%);
+    cursor: no-drop;
   }
 }
 
-textarea {
-  font-family: $base-font-family;
-  resize: vertical;
-  max-size: 100%;
+input.admin-menu-search {
+  height: auto;
 }
 
-input[type="text"],
-input[type="tel"],
-input[type="password"],
-input[type="email"],
-input[type="number"] {
-  height: em(35px);
+textarea {
+  padding: 10px;
+  height: 80px;
+  &:focus,
+  &:focus:hover {
+    border-color: $highlight;
+    outline: 0;
+  }
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+  border-radius: 5px;
+  height: 5px;
+  border: 1px solid $grey-dark;
+  background-color: $grey-dark;
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: lighten($grey-dark, 20%);
+    border: 1px solid $grey-dark;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  &:focus,
+  &:focus:hover {
+    outline: 0;
+  }
 }
 
 input[type='radio'],
@@ -88,34 +97,34 @@ input[type='checkbox'] {
   -webkit-appearance:none;
   display: inline-block;
   position: relative;
-  top: em(5px);
-  margin: 0 em(10px) 0 0;
+  top: 0;
+  margin: 0;
   padding: 0;
   background: $white;
-  border: 1px solid $grey-dark;
-  border-radius: 0;
-  width: em(20px);
-  height: em(20px);
+  border: 1px solid $highlight;
+  border-radius: 3px;
+  width: 17px;
+  height: 17px;
   outline: none;
-  @include transition(border-color 0.3s ease-in-out, background-color 0.3s ease-in-out);
+
   &:hover,
   &:focus {
-    border-color: $highlight-dark;
+    border-color: darken($highlight, 20%);
     outline: 0;
     cursor: pointer;
   }
   &:disabled {
     opacity: .5;
     background: #E2E2E2;
+    cursor: no-drop;
     &:hover {
-      border-color: $grey;
-      cursor: default;
+      border-color: $highlight;
     }
   }
   & + label {
     display: inline-block;
-    width: auto;
-    float: none;
+    position: relative;
+    padding-left: 10px;
   }
 }
 
@@ -124,17 +133,45 @@ input[type='checkbox'] {
   @include transition(background-color ease-in-out .1s);
   &:checked,
   &:disabled:checked {
-    background-image: url('../img/check.svg');
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-color: $highlight;
-    border: 0;
+    background: {
+      image: url('../img/check.svg');
+      position: 50% 50%;
+      repeat: no-repeat;
+      color: $white;
+    }
+
+    + label {
+      &:before {
+        content: '';
+        display: block;
+
+        position: absolute;
+        width: 23px;
+        height: 16px;
+
+        left: -32px;
+        bottom: 1px;
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          content: none;
+        }
+        @-moz-document url-prefix() {
+          content: none;
+        }
+
+        background: {
+          image: url('../img/check.svg');
+          position: 50% 50%;
+          repeat: no-repeat;
+          size: cover;
+        }
+      }
+    }
   }
 }
 
 input[type='radio'] {
   border-radius: 50%;
-  box-shadow: inset 0px 0px 0px 0px $highlight;
+  box-shadow: none;
   @include transition(box-shadow .1s cubic-bezier(0.28,0.63,0.77,0.17));
   &:checked,
   &:disabled:checked {
@@ -143,9 +180,8 @@ input[type='radio'] {
   }
 }
 
-button,
-input[type="button"],
-input[type="submit"] {
+// Types button, reset, submit
+#{$all-button-inputs} {
   margin: 2em 0;
   padding: em(10px) em(25px);
   border: 1px solid $highlight-medium;
@@ -156,89 +192,179 @@ input[type="submit"] {
   font-size: 1em;
   color: $white;
   cursor: pointer;
-
-  &:hover {
-    background: tint($highlight-dark, 10%);
-    border-color: tint($highlight-medium, 20%);
+  outline: 0;
+  &:focus,
+  &:focus:hover {
+    outline: 0;
   }
 }
 
-.form-actions {
-  width: 100%;
+input.error {
+  color: red;
 }
 
-.field-type-markup {
-  width: 100%;
+// ** LABELS
+label {
+  margin-bottom: 5px;
+  display: inline-block;
 }
 
-.form-actions input[type="submit"] {
-  float: left;
-}
-
-label,
-legend,
-small {
-  float: left;
-  width: 100%;
-  @include font(14,1,16);
-  color: $blue;
-}
-
-.label--inline {
-  width: auto;
-  height: auto;
-  line-height: inherit;
-
-  &:after {
-    content: ": ";
-    margin-right: em(15px);
+.form-type-textfield,
+.form-type-date-popup,
+.form-type-select {
+  .js & {
+    label {
+      position: absolute;
+      padding: 0 18px;
+      pointer-events: none;
+      overflow: hidden;
+      max-height: 0px;
+      min-height: 100%;
+      color: $highlight;
+      @include transition(opacity 0.3s/2 ease, top 0.3s/2 ease, height 0.3s/2 ease);
+      @include font(14px, 1, 16px);
+      z-index: 2;
+    }
+    input {
+      @include transition(padding 0.3s/2 ease);
+      color: $blue-dark;
+    }
   }
 }
 
-label.required:after {
-  content: " *";
+.form-type-textfield,
+.form-type-date-popup {
+  .js & {
+    label {
+      opacity: 0;
+      top: 0;
+    }
+  }
+}
+.form-type-date-popup {
+  > label {
+    display: none;
+  }
+  input::-ms-clear {
+    display: none;
+  }
+}
+.form-type-select {
+  .js & {
+    label {
+      top: 5px;
+    }
+  }
 }
 
+.form-item {
+  position: relative;
+  margin: 10px 0;
+  float: left;
+  width: 100%;
+
+  &.populated {
+    label {
+      height: auto;
+      min-height: 20px;
+      opacity: 1;
+      top: 5px;
+    }
+    input {
+      font-style: normal;
+      @include font(17px, 1, 16px);
+      color: $grey-dark;
+      padding-top: 27px;
+      padding-bottom: 8.5px;
+    }
+  }
+}
+
+// ** SELECTS
+select {
+  height: 58px;
+  width: 100%;
+  border: 1px solid $grey-dark;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  $arrow-size: 7px;
+  background: {
+    color: $white;
+    repeat: no-repeat;
+    image:
+        linear-gradient(45deg, transparent 50%, $grey-dark 50%),
+        linear-gradient(135deg, $grey-dark 50%, transparent 50%),
+        linear-gradient(135deg, transparent 50%, $grey-dark 50%),
+        linear-gradient(45deg, $grey-dark 50%, transparent 50%);
+    position:
+        calc(100% - 20px) 30px,
+        calc(100% - 13px) 30px,
+        calc(100% - 20px) 15px,
+        calc(100% - 13px) 15px;
+    // calc(100% - 2.5em) 8px;
+    size:
+        $arrow-size $arrow-size,
+        $arrow-size $arrow-size,
+        $arrow-size $arrow-size,
+        $arrow-size $arrow-size;
+    // 1px 100%;
+  }
+  padding: 14px 40px 14px 18px;
+  border-radius: 4px;
+  &:focus,
+  &:focus:hover {
+    border-color: $blue-medium;
+    outline: 0;
+  }
+  &:disabled {
+    background: lighten($grey-dark, 10%);
+    cursor: no-drop;
+  }
+  // Remove fugly arrow in IE
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+// ** HINTS
 small,
-.description {
-  @include font(11);
+.password-suggestions {
+  display: block;
+  color: lighten(grey, 20%);
+  margin-top: 10px;
+  @include font(10px, 1, 16px);
 }
 
-.form-radios,
-.form-checkboxes {
-  float: left;
-  width: 100%;
-
-  > div {
-    float: left;
+// ** FIELDSETS
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  legend {
+    color: $highlight;
+    font-weight: bold;
+    padding: 5px 10px 0 0;
+    @include font(16px, 1, 16px);
+    margin-bottom: 10px;
     width: 100%;
-    margin-bottom: em(5px);
-  }
+    text-align: center;
 
-  label {
-    margin: 0;
+    + .fieldset-wrapper {
+      > .fieldset-description {
+        margin-top: 0;
+        @include font(14px, 1, 16px);
+        // margin-top: -15px;
+        margin-bottom: 0;
+      }
+    }
   }
-  
-  input,
-  label {
-    height: em(20px);
-    line-height: em(15px);
+  fieldset {
+    legend {
+      font-weight: normal;
+    }
   }
 }
-
-input[type="text"],
-input[type="tel"],
-input[type="password"],
-input[type="email"],
-input[type="submit"],
-textarea {
-  -webkit-appearance: none; //Prevent rounded corners and shadow on IOS
-}
-
-.url-textfield {
-  display: none;
-}
-
 
 //*************************
 //***** MEDIA QUERIES *****
@@ -248,11 +374,24 @@ textarea {
 //-- BREAK 1 --
 //-------------
 @include media($break-1) {
-
+  
   input[type="submit"] {
     width: auto;
   }
 
+  fieldset {
+    legend {
+      text-align: left;
+      margin-bottom: 15px;
+      @include font(18px, 1, 16px);
+    }
+  }
+
+  .fieldset-description {
+    text-align: left;
+    @include font(14px, 1, 16px);
+    margin: 12px 0;
+  }
 }
 
 
@@ -292,5 +431,4 @@ textarea {
   .form-checkboxes {
     max-width: em($break-2-w);
   }
-
 }
