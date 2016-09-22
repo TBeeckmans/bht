@@ -1179,9 +1179,10 @@ input.error {
 
 label {
   padding-top: 1em;
-  display: block; }
+  display: block;
+  font-size: 0.9em; }
   label.required::after {
-    content: '*'; }
+    content: ' *'; }
 
 .js .form-type-textfield label, .js
 .form-type-date-popup label, .js
@@ -1207,6 +1208,9 @@ label {
   -moz-transition: padding 0.3s/2 ease;
   transition: padding 0.3s/2 ease;
   color: #56638D; }
+
+.field-type-markup {
+  padding-top: 2em; }
 
 .js .form-type-textfield label, .js
 .form-type-date-popup label {

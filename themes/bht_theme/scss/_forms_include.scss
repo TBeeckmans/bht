@@ -208,9 +208,10 @@ input.error {
 label {
   padding-top: 1em;
   display: block;
+  font-size: 0.9em;
 
   &.required::after {
-    content: '*';
+    content: ' *';
   }
 }
 
@@ -235,6 +236,10 @@ label {
       color: $blue-dark;
     }
   }
+}
+
+.field-type-markup {
+  padding-top: 2em;
 }
 
 .form-type-textfield,
