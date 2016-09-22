@@ -206,8 +206,12 @@ input.error {
 
 // ** LABELS
 label {
-  margin-bottom: 5px;
-  display: inline-block;
+  padding-top: 1em;
+  display: block;
+
+  &.required::after {
+    content: '*';
+  }
 }
 
 .form-type-textfield,

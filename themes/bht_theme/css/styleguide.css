@@ -746,8 +746,10 @@ input.error {
   color: red; }
 
 label {
-  margin-bottom: 5px;
-  display: inline-block; }
+  padding-top: 1em;
+  display: block; }
+  label.required::after {
+    content: '*'; }
 
 .js .form-type-textfield label, .js
 .form-type-date-popup label, .js
