@@ -17,6 +17,7 @@
 
 .entityform {
   padding-bottom: 3em;
+  overflow: hidden;
 }
 
 .form-item {
@@ -374,7 +375,7 @@ fieldset {
 //-- BREAK 1 --
 //-------------
 @include media($break-1) {
-  
+
   input[type="submit"] {
     width: auto;
   }

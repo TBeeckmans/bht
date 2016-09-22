@@ -1024,7 +1024,8 @@ body.cke_show_borders li.rtecenter {
   text-align: center; }
 
 .entityform {
-  padding-bottom: 3em; }
+  padding-bottom: 3em;
+  overflow: hidden; }
 
 .form-item {
   float: left;
