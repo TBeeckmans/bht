@@ -335,10 +335,6 @@ function _bht_center_list() {
   // Get the module path.
   $module_path = drupal_get_path('module', 'bht_center');
 
-  $output[] = array(
-    '#theme' => 'bht_center_list',
-  );
-
   // Get rendered BHT centers.
   $bht_centers = _bht_center_nids();
   if (empty($bht_centers)) {
@@ -350,6 +346,11 @@ function _bht_center_list() {
   }
 
   $bht_centers = node_view_multiple($bht_centers, BHT_CENTER_LIST_VIEW_MODE);
+
+  $output[] = array(
+    '#theme' => 'bht_center_list',
+    '#items' => $bht_centers,
+  );
 
   // Loop over each BHT center and render them, the result will be used by js.
   $rendered_bht_centers = array();
@@ -435,7 +436,9 @@ function bht_center_theme() {
 
   $theme['bht_center_list'] = array(
     'template' => 'templates/bht-center-list',
-    'variables' => array(),
+    'variables' => array(
+      'items' => NULL,
+    ),
   );
 
   return $theme;
