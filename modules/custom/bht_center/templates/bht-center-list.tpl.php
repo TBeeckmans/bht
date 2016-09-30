@@ -8,6 +8,5 @@
 ?>
 
 <div id="map-overview" class="js-map-overview physician__overview" >
-  <?php kpr($items); ?>
   <?php print render($items); ?>
 </div>
