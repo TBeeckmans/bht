@@ -1865,6 +1865,7 @@ div.file {
   width: 100%; }
 
 .panel__item--top {
+  display: block;
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -1917,6 +1918,7 @@ div.file {
     flex-wrap: wrap;
     margin-bottom: 3em; }
   .panel__item--above {
+    display: block;
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -1932,6 +1934,7 @@ div.file {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap; }
   .panel__item--below {
+    display: block;
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -1950,6 +1953,7 @@ div.file {
     width: 100%;
     padding-top: 3em; }
   .panel__item--col-first {
+    display: block;
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -1957,17 +1961,18 @@ div.file {
     display: -moz-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-flex: 0;
-    -moz-box-flex: 0;
-    box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -moz-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 0 auto;
+    -moz-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
     width: 57.1428571429%; }
     .node-type-events-promote .panel__item--above .panel__item--col-first {
       width: 42.8571428571%; }
   .panel__item--col-last {
+    display: block;
     display: -webkit-box;
     display: -moz-box;
     display: box;

@@ -4,6 +4,7 @@
 }
 
 .panel__item--top {
+  display: block;
   @include display(flex);
   @include flex-direction(column);
   @include justify-content(space-around);
@@ -30,11 +31,13 @@
   }
 
   .panel__item--above {
+    display: block;
     @include display(flex);
     @include flex-wrap(wrap);
   }
 
   .panel__item--below {
+    display: block;
     @include display(flex);
     @include flex-wrap(wrap);
   }
@@ -45,8 +48,9 @@
   }
 
   .panel__item--col-first {
+    display: block;
     @include display(flex);
-    @include flex(0 0 auto);
+    @include flex(1 0 auto);
     width: flex-grid(5,9) + flex-gutter(9);
 
     .node-type-events-promote .panel__item--above & {
@@ -55,6 +59,7 @@
   }
 
   .panel__item--col-last {
+    display: block;
     @include display(flex);
     @include flex(1 0 auto);
     width: flex-grid(4,9);
