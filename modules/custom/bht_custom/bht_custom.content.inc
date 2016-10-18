@@ -160,10 +160,13 @@ function _content_news_latest() {
     $query->condition($or);
   }
   $query->where('FROM_UNIXTIME(d.field_date_value) - INTERVAL 10 MONTH <= NOW() OR (d.field_date_value IS NULL AND n.created <= NOW())')
-        ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 2 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 2 MONTH))');
+        // Temporarily bypass the greater than within 2 months check, due to no results.
+        // ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 2 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 2 MONTH))');
+        ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 0 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 0 MONTH))');
   $query->orderBy('sticky', 'DESC');
   $query->orderBy('publish', 'DESC');
   $results = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_OBJ);
+  kpr($results);
 
   // Add a weight count based on the incremental total of each entity type.
   $event_count = 0;
