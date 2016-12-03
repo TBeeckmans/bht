@@ -17,10 +17,19 @@ function bht_custom_update_7001() {
   // Enable the events feature.
   module_enable(array('features'));
 }
+
 /**
  * Enable the features event.
  */
-function bht_custom_update_7002() {
+function bht_custom_update_7003() {
   // Enable the events feature.
   module_enable(array('events'));
+}
+
+/**
+ * Add the symposium checkbox to the events.
+ */
+function bht_custom_update_7002() {
+  // Reverts the events feature.
+  features_revert_module('events');
 }
