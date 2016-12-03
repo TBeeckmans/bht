@@ -305,7 +305,7 @@ function _content_event_program() {
     return $output;
   }
 
-  if ($object->type !== 'events' && !$object->promote) {
+  if ($object->type !== 'events') {
     return $output;
   }
 
