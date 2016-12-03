@@ -8,6 +8,7 @@
  * Implements hook_form_alter().
  */
 function bht_custom_form_alter(&$form, &$form_state, $form_id) {
+  $form_id = $form_id;
   // Add BEM styling to user forms.
   switch ($form_id) {
     case 'user_login':
@@ -51,6 +52,13 @@ function bht_custom_form_alter(&$form, &$form_state, $form_id) {
     default:
       break;
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function bht_custom_form_events_node_form_alter(&$form, &$form_state, $form_id) {
+  // @TODO: Check how to add form states to fieldgroups and hide the symposium.
 }
 
 /**
@@ -123,43 +131,63 @@ function bht_custom_form_symposium_registration_entityform_edit_form_alter(&$for
   $form['field_early_bird_bht_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_early_bird_bht_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_early_bird_bht_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '5000';
-  if (time() > '1477173600') unset($form['field_early_bird_bht_member']);
+  if (time() > '1477173600') {
+    unset($form['field_early_bird_bht_member']);
+  }
   $form['field_early_bird_bhg_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_early_bird_bhg_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_early_bird_bhg_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '5000';
-  if (time() > '1477173600') unset($form['field_early_bird_bhg_member']);
+  if (time() > '1477173600') {
+    unset($form['field_early_bird_bhg_member']);
+  }
   $form['field_early_bird_efsht_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_early_bird_efsht_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_early_bird_efsht_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '5000';
-  if (time() > '1477173600') unset($form['field_early_bird_efsht_member']);
+  if (time() > '1477173600') {
+    unset($form['field_early_bird_efsht_member']);
+  }
   $form['field_early_bird_student'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_early_bird_student'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_early_bird_student'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '2500';
-  if (time() > '1477173600') unset($form['field_early_bird_student']);
+  if (time() > '1477173600') {
+    unset($form['field_early_bird_student']);
+  }
   $form['field_early_bird_standard'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_early_bird_standard'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_early_bird_standard'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '7500';
-  if (time() > '1477173600') unset($form['field_early_bird_standard']);
+  if (time() > '1477173600') {
+    unset($form['field_early_bird_standard']);
+  }
   $form['field_regular_bht_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_regular_bht_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_regular_bht_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '7500';
-  if (time() <= '1477173600') unset($form['field_regular_bht_member']);
+  if (time() <= '1477173600') {
+    unset($form['field_regular_bht_member']);
+  }
   $form['field_regular_bhg_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_regular_bhg_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_regular_bhg_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '7500';
-  if (time() <= '1477173600') unset($form['field_regular_bhg_member']);
+  if (time() <= '1477173600') {
+    unset($form['field_regular_bhg_member']);
+  }
   $form['field_regular_efsht_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_regular_efsht_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_regular_efsht_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '7500';
-  if (time() <= '1477173600') unset($form['field_regular_efsht_member']);
+  if (time() <= '1477173600') {
+    unset($form['field_regular_efsht_member']);
+  }
   $form['field_regular_student'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_regular_student'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_regular_student'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '5000';
-  if (time() <= '1477173600') unset($form['field_regular_student']);
+  if (time() <= '1477173600') {
+    unset($form['field_regular_student']);
+  }
   $form['field_regular_standard'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_regular_standard'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
   $form['field_regular_standard'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '10000';
-  if (time() <= '1477173600') unset($form['field_regular_standard']);
+  if (time() <= '1477173600') {
+    unset($form['field_regular_standard']);
+  }
 
 }
 
@@ -209,16 +237,36 @@ function bht_custom_entityform_require_attendee_type(&$form, &$form_state) {
   }
 
   $checked_total = 0;
-  if ($early_bird_bht_member) $checked_total++;
-  if ($early_bird_bhg_member) $checked_total++;
-  if ($early_bird_efsht_member) $checked_total++;
-  if ($early_bird_student) $checked_total++;
-  if ($early_bird_standard) $checked_total++;
-  if ($regular_bht_member) $checked_total++;
-  if ($regular_bhg_member) $checked_total++;
-  if ($regular_efsht_member) $checked_total++;
-  if ($regular_student) $checked_total++;
-  if ($regular_standard) $checked_total++;
+  if ($early_bird_bht_member) {
+    $checked_total++;
+  }
+  if ($early_bird_bhg_member) {
+    $checked_total++;
+  }
+  if ($early_bird_efsht_member) {
+    $checked_total++;
+  }
+  if ($early_bird_student) {
+    $checked_total++;
+  }
+  if ($early_bird_standard) {
+    $checked_total++;
+  }
+  if ($regular_bht_member) {
+    $checked_total++;
+  }
+  if ($regular_bhg_member) {
+    $checked_total++;
+  }
+  if ($regular_efsht_member) {
+    $checked_total++;
+  }
+  if ($regular_student) {
+    $checked_total++;
+  }
+  if ($regular_standard) {
+    $checked_total++;
+  }
 
   // Check for a single ticket option.
   if ($checked_total === 1) {
