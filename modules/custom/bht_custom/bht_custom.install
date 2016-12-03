@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function bht_custom_install() { }
+
+/**
+ * Implements hook_uninstall().
+ */
+function bht_custom_uninstall() { }
+
+/**
+ * Enable the features module.
+ */
+function bht_custom_update_7001() {
+  // Enable the events feature.
+  module_enable(array('features'));
+}
+/**
+ * Enable the features event.
+ */
+function bht_custom_update_7002() {
+  // Enable the events feature.
+  module_enable(array('events'));
+}
