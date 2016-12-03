@@ -49,20 +49,26 @@ function events_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'program' => array(
+        'custom_settings' => TRUE,
+      ),
+      'submenu_overview' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
         'metatags' => array(
-          'weight' => '10',
+          'weight' => '8',
         ),
         'title' => array(
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '11',
+          'weight' => '9',
         ),
         'xmlsitemap' => array(
-          'weight' => '12',
+          'weight' => '10',
         ),
       ),
       'display' => array(
@@ -80,7 +86,7 @@ function events_strongarm() {
             'visible' => FALSE,
           ),
           'default' => array(
-            'weight' => '9',
+            'weight' => '10',
             'visible' => FALSE,
           ),
           'logo' => array(
