@@ -1128,26 +1128,7 @@ input[type='checkbox'] {
     background-image: url("../img/check.svg");
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    background-color: #FFFFFF; }
-    input[type='checkbox']:checked + label:before, input[type='checkbox']:disabled:checked + label:before {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 23px;
-      height: 16px;
-      left: -32px;
-      bottom: 1px;
-      background-image: url("../img/check.svg");
-      background-position: 50% 50%;
-      background-repeat: no-repeat;
-      background-size: cover; }
-      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        input[type='checkbox']:checked + label:before, input[type='checkbox']:disabled:checked + label:before {
-          content: none; } }
-
-@-moz-document url-prefix() {
-  input[type='checkbox']:checked + label:before, input[type='checkbox']:disabled:checked + label:before {
-    content: none; } }
+    background-color: #8FDEE3; }
 
 input[type='radio'] {
   border-radius: 50%;
@@ -3842,11 +3823,6 @@ h2.pane__title {
       font-style: normal; }
 
 @media screen and (min-width: 30em) {
-  .field-type-list-boolean {
-    display: block;
-    float: left;
-    width: 12em;
-    margin-right: 1.25em; }
   .field-name-field-standard-member {
     display: block;
     float: left;
@@ -4676,5 +4652,3 @@ h2.pane__title {
   * {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact; } }
-
-/*# sourceMappingURL=style.css.map */

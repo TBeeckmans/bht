@@ -696,26 +696,7 @@ input[type='checkbox'] {
     background-image: url("../img/check.svg");
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    background-color: #FFFFFF; }
-    input[type='checkbox']:checked + label:before, input[type='checkbox']:disabled:checked + label:before {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 23px;
-      height: 16px;
-      left: -32px;
-      bottom: 1px;
-      background-image: url("../img/check.svg");
-      background-position: 50% 50%;
-      background-repeat: no-repeat;
-      background-size: cover; }
-      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        input[type='checkbox']:checked + label:before, input[type='checkbox']:disabled:checked + label:before {
-          content: none; } }
-
-@-moz-document url-prefix() {
-  input[type='checkbox']:checked + label:before, input[type='checkbox']:disabled:checked + label:before {
-    content: none; } }
+    background-color: #8FDEE3; }
 
 input[type='radio'] {
   border-radius: 50%;
@@ -1026,5 +1007,3 @@ fieldset {
   .content-item.fourth {
     margin-right: 0;
     float: right; } }
-
-/*# sourceMappingURL=style.css.map */

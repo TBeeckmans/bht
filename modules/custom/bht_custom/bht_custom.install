@@ -21,15 +21,21 @@ function bht_custom_update_7001() {
 /**
  * Enable the features event.
  */
-function bht_custom_update_7003() {
+function bht_custom_update_7002() {
   // Enable the events feature.
   module_enable(array('events'));
 }
 
+function bht_custom_update_7003() { }
+
 /**
- * Add the symposium checkbox to the events.
+ * Enable the events and membership features.
  */
-function bht_custom_update_7002() {
+function bht_custom_update_7004() {
   // Reverts the events feature.
   features_revert_module('events');
+  // Enable the membership feature.
+  module_enable(array('membership'));
+  // Reverts the membership feature.
+  features_revert_module('membership');
 }

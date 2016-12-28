@@ -75,6 +75,30 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
   $form['field_dedicated_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
   $form['field_dedicated_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
   $form['field_dedicated_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '11500';
+  $form['field_shipping_identical']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_dedicated_member[und]"]' => array('checked' => TRUE),
+    ),
+    'invisible' => array(
+      ':input[name="field_dedicated_member[und]"]' => array('unchecked' => TRUE),
+    ),
+  );
+  $form['field_shipping_address']['#states']
+    = $form['field_shipping_postal_code']['#states']
+      = $form['field_shipping_city']['#states'] = array(
+        'visible' => array(
+          ':input[name="field_shipping_identical[und]"]' => array('unchecked' => TRUE),
+        ),
+        'invisible' => array(
+          ':input[name="field_shipping_identical[und]"]' => array('checked' => TRUE),
+        ),
+        'required' => array(
+          ':input[name="field_shipping_identical[und]"]' => array('unchecked' => TRUE),
+        ),
+        'optional' => array(
+          ':input[name="field_shipping_identical[und]"]' => array('checked' => TRUE),
+        ),
+      );
 
   // Handle the query parameters and set defaults.
   $parameters = drupal_get_query_parameters();
