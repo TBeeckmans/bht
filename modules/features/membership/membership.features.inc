@@ -26,7 +26,7 @@ function membership_default_entityform_type() {
       "preview_page" : 0,
       "submission_page_title" : "We are glad you have joined us.",
       "submission_text" : {
-        "value" : "\\u003Cp\\u003EYour interest in our organisation does make us happy.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EIn return we\\u0027ll give you a nice discount on our\\u0026nbsp;Belgian Hand Therapists events.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EKind regards\\u003Cbr \\/\\u003E\\r\\nV\\u00e9ronique Bertrandt\\u003C\\/p\\u003E\\r\\n",
+        "value" : "\\u003Cp\\u003EYour interest in our organisation does make us happy.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EIn return we\\u0027ll give you a nice discount on our\\u0026nbsp;Belgian Hand Therapists events.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003EKind regards\\u003Cbr \\/\\u003E\\r\\nV\\u00e9ronique Bertrand\\u003C\\/p\\u003E\\r\\n",
         "format" : "full_html"
       },
       "submission_show_submitted" : 0,
