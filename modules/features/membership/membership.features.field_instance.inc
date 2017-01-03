@@ -301,7 +301,7 @@ function membership_field_default_field_instances() {
     'entity_type' => 'entityform',
     'field_name' => 'field_shipping_address',
     'label' => 'Address',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -335,7 +335,7 @@ function membership_field_default_field_instances() {
     'entity_type' => 'entityform',
     'field_name' => 'field_shipping_city',
     'label' => 'City',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -407,7 +407,7 @@ function membership_field_default_field_instances() {
     'entity_type' => 'entityform',
     'field_name' => 'field_shipping_postal_code',
     'label' => 'Postal code',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,

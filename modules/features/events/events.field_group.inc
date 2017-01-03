@@ -40,7 +40,7 @@ function events_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $field_groups['group_symposium|node|events|form'] = $field_group;
+  $field_groups[''] = $field_group;
 
   // Translatables
   // Included for use with string extractors like potx.
