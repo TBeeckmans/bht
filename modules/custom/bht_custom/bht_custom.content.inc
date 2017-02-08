@@ -152,18 +152,23 @@ function _content_news_latest() {
   $query->condition('n.status', '1')
         ->condition('n.type', array('news', 'events'));
   if (drupal_is_front_page()) {
-    $and = db_and();
-    $and->condition('n.type', 'events');
-    $and->condition('n.promote', '0');
-    $or = db_or()->condition($and)
-                 ->condition('n.type', 'news');
+    $and_events = db_and();
+    $and_events->condition('n.type', 'events');
+    $and_events->condition('n.promote', '0');
+    $and_news = db_and();
+    $and_news->condition('n.type', 'news');
+    $and_news->condition('n.promote', '1');
+    $or = db_or()->condition($and_events)
+                 ->condition($and_news);
     $query->condition($or);
   }
   $query->where('FROM_UNIXTIME(d.field_date_value) - INTERVAL 10 MONTH <= NOW() OR (d.field_date_value IS NULL AND n.created <= NOW())')
-        // Temporarily bypass the greater than within 2 months check, due to no results.
-        // ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 2 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 2 MONTH))');
-        ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 0 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 0 MONTH))');
-  $query->orderBy('sticky', 'DESC');
+         ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 1 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 1 MONTH))');
+        // Reactivated the greater than within 1 months check, due to no results.
+        //->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 0 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 0 MONTH))');
+  if (!drupal_is_front_page()) {
+    $query->orderBy('sticky', 'DESC');
+  }
   $query->orderBy('publish', 'DESC');
   $results = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_OBJ);
 
