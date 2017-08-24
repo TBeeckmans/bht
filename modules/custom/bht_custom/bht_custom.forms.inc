@@ -85,20 +85,20 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
   );
   $form['field_shipping_address']['#states']
     = $form['field_shipping_postal_code']['#states']
-      = $form['field_shipping_city']['#states'] = array(
-        'visible' => array(
-          ':input[name="field_shipping_identical[und]"]' => array('unchecked' => TRUE),
-        ),
-        'invisible' => array(
-          ':input[name="field_shipping_identical[und]"]' => array('checked' => TRUE),
-        ),
-        'required' => array(
-          ':input[name="field_shipping_identical[und]"]' => array('unchecked' => TRUE),
-        ),
-        'optional' => array(
-          ':input[name="field_shipping_identical[und]"]' => array('checked' => TRUE),
-        ),
-      );
+    = $form['field_shipping_city']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_shipping_identical[und]"]' => array('unchecked' => TRUE),
+    ),
+    'invisible' => array(
+      ':input[name="field_shipping_identical[und]"]' => array('checked' => TRUE),
+    ),
+    'required' => array(
+      ':input[name="field_shipping_identical[und]"]' => array('unchecked' => TRUE),
+    ),
+    'optional' => array(
+      ':input[name="field_shipping_identical[und]"]' => array('checked' => TRUE),
+    ),
+  );
 
   // Handle the query parameters and set defaults.
   $parameters = drupal_get_query_parameters();
@@ -303,3 +303,90 @@ function bht_custom_entityform_require_attendee_type(&$form, &$form_state) {
   return FALSE;
 
 }
+
+/**
+ * Callback function to build a basic payment form.
+ *
+ * @param array $form
+ *   The form build array.
+ * @param array $form_state
+ *   The form state information.
+ * @param int $reference
+ *   The payment context.
+ */
+function MYMODULE_form(&$form, $form_state, $reference) {
+  // Define a payment object.
+  $payment = new Payment();
+  $payment->context = 'form/payment/' . $reference;
+  $payment->context_data = array(
+    'reference' => $reference,
+  );
+  $payment->currency_code = 'EUR';
+  $payment->description = 'Basic payment form';
+  $payment->finish_callback = 'MYMODULE_finish_callback';
+
+  // Define a payment line item.
+  $line_item = new PaymentLineItem();
+  $line_item->amount = 100.00 / 1.21;
+  $line_item->name = t('EUR 100');
+  $line_item->tax_rate = 0.21;
+  $line_item->quantity = 1;
+
+  // Add the payment line item to the payment object.
+  $payment->setLineItem($line_item);
+
+  // Add the payment object to the form.
+  $form_state['payment'] = $payment;
+
+  // Get available payment methods and limit this form to Mollie payment.
+  $payment_methods = $payment->availablePaymentMethods();
+  $payment_options = array();
+  foreach ($payment_methods as $payment_method) {
+    if ($payment_method->enabled && $payment_method->name == 'pay_with_mollie') {
+      $payment_options[] = $payment_method->pmid;
+    }
+  }
+
+  // Get the payment embed elements.
+  $payment_embed_form = payment_form_embedded($form_state, $payment, $payment_options);
+
+  // Add the embedded payment form element.
+  $form['payment'] = $payment_embed_form['elements'];
+
+  // Define the form submit callback.
+  $form['#submit'] = $payment_embed_form['submit'];
+
+  // Add form actions.
+  $form['actions'] = array(
+    '#type' => 'actions',
+  );
+  $form['actions']['save'] = array(
+    '#type' => 'submit',
+    '#value' => t('Pay with Mollie'),
+  );
+
+  return $form;
+}
+
+/**
+ * Handle successful payment from Mollie.
+ *
+ * @param \Payment $payment
+ *   The returned payment object containing all relevant information.
+ */
+function MYMODULE_finish_callback(Payment $payment) {
+  $payment_complete = FALSE;
+
+  // Check if the payment status contains a successful state.
+  foreach ($payment->statuses as $status) {
+    if ($status->status == 'payment_status_success') {
+      $payment_complete = FALSE;
+    }
+  }
+
+  if ($payment_complete) {
+    // @TODO: Implement custom callbacks.
+  }
+}
+
+
