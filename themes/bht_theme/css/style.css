@@ -3854,15 +3854,7 @@ h2.pane__title {
 
 @media screen and (min-width: 60em) {
   .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(3n+1) {
-    margin-right: 10px; }
-  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(4n+1) {
-    margin-right: 0; } }
-
-@media screen and (min-width: 75em) {
-  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(4n+1) {
-    margin-right: 10px; }
-  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(5n+1) {
-    margin-right: 0; } }
+    margin-right: 10px; } }
 
 .faq__overview {
   float: left;

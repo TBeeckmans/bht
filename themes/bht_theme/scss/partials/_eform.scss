@@ -204,27 +204,6 @@
     &:nth-child(3n+1) {
       margin-right: 10px;
     }
-
-    &:nth-child(4n+1) {
-      margin-right: 0;
-    }
-  }
-
-}
-
-//-------------
-//-- BREAK 4 --
-//-------------
-@include media($break-4) {
-
-  .entitytype-symposium_registration-form .field-type-list-boolean {
-    &:nth-child(4n+1) {
-      margin-right: 10px;
-    }
-
-    &:nth-child(5n+1) {
-      margin-right: 0;
-    }
   }
 
 }
