@@ -93,7 +93,7 @@
 
   // To stuff when small element is clicked
   $('.js-chk-dynamic').each(function(e){
-    $(this).find('small').on('click', function(e) {
+    $(this).find('small').click(function(e) {
       toggle_state($(this));
     });
 
@@ -104,7 +104,7 @@
 
   // old functionalty to add class when radio is checked
   $('.js-chk-dynamic').find('input[type="checkbox"]').each(function(e) {
-    $(this).on('click', function() {
+    $(this).click(function() {
       $(this).parent().parent().toggleClass('checked');
     });
   });
@@ -112,11 +112,11 @@
   function toggle_state(item, init) {
     if (init == false || typeof init === 'undefined') {
       if ($(item).parent().find('input[type="checkbox"]').is(":checked")) {
-        $(item).parent().find('input[type="checkbox"]').trigger('click');
+        $(item).parent().find('input[type="checkbox"]').trigger('click').value(0);
         $(item).parent().removeClass('checked');
       }
       else {
-        $(item).parent().find('input[type="checkbox"]').trigger('click');
+        $(item).parent().find('input[type="checkbox"]').trigger('click').value(1);
         $(item).parent().find('input[type="text"]').focus();
         $(item).parent().addClass('checked');
       }

@@ -140,12 +140,12 @@
 //-------------
 @include media($break-1) {
 
-  //.field-type-list-boolean {
-  //  display: block;
-  //  float: left;
-  //  width: 12em;
-  //  margin-right: $gutter;
-  //}
+  .entitytype-symposium_registration-form .field-type-list-boolean {
+    display: block;
+    float: left;
+    width: 12em;
+    margin-right: $gutter;
+  }
 
   .field-name-field-standard-member {
     display: block;

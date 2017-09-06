@@ -3823,6 +3823,11 @@ h2.pane__title {
       font-style: normal; }
 
 @media screen and (min-width: 30em) {
+  .entitytype-symposium_registration-form .field-type-list-boolean {
+    display: block;
+    float: left;
+    width: 12em;
+    margin-right: 1.25em; }
   .field-name-field-standard-member {
     display: block;
     float: left;

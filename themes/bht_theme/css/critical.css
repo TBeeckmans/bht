@@ -563,11 +563,6 @@ h2.pane__title {
   line-height: 1.5em;
 }
 
-.pane__full-member {
-  background-color: #45C3AB;
-  color: #FFFFFF;
-}
-
 .pane__standard-member {
   background-color: #8FDEE3;
   color: #FFFFFF;
@@ -683,14 +678,6 @@ h2.pane__title {
     -moz-flex: 1 0 auto;
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
-  }
-
-  .pane__full-member {
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    transform: scale(1.1);
   }
 }
 
