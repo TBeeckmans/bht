@@ -3826,8 +3826,11 @@ h2.pane__title {
   .entitytype-symposium_registration-form .field-type-list-boolean {
     display: block;
     float: left;
-    width: 12em;
-    margin-right: 1.25em; }
+    max-width: 15em;
+    margin-right: 10px;
+    width: 48%; }
+    .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(2n+1) {
+      margin-right: 0; }
   .field-name-field-standard-member {
     display: block;
     float: left;
@@ -3840,10 +3843,26 @@ h2.pane__title {
     margin-right: 0; } }
 
 @media screen and (min-width: 48em) {
+  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(2n+1) {
+    margin-right: 10px; }
+  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(3n+1) {
+    margin-right: 0; }
   .field-name-field-standard-member {
     width: 16em; }
   .field-name-field-dedicated-member {
     width: 16em; } }
+
+@media screen and (min-width: 60em) {
+  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(3n+1) {
+    margin-right: 10px; }
+  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(4n+1) {
+    margin-right: 0; } }
+
+@media screen and (min-width: 75em) {
+  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(4n+1) {
+    margin-right: 10px; }
+  .entitytype-symposium_registration-form .field-type-list-boolean:nth-child(5n+1) {
+    margin-right: 0; } }
 
 .faq__overview {
   float: left;

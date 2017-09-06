@@ -143,9 +143,15 @@
   .entitytype-symposium_registration-form .field-type-list-boolean {
     display: block;
     float: left;
-    width: 12em;
-    margin-right: $gutter;
+    max-width: 15em;
+    margin-right: 10px;
+    width: 48%;
+
+    &:nth-child(2n+1) {
+      margin-right: 0;
+    }
   }
+
 
   .field-name-field-standard-member {
     display: block;
@@ -162,10 +168,22 @@
   }
 
 }
+
 //-------------
 //-- BREAK 2 --
 //-------------
 @include media($break-2) {
+
+  .entitytype-symposium_registration-form .field-type-list-boolean {
+    &:nth-child(2n+1) {
+      margin-right: 10px;
+    }
+
+    &:nth-child(3n+1) {
+      margin-right: 0;
+    }
+  }
+
 
   .field-name-field-standard-member {
     width: 16em;
@@ -173,6 +191,40 @@
 
   .field-name-field-dedicated-member {
     width: 16em;
+  }
+
+}
+
+//-------------
+//-- BREAK 3 --
+//-------------
+@include media($break-3) {
+
+  .entitytype-symposium_registration-form .field-type-list-boolean {
+    &:nth-child(3n+1) {
+      margin-right: 10px;
+    }
+
+    &:nth-child(4n+1) {
+      margin-right: 0;
+    }
+  }
+
+}
+
+//-------------
+//-- BREAK 4 --
+//-------------
+@include media($break-4) {
+
+  .entitytype-symposium_registration-form .field-type-list-boolean {
+    &:nth-child(4n+1) {
+      margin-right: 10px;
+    }
+
+    &:nth-child(5n+1) {
+      margin-right: 0;
+    }
   }
 
 }
