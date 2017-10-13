@@ -109,7 +109,8 @@ if (isset($blog_date[LANGUAGE_NONE][0]['value'])) {
 }
 
 // Determine the BEM block
-$css_block = drupal_clean_css_identifier($type);
+//$css_block = drupal_clean_css_identifier($type);
+$css_block = drupal_clean_css_identifier('news');
 
 // Determine the BEM modifier
 $css_modifier = '';

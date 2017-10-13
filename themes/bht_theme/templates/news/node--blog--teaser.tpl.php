@@ -92,7 +92,8 @@ hide($content['title']);
 $date = $created;
 
 // Determine the BEM block
-$css_block = drupal_clean_css_identifier($type);
+//$css_block = drupal_clean_css_identifier($type);
+$css_block = drupal_clean_css_identifier('news');
 
 // Determine the BEM modifier
 $css_modifier = drupal_clean_css_identifier($view_mode);
