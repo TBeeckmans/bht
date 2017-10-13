@@ -134,6 +134,9 @@ function _format_date($entityType, $entity, $date_fieldname) {
  * @return array $output
  *    Renderable array of news nodes.
  */
+function _content_news_overview() {
+  return _content_news_latest();
+}
 
 /**
  * Generate the latest news list.
