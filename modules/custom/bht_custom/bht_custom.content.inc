@@ -161,8 +161,12 @@ function _content_news_latest() {
     $and_news = db_and();
     $and_news->condition('n.type', 'news');
     $and_news->condition('n.promote', '1');
+    $and_blog = db_and();
+    $and_blog->condition('n.type', 'blog');
+    $and_blog->condition('n.promote', '1');
     $or = db_or()->condition($and_events)
-                 ->condition($and_news);
+                 ->condition($and_news)
+                 ->condition($and_blog);
     $query->condition($or);
   }
   $query->where('FROM_UNIXTIME(d.field_date_value) - INTERVAL 10 MONTH <= NOW() OR (d.field_date_value IS NULL AND n.created <= NOW())')
