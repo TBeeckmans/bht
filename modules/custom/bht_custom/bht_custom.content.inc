@@ -15,7 +15,7 @@
  *    Renderable array of the date field.
  */
 function _paragraphs_date_content($entity) {
-  $output = array();
+  $output = [];
   $date_field = NULL;
   $date_fieldname = NULL;
 
@@ -43,11 +43,11 @@ function _paragraphs_date_content($entity) {
   }
 
   // Set created date as default.
-  $output = array(
+  $output = [
     '#theme' => 'date_created',
     '#timestamp' => $rootEntity->created,
     '#css_block' => $css_block,
-  );
+  ];
 
   // Set date field if available.
   if (isset($rootEntity->field_date)) {
@@ -77,7 +77,7 @@ function _paragraphs_date_content($entity) {
  *    Renderable array of the date(s).
  */
 function _format_date($entityType, $entity, $date_fieldname) {
-  $output = array();
+  $output = [];
   $view_mode = NULL;
   $start_date = '';
   $end_date = NULL;
@@ -116,13 +116,13 @@ function _format_date($entityType, $entity, $date_fieldname) {
 
   // Build the date markup
   if (!empty($start_date)) {
-    $output = array(
+    $output = [
       '#theme' => 'date_field',
       '#timestamp_1' => $start_date,
       '#timestamp_2' => $end_date,
       '#css_block' => $css_block,
       '#css_modifier' => $css_modifier,
-    );
+    ];
   }
 
   return $output;
@@ -145,15 +145,15 @@ function _content_news_overview() {
  *    Renderable array of news nodes.
  */
 function _content_news_latest() {
-  $output = array();
+  $output = [];
 
   // Get the results of the news and events with a calculated publication date.
   $query = db_select('node', 'n');
   $query->leftJoin('field_data_field_date', 'd', 'd.entity_id = n.nid');
   $query->addExpression('CASE WHEN d.field_date_value IS NULL THEN FROM_UNIXTIME(n.created) ELSE FROM_UNIXTIME(d.field_date_value) - INTERVAL 2 MONTH END', 'publish');
-  $query->fields('n', array('nid', 'type', 'title'));
+  $query->fields('n', ['nid', 'type', 'title']);
   $query->condition('n.status', '1')
-        ->condition('n.type', array('news', 'events'));
+    ->condition('n.type', ['news', 'events']);
   if (drupal_is_front_page()) {
     $and_events = db_and();
     $and_events->condition('n.type', 'events');
@@ -161,27 +161,39 @@ function _content_news_latest() {
     $and_news = db_and();
     $and_news->condition('n.type', 'news');
     $and_news->condition('n.promote', '1');
-    $and_blog = db_and();
-    $and_blog->condition('n.type', 'blog');
-    $and_blog->condition('n.promote', '1');
     $or = db_or()->condition($and_events)
-                 ->condition($and_news)
-                 ->condition($and_blog);
+      ->condition($and_news);
     $query->condition($or);
   }
   $query->where('FROM_UNIXTIME(d.field_date_value) - INTERVAL 10 MONTH <= NOW() OR (d.field_date_value IS NULL AND n.created <= NOW())')
-         ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 1 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 1 MONTH))');
-        // Reactivated the greater than within 1 months check, due to no results.
-        //->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 0 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 0 MONTH))');
+    ->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 1 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 1 MONTH))');
+  // Reactivated the greater than within 1 months check, due to no results.
+  //->where('FROM_UNIXTIME(d.field_date_value2) - INTERVAL 0 MONTH >= NOW() OR (d.field_date_value2 IS NULL AND FROM_UNIXTIME(n.created) >= DATE_SUB(NOW(), INTERVAL 0 MONTH))');
   if (!drupal_is_front_page()) {
     $query->orderBy('sticky', 'DESC');
   }
   $query->orderBy('publish', 'DESC');
   $results = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_OBJ);
 
+  if (empty($results) || count($results) < 2) {
+    // Get the results of blogs.
+    $query = db_select('node', 'n');
+    $query->fields('n', ['nid', 'type', 'title']);
+    $query->addField('n', 'created', 'publish');
+    $query->condition('n.status', '1')
+      ->condition('n.type', ['blog']);
+    if (!drupal_is_front_page()) {
+      $query->orderBy('sticky', 'DESC');
+    }
+    $query->orderBy('publish', 'DESC');
+    $blog_results = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_OBJ);
+    array_merge($results, $blog_results);
+  }
+
   // Add a weight count based on the incremental total of each entity type.
   $event_count = 0;
   $news_count = 0;
+  $blog_count = 0;
   foreach ($results as $nid => $node) {
     switch ($node->type) {
       case 'events':
@@ -190,6 +202,10 @@ function _content_news_latest() {
 
       case 'news':
         $results[$nid]->weight = ++$news_count;
+        break;
+
+      case 'blog':
+        $results[$nid]->weight = ++$blog_count;
         break;
 
       default:
@@ -205,7 +221,7 @@ function _content_news_latest() {
 
 
   if (!empty($results)) {
-    $nids = array();
+    $nids = [];
     foreach ($results as $node) {
       $nids[] = $node->nid;
     }
@@ -214,10 +230,10 @@ function _content_news_latest() {
     $nodes = node_load_multiple($nids);
     $nodes = node_view_multiple($nodes, 'teaser');
 
-    $output[] = array(
+    $output[] = [
       '#theme' => 'news_latest',
       '#items' => $nodes['nodes'],
-    );
+    ];
   }
 
   return $output;
@@ -230,17 +246,17 @@ function _content_news_latest() {
  *    Renderable array of event nodes.
  */
 function _content_event_promoted() {
-  $output = array();
+  $output = [];
 
   // BUILD QUERY.
   // Select the table.
   $query = db_select('node', 'n');
   // Pick the fields.
-  $query->fields('n', array('nid'));
+  $query->fields('n', ['nid']);
   // Add conditions.
   $query->condition('n.type', 'events')
-        ->condition('n.status', '1')
-        ->condition('n.promote', '1');
+    ->condition('n.status', '1')
+    ->condition('n.promote', '1');
   // Limit the results.
   $query->range(0, 1);
   // Order by latest changes.
@@ -253,10 +269,10 @@ function _content_event_promoted() {
     $nodes = node_load_multiple($nids);
     $nodes = node_view_multiple($nodes, 'promoted');
 
-    $output = array(
+    $output = [
       '#theme' => 'event_promoted',
       '#items' => $nodes['nodes'],
-    );
+    ];
   }
 
   return $output;
@@ -270,17 +286,17 @@ function _content_event_promoted() {
  *    Renderable array of event nodes.
  */
 function _content_event_promoted_cta() {
-  $output = array();
+  $output = [];
 
   // BUILD QUERY.
   // Select the table.
   $query = db_select('node', 'n');
   // Pick the fields.
-  $query->fields('n', array('nid'));
+  $query->fields('n', ['nid']);
   // Add conditions.
   $query->condition('n.type', 'events')
-        ->condition('n.status', '1')
-        ->condition('n.promote', '1');
+    ->condition('n.status', '1')
+    ->condition('n.promote', '1');
   // Limit the results.
   $query->range(0, 1);
   // Order by latest changes.
@@ -293,10 +309,10 @@ function _content_event_promoted_cta() {
     $nodes = node_load_multiple($nids);
     $nodes = node_view_multiple($nodes, 'teaser_promoted');
 
-    $output = array(
+    $output = [
       '#theme' => 'event_promoted_cta',
       '#items' => $nodes['nodes'],
-    );
+    ];
   }
 
   return $output;
@@ -309,7 +325,7 @@ function _content_event_promoted_cta() {
  *    Renderable array with the event node information.
  */
 function _content_event_program() {
-  $output = array();
+  $output = [];
 
   $object = menu_get_object();
 
@@ -334,7 +350,7 @@ function _content_event_program() {
  *    Renderable array of the related venue node.
  */
 function _content_event_venue() {
-  $output = array();
+  $output = [];
 
   $object = menu_get_object();
 
@@ -370,7 +386,7 @@ function _content_event_venue() {
  *    Renderable array with all the event sponsors.
  */
 function _content_event_sponsors() {
-  $output = array();
+  $output = [];
 
   $object = menu_get_object();
 
@@ -395,16 +411,16 @@ function _content_event_sponsors() {
  *    Renderable array of sponsor nodes.
  */
 function content_sponsor_banner() {
-  $output = array();
+  $output = [];
 
   // BUILD QUERY.
   // Select the table.
   $query = db_select('node', 'n');
   // Pick the fields.
-  $query->fields('n', array('nid'));
+  $query->fields('n', ['nid']);
   // Add conditions.
   $query->condition('n.type', 'sponsor')
-        ->condition('n.status', '1');
+    ->condition('n.status', '1');
   // Limit the results.
   $query->range(0, 4);
   // Order by latest changes.
@@ -418,10 +434,10 @@ function content_sponsor_banner() {
     $nodes = node_load_multiple($nids);
     $nodes = node_view_multiple($nodes, 'logo');
 
-    $output = array(
+    $output = [
       '#theme' => 'sponsor_banner',
       '#items' => $nodes['nodes'],
-    );
+    ];
   }
 
   return $output;
