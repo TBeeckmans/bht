@@ -186,6 +186,7 @@ function _content_news_latest() {
       $query->orderBy('sticky', 'DESC');
     }
     $query->orderBy('publish', 'DESC');
+    // TODO: Add a limit.
     $blog_results = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_OBJ);
     array_merge($results, $blog_results);
   }
