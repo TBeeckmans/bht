@@ -152,6 +152,11 @@ function bht_custom_form_symposium_registration_entityform_edit_form_alter(&$for
 
   if ($user->uid !== 1) {
     if (time() < '1536969600') {
+      foreach ($form as $key => $value) {
+        if (!in_array($key, ['#parents', '#tree', '#array_parents', 'process_input'])) {
+          unset($form[$key]);
+        }
+      }
       $form = [];
       $form['closed'] = [
         '#markup' => t('Registrations opens on the 15th of september 2018.'),
