@@ -148,9 +148,7 @@ function bht_custom_entityform_require_membership(&$form, &$form_state) {
  * Implements hook_form_FORM_ID_alter().
  */
 function bht_custom_form_symposium_registration_entityform_edit_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid !== 1) {
+  if (user_is_anonymous()) {
     if (time() < '1536969600') {
       $form = [];
       $form['closed'] = [
