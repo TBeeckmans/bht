@@ -83,10 +83,10 @@ function bht_center_form_bht_center_node_form_alter(
   &$form, &$form_state, $form_id
 ) {
   // Disable lat and lng fields on node edit form.
-  if (variable_get(BHT_CENTER_GENERATE_LAT_LNG, 1) == 1) {
-    $form['lat']['#disabled'] = TRUE;
-    $form['lng']['#disabled'] = TRUE;
-  }
+  //if (variable_get(BHT_CENTER_GENERATE_LAT_LNG, 1) == 1) {
+  //  $form['lat']['#disabled'] = TRUE;
+  //  $form['lng']['#disabled'] = TRUE;
+  //}
 }
 
 /**
@@ -94,37 +94,37 @@ function bht_center_form_bht_center_node_form_alter(
  */
 function bht_center_node_presave($node) {
 
-  switch ($node->type) {
-    case BHT_CENTER_MACHINE_NAME:
-      // Only act on new nodes or nodes with changed address fields.
-      if (variable_get(BHT_CENTER_GENERATE_LAT_LNG, 1) == 1
-        &&
-        (
-          !isset($node->original)
-          ||
-          (
-            $node->street[LANGUAGE_NONE][0]['value'] != $node->original->street[LANGUAGE_NONE][0]['value'] ||
-            $node->number[LANGUAGE_NONE][0]['value'] != $node->original->number[LANGUAGE_NONE][0]['value'] ||
-            $node->postal_code[LANGUAGE_NONE][0]['value'] != $node->original->postal_code[LANGUAGE_NONE][0]['value'] ||
-            $node->city[LANGUAGE_NONE][0]['value'] != $node->original->city[LANGUAGE_NONE][0]['value'] ||
-            $node->country[LANGUAGE_NONE][0]['value'] != $node->original->country[LANGUAGE_NONE][0]['value']
-          )
-        )
-      ) {
-        $source = array(
-          'address' => $node->street[LANGUAGE_NONE][0]['value'] . ' ' . $node->number[LANGUAGE_NONE][0]['value'],
-          'postal_code' => $node->postal_code[LANGUAGE_NONE][0]['value'],
-          'city' => $node->city[LANGUAGE_NONE][0]['value'],
-          'country' => $node->country[LANGUAGE_NONE][0]['value'],
-        );
-        // TODO: Get the coordinates from a place id, if provided.
-        if ($coors = _bht_center_get_coordinates_from_address($source)) {
-          $node->lat[LANGUAGE_NONE][0]['value'] = $coors->lat;
-          $node->lng[LANGUAGE_NONE][0]['value'] = $coors->lng;
-        }
-      }
-      break;
-  }
+  //switch ($node->type) {
+  //  case BHT_CENTER_MACHINE_NAME:
+  //    // Only act on new nodes or nodes with changed address fields.
+  //    if (variable_get(BHT_CENTER_GENERATE_LAT_LNG, 1) == 1
+  //      &&
+  //      (
+  //        !isset($node->original)
+  //        ||
+  //        (
+  //          $node->street[LANGUAGE_NONE][0]['value'] != $node->original->street[LANGUAGE_NONE][0]['value'] ||
+  //          $node->number[LANGUAGE_NONE][0]['value'] != $node->original->number[LANGUAGE_NONE][0]['value'] ||
+  //          $node->postal_code[LANGUAGE_NONE][0]['value'] != $node->original->postal_code[LANGUAGE_NONE][0]['value'] ||
+  //          $node->city[LANGUAGE_NONE][0]['value'] != $node->original->city[LANGUAGE_NONE][0]['value'] ||
+  //          $node->country[LANGUAGE_NONE][0]['value'] != $node->original->country[LANGUAGE_NONE][0]['value']
+  //        )
+  //      )
+  //    ) {
+  //      $source = array(
+  //        'address' => $node->street[LANGUAGE_NONE][0]['value'] . ' ' . $node->number[LANGUAGE_NONE][0]['value'],
+  //        'postal_code' => $node->postal_code[LANGUAGE_NONE][0]['value'],
+  //        'city' => $node->city[LANGUAGE_NONE][0]['value'],
+  //        'country' => $node->country[LANGUAGE_NONE][0]['value'],
+  //      );
+  //      // TODO: Get the coordinates from a place id, if provided.
+  //      if ($coors = _bht_center_get_coordinates_from_address($source)) {
+  //        $node->lat[LANGUAGE_NONE][0]['value'] = $coors->lat;
+  //        $node->lng[LANGUAGE_NONE][0]['value'] = $coors->lng;
+  //      }
+  //    }
+  //    break;
+  //}
 }
 
 /**
