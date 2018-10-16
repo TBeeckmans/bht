@@ -206,13 +206,13 @@ function bht_custom_form_symposium_registration_entityform_edit_form_alter(&$for
   }
   $form['field_regular_bhg_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_regular_bhg_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
-  $form['field_regular_bhg_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '7500';
+  $form['field_regular_bhg_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '10000';
   if (time() <= '1539993600') {
     unset($form['field_regular_bhg_member']);
   }
   $form['field_regular_efsht_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__register';
   $form['field_regular_efsht_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('register'));
-  $form['field_regular_efsht_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '7500';
+  $form['field_regular_efsht_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '10000';
   if (time() <= '1539993600') {
     unset($form['field_regular_efsht_member']);
   }
