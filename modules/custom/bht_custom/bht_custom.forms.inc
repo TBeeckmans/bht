@@ -72,9 +72,10 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
   $form['field_standard_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
   $form['field_standard_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
   $form['field_standard_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '4500';
+  $form['field_dedicated_member'][LANGUAGE_NONE]['#access'] = 'FALSE';
   $form['field_dedicated_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
   $form['field_dedicated_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
-  $form['field_dedicated_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '13000';
+  $form['field_dedicated_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '14500';
   $form['field_shipping_identical']['#states'] = array(
     'visible' => array(
       ':input[name="field_dedicated_member[und]"]' => array('checked' => TRUE),
