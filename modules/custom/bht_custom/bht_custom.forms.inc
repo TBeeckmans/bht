@@ -72,16 +72,20 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
   $form['field_standard_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
   $form['field_standard_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
   $form['field_standard_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '4500';
-  $form['field_dedicated_member'][LANGUAGE_NONE]['#access'] = 'FALSE';
   $form['field_dedicated_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
   $form['field_dedicated_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
   $form['field_dedicated_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '13500';
+  $form['field_journal_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
+  $form['field_journal_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
+  $form['field_journal_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '9000';
   $form['field_shipping_identical']['#states'] = array(
     'visible' => array(
       ':input[name="field_dedicated_member[und]"]' => array('checked' => TRUE),
+      ':input[name="field_journal_member[und]"]' => array('checked' => TRUE),
     ),
     'invisible' => array(
       ':input[name="field_dedicated_member[und]"]' => array('unchecked' => TRUE),
+      ':input[name="field_journal_member[und]"]' => array('unchecked' => TRUE),
     ),
   );
   $form['field_shipping_address']['#states']
@@ -115,6 +119,10 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
           $form['field_dedicated_member'][LANGUAGE_NONE]['#default_value'] = 1;
           break;
 
+        case 'journal':
+          $form['field_journal_member'][LANGUAGE_NONE]['#default_value'] = 1;
+          break;
+
         default:
           break;
       }
@@ -123,26 +131,26 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
 }
 
 function bht_custom_entityform_require_membership(&$form, &$form_state) {
-  $standard_member = FALSE;
-  $dedicated_member = FALSE;
-
-  // Get the values of field_standard & dedicated member.
-  if (isset($form_state['values']['field_standard_member'][LANGUAGE_NONE][0]['value'])) {
-    $standard_member = (bool) $form_state['values']['field_standard_member'][LANGUAGE_NONE][0]['value'];
-  }
-  if (isset($form_state['values']['field_dedicated_member'][LANGUAGE_NONE][0]['value'])) {
-    $dedicated_member = (bool) $form_state['values']['field_dedicated_member'][LANGUAGE_NONE][0]['value'];
-  }
-
-  // Check for a single checked membership type.
-  if ($standard_member xor $dedicated_member) {
-    return TRUE;
-  }
-
-  // Set a form error if the above validation fails.
-  form_set_error('field_standard_member', t('You need to chose between one of the two membership types'));
-
-  return FALSE;
+  //$standard_member = FALSE;
+  //$dedicated_member = FALSE;
+  //
+  //// Get the values of field_standard & dedicated member.
+  //if (isset($form_state['values']['field_standard_member'][LANGUAGE_NONE][0]['value'])) {
+  //  $standard_member = (bool) $form_state['values']['field_standard_member'][LANGUAGE_NONE][0]['value'];
+  //}
+  //if (isset($form_state['values']['field_dedicated_member'][LANGUAGE_NONE][0]['value'])) {
+  //  $dedicated_member = (bool) $form_state['values']['field_dedicated_member'][LANGUAGE_NONE][0]['value'];
+  //}
+  //
+  //// Check for a single checked membership type.
+  //if ($standard_member xor $dedicated_member) {
+  //  return TRUE;
+  //}
+  //
+  //// Set a form error if the above validation fails.
+  //form_set_error('field_standard_member', t('You need to chose between one of the two membership types'));
+  //
+  //return FALSE;
 }
 
 /**
