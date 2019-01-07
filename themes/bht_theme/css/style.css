@@ -3840,6 +3840,11 @@ h2.pane__title {
     display: block;
     float: left;
     width: 13em;
+    margin-right: 0; }
+  .field-name-field-journal-member {
+    display: block;
+    float: left;
+    width: 13em;
     margin-right: 0; } }
 
 @media screen and (min-width: 48em) {
@@ -3850,6 +3855,8 @@ h2.pane__title {
   .field-name-field-standard-member {
     width: 16em; }
   .field-name-field-dedicated-member {
+    width: 16em; }
+  .field-name-field-journal-member {
     width: 16em; } }
 
 @media screen and (min-width: 60em) {
