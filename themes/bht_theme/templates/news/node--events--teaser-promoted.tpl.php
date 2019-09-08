@@ -209,6 +209,16 @@ $program_attributes_array['itemprop'][] = 'url';
         }
       }
     }
+    if (!empty($node->field_shop_link)) {
+      $register_ref = field_get_items('node', $node, 'field_shop_link');
+      reset($register_ref);
+      while (gettype($register_ref) == 'array' && !isset($register_ref['url'])) {
+        $register_ref = reset($register_ref);
+      }
+      if (isset($register_ref['url'])) {
+        $registration_url = $register_ref['url'];
+      }
+    }
     ?>
     <?php if (!is_null($registration_url)): ?>
       <?php print l(
