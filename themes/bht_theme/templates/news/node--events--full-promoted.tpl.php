@@ -206,9 +206,6 @@ $link_attributes_array['itemprop'][] = 'url';
         }
       }
     }
-    if (user_is_logged_in()) {
-      dpm($node);
-    }
     if (!empty($node->field_shop_link)) {
       $register_ref = field_get_items('node', $node, 'field_shop_link');
       reset($register_ref);
