@@ -166,7 +166,7 @@ $readmore_attributes_array['class'][] = 'btn--more';
 ?>
 
 <article role="article" itemscope
-         itemtype="http://schema.org/Article"
+         itemtype="//schema.org/Article"
   <?php print drupal_attributes($attributes_array); ?>>
 
   <?php if ($bIntro): ?>

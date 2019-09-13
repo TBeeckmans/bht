@@ -718,7 +718,7 @@ function bht_theme_breadcrumb($variables) {
     $output = '<span class="breadcrumb__title">' . t('You are here: ') . '</span>';
 
     $i = 0;
-    $output .= '<ol class="breadcrumb__list" itemscope itemtype="http://schema.org/BreadcrumbList">';
+    $output .= '<ol class="breadcrumb__list" itemscope itemtype="https://schema.org/BreadcrumbList">';
     foreach ($breadcrumb as $crumb) {
       // Add classes to the crumb.
       $crumb_attributes = array('class' => array('breadcrumb__item'));
@@ -729,7 +729,7 @@ function bht_theme_breadcrumb($variables) {
         $crumb_attributes['class'][] = 'last';
       }
 
-      $output .= '<li ' . drupal_attributes($crumb_attributes) . ' itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">';
+      $output .= '<li ' . drupal_attributes($crumb_attributes) . ' itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
       $output .= $crumb . '<meta itemprop="position" content="' . $i . '" />'; // Each crumb is themed by bht_mtbp module
       $output .= '</li>';
     }

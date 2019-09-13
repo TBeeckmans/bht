@@ -124,7 +124,7 @@ $link_attributes_array['itemprop'][] = 'url';
 ?>
 
 <article role="article" itemscope
-         itemtype="http://schema.org/NewsArticle"
+         itemtype="//schema.org/NewsArticle"
   <?php print drupal_attributes($attributes_array); ?>>
 
   <?php if (!$paragraph_title): ?>

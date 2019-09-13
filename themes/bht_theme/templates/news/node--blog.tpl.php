@@ -148,7 +148,7 @@ else {
 <?php if ($page): ?>
 
   <article role="article" itemscope
-           itemtype="http://schema.org/Blog"
+           itemtype="//schema.org/Blog"
     <?php print drupal_attributes($attributes_array); ?>>
 
     <?php if (!$paragraph_title): ?>

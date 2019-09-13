@@ -44,11 +44,11 @@ header('X-UA-Compatible: IE=edge,chrome=1');
   <script src="<?php print base_path() . path_to_theme(); ?>/js/modernizr.custom.min.js?<?php print variable_get('css_js_query_string', '0'); ?>" type="text/javascript"></script>
 
   <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script>
   <![endif]-->
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="<?php print $classes; ?>" <?php print $attributes;?>>
+<body itemscope itemtype="https://schema.org/WebPage" class="<?php print $classes; ?>" <?php print $attributes;?>>
 
   <div class="wrapper">
 

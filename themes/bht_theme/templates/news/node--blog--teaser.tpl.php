@@ -127,7 +127,7 @@ $readmore_attributes_array['itemprop'][] = 'url';
 ?>
 
 <article role="article" itemscope
-         itemtype="http://schema.org/Blog"
+         itemtype="//schema.org/Blog"
   <?php print drupal_attributes($attributes_array); ?>>
 
   <div class="news__date news__date--<?php print $css_modifier; ?>">

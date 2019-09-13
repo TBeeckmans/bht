@@ -63,7 +63,7 @@ else {
 ?>
 
 
-<div itemscope itemtype="http://schema.org/Physician"
+<div itemscope itemtype="//schema.org/Physician"
      class="physician__item"
      <?php if (isset($lat)): ?>
        data-lat="<?php print $lat; ?>"
@@ -78,7 +78,7 @@ else {
     <h1 class="physician__name" itemprop="name"><?php print $title; ?></h1>
 
     <?php if (isset($content['street']) || isset($content['postal_code']) || isset($content['city']) || isset($content['country'])) : ?>
-      <div class="physician__address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+      <div class="physician__address" itemprop="address" itemscope itemtype="//schema.org/PostalAddress">
         <?php if (isset($content['street'])): ?>
           <span itemprop="streetAddress">
         <?php print render($content['street']); ?>

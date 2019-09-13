@@ -126,7 +126,7 @@ $link_attributes_array['itemprop'][] = 'url';
 ?>
 
 <article role="article" itemscope
-         itemtype="http://schema.org/EducationEvent"
+         itemtype="//schema.org/EducationEvent"
   <?php print drupal_attributes($attributes_array); ?>>
 
   <div class="layout__event layout__event-info">

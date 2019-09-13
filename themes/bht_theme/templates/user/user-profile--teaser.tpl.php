@@ -8,7 +8,7 @@
 hide($user_profile);
 
 ?>
-<div class="physician__employee" itemprop="employee" itemscope itemtype="http://schema.org/Person">
+<div class="physician__employee" itemprop="employee" itemscope itemtype="//schema.org/Person">
   <span itemprop="givenName">
     <?php print render($user_profile['firstname']); ?>
   </span>
