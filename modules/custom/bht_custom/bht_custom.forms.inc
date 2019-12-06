@@ -174,7 +174,7 @@ function bht_custom_entityform_require_membership(&$form, &$form_state) {
   }
   
   // Set a form error if the above validation fails.
-  form_set_error('field_standard_member', t('You need to chose between one of the two membership types'));
+  form_set_error('field_standard_member', t('You need to chose between one of the membership types'));
   
   return FALSE;
 }
