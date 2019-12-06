@@ -71,10 +71,10 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
   // Add context to the membership types.
   $form['field_standard_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
   $form['field_standard_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
-  $form['field_standard_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '4500';
+  $form['field_standard_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '5000';
   $form['field_dedicated_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
   $form['field_dedicated_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
-  $form['field_dedicated_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '13500';
+  $form['field_dedicated_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '14000';
   $form['field_journal_member'][LANGUAGE_NONE]['#theme_wrappers'][] = 'form_element__membership';
   $form['field_journal_member'][LANGUAGE_NONE]['#wrapper_attributes'] = array('class' => array('member'));
   $form['field_journal_member'][LANGUAGE_NONE]['#attributes_array']['data-price'] = '9000';
@@ -112,45 +112,71 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
       switch ($parameters['member']) {
         case 'standard':
           $form['field_standard_member'][LANGUAGE_NONE]['#default_value'] = 1;
+          $form['field_dedicated_member'][LANGUAGE_NONE]['#default_value'] = 0;
+          $form['field_journal_member'][LANGUAGE_NONE]['#default_value'] = 0;
           break;
 
         case 'dedicated':
         case 'full':
           $form['field_dedicated_member'][LANGUAGE_NONE]['#default_value'] = 1;
+          $form['field_standard_member'][LANGUAGE_NONE]['#default_value'] = 0;
+          $form['field_journal_member'][LANGUAGE_NONE]['#default_value'] = 0;
           break;
 
         case 'journal':
           $form['field_journal_member'][LANGUAGE_NONE]['#default_value'] = 1;
+          $form['field_standard_member'][LANGUAGE_NONE]['#default_value'] = 0;
+          $form['field_dedicated_member'][LANGUAGE_NONE]['#default_value'] = 0;
           break;
 
         default:
+          $form['field_standard_member'][LANGUAGE_NONE]['#default_value'] = 1;
+          $form['field_dedicated_member'][LANGUAGE_NONE]['#default_value'] = 0;
+          $form['field_journal_member'][LANGUAGE_NONE]['#default_value'] = 0;
           break;
       }
     }
   }
+
+  // Prevent visitors to order the journal on the 22th of december 2019.
+  if (time() >= 1576972800) {
+    // Override the default selected membership type.
+    $form['field_standard_member'][LANGUAGE_NONE]['#default_value'] = 1;
+    $form['field_dedicated_member'][LANGUAGE_NONE]['#default_value'] = 0;
+    $form['field_journal_member'][LANGUAGE_NONE]['#default_value'] = 0;
+
+    // Hide the journal related fields.
+    $form['field_dedicated_member']['#access']
+    = $form['field_journal_member']['#access']
+    = $form['field_shipping_identical']['#access']
+    = $form['field_shipping_address']['#access']
+    = $form['field_shipping_postal_code']['#access']
+    = $form['field_shipping_city']['#access']
+    = FALSE;
+  }
 }
 
 function bht_custom_entityform_require_membership(&$form, &$form_state) {
-  //$standard_member = FALSE;
-  //$dedicated_member = FALSE;
-  //
-  //// Get the values of field_standard & dedicated member.
-  //if (isset($form_state['values']['field_standard_member'][LANGUAGE_NONE][0]['value'])) {
-  //  $standard_member = (bool) $form_state['values']['field_standard_member'][LANGUAGE_NONE][0]['value'];
-  //}
-  //if (isset($form_state['values']['field_dedicated_member'][LANGUAGE_NONE][0]['value'])) {
-  //  $dedicated_member = (bool) $form_state['values']['field_dedicated_member'][LANGUAGE_NONE][0]['value'];
-  //}
-  //
-  //// Check for a single checked membership type.
-  //if ($standard_member xor $dedicated_member) {
-  //  return TRUE;
-  //}
-  //
-  //// Set a form error if the above validation fails.
-  //form_set_error('field_standard_member', t('You need to chose between one of the two membership types'));
-  //
-  //return FALSE;
+  $standard_member = FALSE;
+  $dedicated_member = FALSE;
+  
+  // Get the values of field_standard & dedicated member.
+  if (isset($form_state['values']['field_standard_member'][LANGUAGE_NONE][0]['value'])) {
+    $standard_member = (bool) $form_state['values']['field_standard_member'][LANGUAGE_NONE][0]['value'];
+  }
+  if (isset($form_state['values']['field_dedicated_member'][LANGUAGE_NONE][0]['value'])) {
+    $dedicated_member = (bool) $form_state['values']['field_dedicated_member'][LANGUAGE_NONE][0]['value'];
+  }
+  
+  // Check for a single checked membership type.
+  if ($standard_member xor $dedicated_member) {
+    return TRUE;
+  }
+  
+  // Set a form error if the above validation fails.
+  form_set_error('field_standard_member', t('You need to chose between one of the two membership types'));
+  
+  return FALSE;
 }
 
 /**
