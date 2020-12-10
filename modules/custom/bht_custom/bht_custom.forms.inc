@@ -139,7 +139,7 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
   }
 
   // Prevent visitors to order the journal on the 1th of january 2021.
-  if (time() >= 1607549220) {
+  if (time() >= 1609459199) {
     // Override the default selected membership type.
     $form['field_standard_member'][LANGUAGE_NONE]['#default_value'] = 1;
     $form['field_dedicated_member'][LANGUAGE_NONE]['#default_value'] = 0;
