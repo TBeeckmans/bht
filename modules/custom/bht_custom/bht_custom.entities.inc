@@ -79,6 +79,46 @@ function bht_custom_field_extra_fields() {
   return $extra;
 }
 
+/**
+ * Implements hook_entity_presave().
+ */
+function bht_custom_entityform_presave($entity) {
+  if ($entity->type == 'elbow_quiz') {
+    $percentage = 0;
+
+    $answer1 = 'b';
+    $question1 = $entity->field_answers_1[LANGUAGE_NONE][0]['value'];
+    if ($question1 == $answer1) {
+      $percentage += 20;
+    }
+
+    $answer2 = 'c';
+    $question2 = $entity->field_answers_2[LANGUAGE_NONE][0]['value'];
+    if ($question2 == $answer2) {
+      $percentage += 20;
+    }
+
+    $answer3 = 'b';
+    $question3 = $entity->field_answers_3[LANGUAGE_NONE][0]['value'];
+    if ($question3 == $answer3) {
+      $percentage += 20;
+    }
+
+    $answer4 = 'b';
+    $question4 = $entity->field_answers_4[LANGUAGE_NONE][0]['value'];
+    if ($question4 == $answer4) {
+      $percentage += 20;
+    }
+
+    $answer5 = 'a';
+    $question5 = $entity->field_answers_5[LANGUAGE_NONE][0]['value'];
+    if ($question5 == $answer5) {
+      $percentage += 20;
+    }
+
+    $entity->field_percentage[LANGUAGE_NONE][0]['value'] = $percentage;
+  }
+}
 
 
 /**
