@@ -442,3 +442,16 @@ fieldset {
     max-width: em($break-2-w);
   }
 }
+
+.form-radios div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: stretch;
+}
+
+.form-radios div input {
+  flex-shrink: 0;
+}
