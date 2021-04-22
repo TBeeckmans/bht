@@ -120,6 +120,16 @@ function bht_custom_entityform_presave($entity) {
   }
 }
 
+/**
+ * Alter the render array that will make the confirm page for a single Entityform Type.
+ */
+function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $entityform_type, $entityform_id) {
+  $wrapper = entity_metadata_wrapper('entityform', $entityform_id);
+  $render_array['new_markup'] = array(
+    '#markup' => t('Hello 1 Form World!'),
+    '#type' => 'markup',
+  );
+}
 
 /**
  * Implements hook_node_presave().
