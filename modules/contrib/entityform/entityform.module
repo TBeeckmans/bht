@@ -284,7 +284,6 @@ function entityform_access($op, $entityform = NULL, $account = NULL) {
         else {
           // Submission was stored in session. Make sure it matches.
           $match = $_SESSION['entityform_submission'] == $entityform_id;
-          unset($_SESSION['entityform_submission']);
           $access = $match;
         }
       }
