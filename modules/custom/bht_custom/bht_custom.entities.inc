@@ -79,21 +79,21 @@ function bht_custom_field_extra_fields() {
   return $extra;
 }
 
-function bht_custom_entityform_access_alter(&$access, $op, $context) {
-  global $user;
-  $entityform = $context['entityform'];
-  if ($entityform->type == 'elbow_quiz') {
-    if ((user_has_role(3, $user) || user_has_role(4, $user))) {
-      $access = TRUE;
-    }
-    elseif ($_COOKIE['surveyelbow']) {
-      $access = TRUE;
-    }
-    else {
-      $access = FALSE;
-    }
-  }
-}
+//function bht_custom_entityform_access_alter(&$access, $op, $context) {
+//  global $user;
+//  $entityform = $context['entityform'];
+//  if ($entityform->type == 'elbow_quiz') {
+//    if ((user_has_role(3, $user) || user_has_role(4, $user))) {
+//      $access = TRUE;
+//    }
+//    elseif ($_COOKIE['surveyelbow']) {
+//      $access = TRUE;
+//    }
+//    else {
+//      $access = FALSE;
+//    }
+//  }
+//}
 
 /**
  * Implements hook_entity_presave().
@@ -945,7 +945,7 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
     '#markup' => '<p>&nbsp;</p>',
   ];
 
-  setcookie('surveyelbow', $entityform_id);
+  //setcookie('surveyelbow', $entityform_id);
 }
 
 /**
