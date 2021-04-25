@@ -145,8 +145,30 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
   $answer_3 = 'b';
   $answer_4 = 'b';
   $answer_5 = 'a';
-  module_load_include('inc', 'entityform', 'entityform.admin');
-  $elbow_quiz_form = @entityform_form_wrapper($entityform_type);
+
+  if(isset($render_array['submission_data'])) {
+    unset($render_array['submission_data']);
+  }
+
+  // Query for the options.
+  $query = db_select('field_config_instance', 'i');
+  $query->condition('i.bundle', 'elbow_quiz');
+  $query->join('field_config', 'c', 'c.field_name = i.field_name');
+  $query->fields('c', ['field_name', 'data']);
+  $fields = $query->execute()->fetchAllKeyed();
+  foreach ($fields as $key => $value) {
+    $data = unserialize($value);
+    if (isset($data['settings']['allowed_values'])) {
+      $fields[$key] = $data['settings']['allowed_values'];
+    }
+    elseif (isset($data['settings']['markup']['value'])) {
+      $fields[$key] = $data['settings']['markup']['value'];
+    }
+    else {
+      unset($fields[$key]);
+    }
+  }
+
   $wrapper = entity_metadata_wrapper('entityform', $entityform_id);
   $given_1 = $wrapper->get('field_answers_1')->value();
   $given_2 = $wrapper->get('field_answers_2')->value();
@@ -154,19 +176,22 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
   $given_4 = $wrapper->get('field_answers_4')->value();
   $given_5 = $wrapper->get('field_answers_5')->value();
 
-  $correct_answer_1 = $elbow_quiz_form['field_answers_1'][LANGUAGE_NONE][$answer_1]['#title'];
-  $your_answer_1 = $elbow_quiz_form['field_answers_1'][LANGUAGE_NONE][$given_1]['#title'];
-  $correct_answer_2 = $elbow_quiz_form['field_answers_2'][LANGUAGE_NONE][$answer_2]['#title'];
-  $your_answer_2 = $elbow_quiz_form['field_answers_2'][LANGUAGE_NONE][$given_2]['#title'];
-  $correct_answer_3 = $elbow_quiz_form['field_answers_3'][LANGUAGE_NONE][$answer_3]['#title'];
-  $your_answer_3 = $elbow_quiz_form['field_answers_3'][LANGUAGE_NONE][$given_3]['#title'];
-  $correct_answer_4 = $elbow_quiz_form['field_answers_4'][LANGUAGE_NONE][$answer_4]['#title'];
-  $your_answer_4 = $elbow_quiz_form['field_answers_4'][LANGUAGE_NONE][$given_4]['#title'];
-  $correct_answer_5 = $elbow_quiz_form['field_answers_5'][LANGUAGE_NONE][$answer_5]['#title'];
-  $your_answer_5 = $elbow_quiz_form['field_answers_5'][LANGUAGE_NONE][$given_5]['#title'];
+  $correct_answer_1 = $fields['field_answers_1'][$answer_1];
+  $your_answer_1 = $fields['field_answers_1'][$given_1];
+  $correct_answer_2 = $fields['field_answers_2'][$answer_2];
+  $your_answer_2 = $fields['field_answers_2'][$given_2];
+  $correct_answer_3 = $fields['field_answers_3'][$answer_3];
+  $your_answer_3 = $fields['field_answers_3'][$given_3];
+  $correct_answer_4 = $fields['field_answers_4'][$answer_4];
+  $your_answer_4 = $fields['field_answers_4'][$given_4];
+  $correct_answer_5 = $fields['field_answers_5'][$answer_5];
+  $your_answer_5 = $fields['field_answers_5'][$given_5];
 
   $percentage = $wrapper->get('field_percentage')->value();
 
+  $render_array['result'] = [
+    '#type' => 'container',
+  ];
   $render_array['result']['title'] = [
     '#type' => 'markup',
     '#markup' => '<p>Jouw score</p>',
@@ -891,7 +916,10 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
     'type' => 'inline',
   );
 
-  $render_array['question_1'] = $elbow_quiz_form['field_question_1'];
+  $render_array['question_1']['question'] = [
+    '#type' => 'markup',
+    '#markup' => '<div>' . $fields['field_question_1'] . '</div>',
+  ];
   $render_array['question_1']['your_answer_1'] = [
     '#type' => 'markup',
     '#markup' => '<div><span class="yours">Jouw antwoord:</span> ' . $your_answer_1 . '</div>',
@@ -900,7 +928,10 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
     '#type' => 'markup',
     '#markup' => '<div><span class="correct">Correct antwoord:</span> ' . $correct_answer_1 . '</div>',
   ];
-  $render_array['question_2'] = $elbow_quiz_form['field_question_2'];
+  $render_array['question_2']['question'] = [
+    '#type' => 'markup',
+    '#markup' => '<div>' . $fields['field_question_2'] . '</div>',
+  ];
   $render_array['question_2']['your_answer_2'] = [
     '#type' => 'markup',
     '#markup' => '<div><span class="yours">Jouw antwoord:</span> ' . $your_answer_2 . '</div>',
@@ -909,7 +940,10 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
     '#type' => 'markup',
     '#markup' => '<div><span class="correct">Correct antwoord:</span> ' . $correct_answer_2 . '</div>',
   ];
-  $render_array['question_3'] = $elbow_quiz_form['field_question_3'];
+  $render_array['question_3']['question'] = [
+    '#type' => 'markup',
+    '#markup' => '<div>' . $fields['field_question_3'] . '</div>',
+  ];
   $render_array['question_3']['your_answer_3'] = [
     '#type' => 'markup',
     '#markup' => '<div><span class="yours">Jouw antwoord:</span> ' . $your_answer_3 . '</div>',
@@ -918,7 +952,10 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
     '#type' => 'markup',
     '#markup' => '<div><span class="correct">Correct antwoord:</span> ' . $correct_answer_3 . '</div>',
   ];
-  $render_array['question_4'] = $elbow_quiz_form['field_question_4'];
+  $render_array['question_4']['question'] = [
+    '#type' => 'markup',
+    '#markup' => '<div>' . $fields['field_question_4'] . '</div>',
+  ];
   $render_array['question_4']['your_answer_4'] = [
     '#type' => 'markup',
     '#markup' => '<div><span class="yours">Jouw antwoord:</span> ' . $your_answer_4 . '</div>',
@@ -927,7 +964,10 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
     '#type' => 'markup',
     '#markup' => '<div><span class="correct">Correct antwoord:</span> ' . $correct_answer_4 . '</div>',
   ];
-  $render_array['question_5'] = $elbow_quiz_form['field_question_5'];
+  $render_array['question_5']['question'] = [
+    '#type' => 'markup',
+    '#markup' => '<div>' . $fields['field_question_5'] . '</div>',
+  ];
   $render_array['question_5']['your_answer_5'] = [
     '#type' => 'markup',
     '#markup' => '<div><span class="yours">Jouw antwoord:</span> ' . $your_answer_5 . '</div>',
