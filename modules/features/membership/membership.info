@@ -48,4 +48,4 @@ features[user_permission][] = edit any entityform
 features[user_permission][] = edit own entityform
 features[user_permission][] = view any entityform
 features[user_permission][] = view own entityform
-project path = sites/bht/modules/features
+project path = sites/all/modules/features
