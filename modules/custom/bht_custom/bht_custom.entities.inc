@@ -145,11 +145,8 @@ function bht_custom_entityform_elbow_quiz_confirm_page_alter(&$render_array, $en
   $answer_3 = 'b';
   $answer_4 = 'b';
   $answer_5 = 'a';
-
   module_load_include('inc', 'entityform', 'entityform.admin');
-  $entity_form_name = 'elbow_quiz';
-  $elbow_quiz_form = entityform_form_wrapper(entityform_empty_load($entity_form_name), 'submit', 'embedded');
-
+  $elbow_quiz_form = @entityform_form_wrapper($entityform_type);
   $wrapper = entity_metadata_wrapper('entityform', $entityform_id);
   $given_1 = $wrapper->get('field_answers_1')->value();
   $given_2 = $wrapper->get('field_answers_2')->value();
