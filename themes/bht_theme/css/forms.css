@@ -203,17 +203,15 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sub
   input[type="text"], input[type="email"], input[type="password"], textarea, select, small, .form-radios, .form-checkboxes {
     max-width: 50%; } }
 
-
-.form-radios div {
+.form-radios > div {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: baseline;
-  align-content: stretch;
+  align-items: center;
+}
+input[type='radio'] {
+  flex-shrink: 0;
 }
 
-.form-radios div input {
-  flex-shrink: 0;
+input[type='radio'] + label {
+  padding: 0.5em 1em;
 }
 /*# sourceMappingURL=style.css.map */
