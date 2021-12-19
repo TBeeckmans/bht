@@ -4671,6 +4671,18 @@ h2.pane__title {
     float: left;
     width: 100%; } }
 
+.form-radios > div {
+  display: flex;
+  align-items: center;
+}
+input[type='radio'] {
+  flex-shrink: 0;
+}
+
+input[type='radio'] + label {
+  padding: 0.5em 1em;
+}
+
 @media print and (color) {
   * {
     -webkit-print-color-adjust: exact;
