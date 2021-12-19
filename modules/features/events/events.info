@@ -63,4 +63,4 @@ features[variable][] = xmlsitemap_settings_taxonomy_term_news
 features_exclude[field_base][taxonomy_body] = taxonomy_body
 features_exclude[field_instance][taxonomy_term-news-taxonomy_body] = taxonomy_term-news-taxonomy_body
 features_exclude[taxonomy][news] = news
-project path = sites/bht/modules/features
+project path = sites/all/modules/features

@@ -595,7 +595,6 @@ function entityform_edit_form_submit(&$form, &$form_state) {
         global $user;
         if (empty($user->uid)) {
           // For anonymous users we must store the id of their submission in the session.
-          drupal_session_start();
           $_SESSION['entityform_submission'] = $entityform->entityform_id;
         }
         $confirm_path = entity_ui_controller('entityform')->confirm_path($entityform->type, $entityform->entityform_id);
