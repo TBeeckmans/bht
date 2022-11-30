@@ -138,6 +138,9 @@ function bht_custom_form_membership_entityform_edit_form_alter(&$form, &$form_st
     }
   }
 
+  // As of 2023 we do not allow journal only memberships.
+  $form['field_journal_member']['#access'] = FALSE;
+
   // Prevent visitors to order the journal on the 4th of january 2023.
   if (time() >= 1672786800) {
     // Override the default selected membership type.
