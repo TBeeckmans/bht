@@ -454,8 +454,6 @@ function _bht_center_nids() {
   $q_user = db_select('field_data_therapist', 'ut');
   $q_user->fields('ut', array('entity_id'));
   $q_user->fields('uc', array('uri', 'width', 'height', 'weight'));
-  $q_user->join('users', 'users', 'ut.entity_id = users.uid');
-  $q_user->condition('users.status', 1);
   // Add in the linked users certification.
   $q_usercert = db_select('field_data_certification', 'ucc');
   $q_usercert->addField('ucc', 'entity_id');
