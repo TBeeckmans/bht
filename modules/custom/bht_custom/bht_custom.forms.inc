@@ -443,4 +443,58 @@ function MYMODULE_finish_callback(Payment $payment) {
   }
 }
 
+/**
+ * Implements hook_field_info().
+ */
+function bht_custom_field_field_info() {
+  $fields['riziv_number'] = array(
+    'label' => t('Riziv number'),
+    'description' => t('The Riziv number x-xxxxx-xx-xxx.'),
+    'type' => 'text',
+    'settings' => array(
+      'max_length' => 15,
+      'placeholder' => t('e.g., 1-23456-78-901'),
+    ),
+  );
+  return $fields;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function bht_custom_field_field_widget_info() {
+  $widgets['riziv_number_widget'] = array(
+    'label' => t('Riziv number'),
+    'field types' => array('riziv_number'),
+  );
+  return $widgets;
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function bht_custom_field_riziv_number_widget($field, $instance, $langcode, $items, $form, &$form_state) {
+  $element = array(
+    '#type' => 'textfield',
+    '#title' => $instance['label'],
+    '#description' => $instance['description'],
+    '#default_value' => isset($items[0]['value']) ? $items[0]['value'] : '',
+    '#maxlength' => $field['settings']['max_length'],
+    '#placeholder' => $field['settings']['placeholder'],
+    '#required' => !empty($instance['required']),
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_widget_validate().
+ */
+function bht_custom_field_riziv_number_widget_validate($element, &$form, &$form_state) {
+  $value = $element['#value'];
+  if (!preg_match('/^\d-\d{5}-\d{2}-\d{3}$/', $value)) {
+    form_set_error($element['#name'], t('The riziv number must be in the format x-xxxxx-xx-xxx.'));
+  }
+}
+
 
